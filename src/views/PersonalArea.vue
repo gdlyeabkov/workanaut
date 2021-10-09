@@ -74,7 +74,7 @@
                 </div>
                 <hr />
                 <div class="resume">
-                    <span>
+                    <span class="resumeHeader">
                         Программист
                     </span>
                     <span>
@@ -104,10 +104,10 @@
                         Резюме редко попадает в поиск. Поднимите его самостоятельно или подключите «Продвижение резюме», чтобы получить больше просмотров и приглашений
                     </span>
                     <div>
-                        <button class="btn btn-primary">
+                        <button class="btn btn-primary btnAction">
                             Поднять в поиске
                         </button>
-                        <button class="btn btn-primary">
+                        <button class="btn btn-primary btnAction">
                             3998 подходящих вакансий
                         </button>
                     </div>
@@ -137,7 +137,51 @@
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 
+import * as jwt from 'jsonwebtoken'
+
 export default {
+    name: 'PersonalArea',
+    data(){
+        return {
+            token: window.localStorage.getItem('workanauttoken')
+        }
+    },
+    monted(){
+        jwt.verify(this.token, 'workanautsecret', (err, decoded) => {
+            if (err) {
+                this.$router.push({ name: "Login", query: { logintype: 'employee' } })
+            } else {
+                fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
+                    mode: 'cors',
+                    method: 'GET'
+                }).then(response => response.body).then(rb  => {
+                    const reader = rb.getReader()
+                    return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                        reader.read().then( ({done, value}) => {
+                            if (done) {
+                            console.log('done', done);
+                            controller.close();
+                            return;
+                            }
+                            controller.enqueue(value);
+                            console.log(done, value);
+                            push();
+                        })
+                        }
+                        push();
+                    }
+                    });
+                }).then(stream => {
+                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                })
+                .then(result => {
+                    console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+                })
+            }
+        })
+    },
     components: {
         Header,
         Footer
@@ -275,6 +319,16 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    .resumeHeader {
+        color: rgb(0, 0, 255);
+        font-size: 24px;
+        display: block;
+    }
+
+    .btnAction {
+        margin: 15px;
     }
 
 </style>

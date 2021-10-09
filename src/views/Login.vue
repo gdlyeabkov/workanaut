@@ -41,6 +41,9 @@
           <img width="75px" src="https://hhcdn.ru/icms/10239278.jpg" alt="">
         </div>
         <div class="searchWorkBlockContinue">
+          <span class="authErrors">
+            {{ errors }}
+          </span>
           <button v-if="loginFormToggler" @click="$router.push({ name: 'Check', query: { feedback: feedback } })" class="btn btn-primary">
             Продолжить
           </button>
@@ -70,15 +73,15 @@
         <div class="searchWorkBlockInput">
           <div class="inputContainer">
             <input v-model="feedback" type="phone" placeholder="Email или телефон" class="form-control">
-            <input v-model="feedback" type="phone" placeholder="Пароль" class="form-control">
+            <input v-model="password" type="password" placeholder="Пароль" class="form-control">
           </div>
           <img width="75px" src="https://hhcdn.ru/icms/10239239.jpg" alt="">
         </div>
         <div class="searchWorkBlockContinue">
-          <button v-if="loginFormToggler" @click="$router.push({ name: 'Check', query: { feedback: feedback } })" class="btn btn-primary">
-            Продолжить
+          <button v-if="loginFormToggler" @click="login('employer')" class="btn btn-primary">
+            Войти в личный кабинет
           </button>
-          <button v-else @click="login()" class="btn btn-primary">
+          <button v-else @click="login('employee')" class="btn btn-primary">
             Войти
           </button>
           <span class="loginFormToggler" @click="$router.push({ name: 'EmployerSetPassword' })">
@@ -156,6 +159,8 @@
 import Header from "@/components/Header.vue"
 import Footer from "@/components/Footer.vue"
 
+import * as jwt from 'jsonwebtoken'
+
 export default {
   name: 'Login',
   data(){
@@ -163,7 +168,9 @@ export default {
       feedback: '',
       password: '',
       loginFormToggler: true,
-      loginType: 'employee'
+      loginType: 'employee',
+      token: '',
+      errors: ''
     }
   },
   mounted(){
@@ -171,7 +178,86 @@ export default {
   },
   methods: {
     login(){
-      this.$router.push({ name: 'PersonalArea' })
+      if(this.loginType.includes('employer')){
+        fetch(`http://localhost:4000/api/employers/check/?employeremail=${this.feedback}&employerpassword=${this.password}`, {
+          mode: 'cors',
+          method: 'GET'
+        }).then(response => response.body).then(rb  => {
+            const reader = rb.getReader()
+            return new ReadableStream({
+            start(controller) {
+                function push() {
+                reader.read().then( ({done, value}) => {
+                    if (done) {
+                    console.log('done', done);
+                    controller.close();
+                    return;
+                    }
+                    controller.enqueue(value);
+                    console.log(done, value);
+                    push();
+                })
+                }
+                push();
+            }
+            });
+        }).then(stream => {
+            return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+        })
+        .then(result => {
+            console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+            if(JSON.parse(result).status.includes('OK')){
+              this.token = jwt.sign({
+                phone: this.feedback
+              }, 'workanautsecret', { expiresIn: '5m' })
+              localStorage.setItem('workanauttoken', this.token)
+              this.$router.push({ name: 'PersonalArea' })
+              // $router.push({ name: 'Check', query: { feedback: feedback } })
+            } else if(JSON.parse(result).status.includes('Error')){
+              alert('Ошикбка входа')  
+            }
+        })
+      } else if(this.loginType.includes('employee')){
+        fetch(`http://localhost:4000/api/aspirants/check/?employeremail=${this.feedback}&employerpassword=${this.password}`, {
+          mode: 'cors',
+          method: 'GET'
+        }).then(response => response.body).then(rb  => {
+            const reader = rb.getReader()
+            return new ReadableStream({
+            start(controller) {
+                function push() {
+                reader.read().then( ({done, value}) => {
+                    if (done) {
+                    console.log('done', done);
+                    controller.close();
+                    return;
+                    }
+                    controller.enqueue(value);
+                    console.log(done, value);
+                    push();
+                })
+                }
+                push();
+            }
+            });
+        }).then(stream => {
+            return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+        })
+        .then(result => {
+            console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+            if(JSON.parse(result).status.includes('OK')){
+              this.token = jwt.sign({
+                phone: this.feedback
+              }, 'workanautsecret', { expiresIn: '5m' })
+              localStorage.setItem('workanauttoken', this.token)
+              this.$router.push({ name: 'PersonalArea' })
+              // $router.push({ name: 'Check', query: { feedback: feedback } })
+            } else if(JSON.parse(result).status.includes('Error')){
+              this.errors = 'Неправильные данные для входа. Пожалуйста, попробуйте снова.'
+
+            }
+        })
+      }
     }
   },
   components: {
@@ -300,6 +386,10 @@ export default {
   .agreement {
     color: rgb(0, 0, 255);
     cursor: pointer;
+  }
+
+  .authErrors {
+    color: rgb(175, 0, 0);
   }
 
 </style>

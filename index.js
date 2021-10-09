@@ -34,7 +34,7 @@ var options = {
     root: path.join(__dirname, 'views'),
 }   
 
-const connectionParams={
+const connectionParams = {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true 
@@ -76,6 +76,40 @@ const AspirantSchema = new mongoose.Schema({
 
 const AspirantModel = mongoose.model('AspirantModel', AspirantSchema);
 
+const ResumeSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        default: ''
+    },
+    secondName: {
+        type: String,
+        default: ''
+    },
+    city: {
+        type: String,
+        default: ''
+    },
+    born: {
+        type: String,
+        default: ''
+    },
+    gender: {
+        type: String,
+        default: ''
+    },
+    citizenship: {
+        type: String,
+        default: ''
+    },
+    experience: {
+        type: String,
+        default: ''
+    },
+}, { collection : 'myresumes' });
+
+const ResumeModel = mongoose.model('ResumeModel', ResumeSchema);
+    
+
 app.get('/api/employee', (req, res)=>{
         
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -86,6 +120,69 @@ app.get('/api/employee', (req, res)=>{
     return res.json({ status: 'OK' })
 
 })
+
+app.get('/api/employers/check', (req,res)=>{
+    
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    
+    let queryBefore = EmployerModel.find({ email: { $in: req.query.employeremail }  })
+    queryBefore.exec((err, allEmployers) => {
+        if(err){
+            return res.json({ "status": "Error" })
+        }
+        if(allEmployers.length >= 1){
+            let query =  EmployerModel.findOne({'email': req.query.employeremail}, function(err, employer){
+                if (err){
+                    return res.json({ "status": "Error" })
+                } else {
+                    const passwordCheck = bcrypt.compareSync(req.query.employerpassword, employer.password) && req.query.employerpassword !== ''
+                    if(employer != null && employer != undefined && passwordCheck){
+                        return res.json({ "status": "OK", "employer": employer })
+                    } else {
+                        return res.json({ "status": "Error" })
+                    }
+                }
+            })    
+        } else if(allEmployers.length <= 0){
+            return res.json({ "status": "Error" })
+        }
+    })
+})
+
+app.get('/api/aspirants/check', (req,res)=>{
+    
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    
+    let queryBefore = AspirantModel.find({ email: { $in: req.query.aspirantemail }  })
+    queryBefore.exec((err, allAspirants) => {
+        if(err){
+            return res.json({ "status": "Error" })
+        }
+        if(allAspirants.length >= 1){
+            let query =  AspirantModel.findOne({'email': req.query.aspirantemail}, function(err, aspirant){
+                if (err){
+                    return res.json({ "status": "Error" })
+                } else {
+                    const passwordCheck = bcrypt.compareSync(req.query.aspirantpassword, aspirant.password) && req.query.aspirantpassword !== ''
+                    if(aspirant != null && aspirant != undefined && passwordCheck){
+                        return res.json({ "status": "OK", "aspirant": aspirant })
+                    } else {
+                        return res.json({ "status": "Error" })
+                    }
+                }
+            })    
+        } else if(allAspirants.length <= 0){
+            return res.json({ "status": "Error" })
+        }
+    })
+})
+
 
 app.get('/api/aspirants/create', (req, res)=>{
         
@@ -110,13 +207,16 @@ app.get('/api/aspirants/create', (req, res)=>{
         if(aspirantExists){
             return res.json({ "status": "Error" })
         } else {
-            let newAspirant = new AspirantModel({ feedback: req.query.aspirantfeedback });
-            newAspirant.save(function (err) {
-                if(err){
-                    return res.json({ "status": "Error" })
-                } else {
-                    return res.json({ "status": "OK" })
-                }
+            let newResume = new ResumeModel({ name: req.query.feedback })
+            newResume.save(function (err) { 
+                let newAspirant = new AspirantModel({ feedback: req.query.aspirantfeedback });
+                newAspirant.save(function (err) {
+                    if(err){
+                        return res.json({ "status": "Error" })
+                    } else {
+                        return res.json({ "status": "OK" })
+                    }
+                })
             })
         }
     })
