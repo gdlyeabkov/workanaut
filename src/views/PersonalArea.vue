@@ -18,27 +18,57 @@
                 </span>
                 </div>
                 <div class="barItem">
-                <span class="areaShortcuts material-icons-outlined">
-                    search
-                </span>
-                <span class="areaShortcutsLabel">
-                    Поиск
-                </span>
-                <button class="withoutBackgroundBtn createResumeBtn">
-                    Создать резюме
-                </button>
-                <span class="areaShortcuts material-icons-outlined">
-                    star_outline
-                </span>
-                <span class="areaShortcuts material-icons-outlined">
-                    mode_comment
-                </span>
-                <span class="areaShortcuts material-icons-outlined">
-                    notifications
-                </span>
-                <span class="areaShortcuts material-icons-outlined">
-                    person_outline
-                </span>
+                    <span class="areaShortcuts material-icons-outlined">
+                        search
+                    </span>
+                    <span class="areaShortcutsLabel">
+                        Поиск
+                    </span>
+                    <button class="withoutBackgroundBtn createResumeBtn">
+                        Создать резюме
+                    </button>
+                    <span class="areaShortcuts material-icons-outlined">
+                        star_outline
+                    </span>
+                    <span class="areaShortcuts material-icons-outlined">
+                        mode_comment
+                    </span>
+                    <span class="areaShortcuts material-icons-outlined">
+                        notifications
+                    </span>
+                    <span id="context" @click="contextMenu = true"  class="areaShortcuts material-icons-outlined">
+                        person_outline
+                    </span>
+                </div>
+                <div v-if="contextMenu" class="contextMenu">
+                    <div class="contextMenuContent">
+                        <span class="contextMenuHeader contextMenuLink">
+                            {{ aspirant.feedback }}
+                        </span>
+                        <hr />
+                        <span @click="$router.push({ name: 'Settings' })" class="contextMenuLink">
+                            Настройки
+                        </span>
+                        <span @click="$router.push({ name: 'Mailings' })" class="contextMenuLink">
+                            Рассылки
+                        </span>
+                        <span @click="$router.push({ name: 'HiddenMyselfVacanciesAndCompanies' })" class="contextMenuLink">
+                            Скрытые мной вакансии и компании
+                        </span>
+                        <span @click="$router.push({ name: 'Settings' })" class="contextMenuLink">
+                            Изображения
+                        </span>
+                        <span @click="$router.push({ name: 'ConnectedServices' })" class="contextMenuLink">
+                            Подключённые услуги
+                        </span>
+                        <span @click="$router.push({ name: 'MyApps' })" class="contextMenuLink">
+                            Мои приложения
+                        </span>
+                        <hr />
+                        <span @click="logout()" class="contextMenuLink">
+                            Выход
+                        </span>
+                    </div>
                 </div>
             </div>   
             <div class="main">
@@ -72,7 +102,7 @@
                         </span>
                     </div>
                 </div>
-                <hr />
+                <!-- <hr /> -->
                 <!-- <div class="resume">
                     <span class="resumeHeader">
                         Программист
@@ -178,8 +208,8 @@
                             Дублировать
                         </span>
                     </div>
+                    <hr />
                 </div>
-                <hr />
             </div>
         </div>
         <Footer />
@@ -197,10 +227,18 @@ export default {
     data(){
         return {
             resumes: [],
-            token: window.localStorage.getItem('workanauttoken')
+            aspirant: {},
+            token: window.localStorage.getItem('workanauttoken'),
+            contextMenu: false
         }
     },
     mounted(){
+        
+        document.body.addEventListener("click", (event) => {
+            if(!event.target.id.includes('context'))
+                this.contextMenu = false
+        })
+    
         jwt.verify(this.token, 'workanautsecret', (err, decoded) => {
             if (err) {
                 this.$router.push({ name: "Login", query: { logintype: 'employee' } })
@@ -262,9 +300,21 @@ export default {
                 .then(result => {
                     console.log(`JSON.parse(result): ${JSON.parse(result).aspirant.resumes}`)
                     this.resumes = JSON.parse(result).resumes
+                    this.aspirant = JSON.parse(result).aspirant
                 })
             }
         })
+    },
+    methods: {
+        logout() {
+            this.token = jwt.sign({
+                phone: "this.feedback"
+            }, 'workanautsecret', { expiresIn: 1 })
+            localStorage.setItem('workanauttoken', "this.token")
+            setTimeout(() => {
+                this.$router.push({ name: 'Home' })
+            }, 1000)
+        }
     },
     components: {
         Header,
@@ -413,6 +463,34 @@ export default {
 
     .btnAction {
         margin: 15px;
+    }
+
+    .contextMenu {
+        width: 325px;
+        height: 375px;
+        background-color: rgb(255, 255, 255);
+        box-sizing: border-box;
+        padding: 35px;
+        position: absolute;
+        top: 100px;
+        left: 950px;
+        z-index: 5;
+        border: 1px solid rgb(225, 225, 225);
+        box-shadow: 0 0 50px rgb(215, 205, 175);
+    }
+
+    .contextMenuContent {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .contextMenuHeader {
+        font-weight: bolder;
+    }
+
+    .contextMenuLink:hover {
+        background-color: rgb(245, 245, 245);
+        cursor: pointer;
     }
 
 </style>

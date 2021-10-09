@@ -17,6 +17,12 @@ import EmployerRegister from '../views/EmployerRegister.vue'
 import EmployerSetPassword from '../views/EmployerSetPassword.vue'
 import Responses from '../views/Responses.vue'
 import Response from '../views/Response.vue'
+import HiddenMyselfVacanciesAndCompanies from '../views/HiddenMyselfVacanciesAndCompanies.vue'
+import Settings from '../views/Settings.vue'
+import Mailings from '../views/Mailings.vue'
+import Images from '../views/Images.vue'
+import ConnectedServices from '../views/ConnectedServices.vue'
+import MyApps from '../views/MyApps.vue'
 
 Vue.use(VueRouter)
 
@@ -105,6 +111,36 @@ const routes = [
     path: '/response',
     name: 'Response',
     component: Response
+  },
+  {
+    path: '/apps',
+    name: 'MyApps',
+    component: MyApps
+  },
+  {
+    path: '/mailings',
+    name: 'Mailings',
+    component: Mailings
+  },
+  {
+    path: '/images',
+    name: 'Images',
+    component: Images
+  },
+  {
+    path: '/services/connected',
+    name: 'ConnectedServices',
+    component: ConnectedServices
+  },
+  {
+    path: '/hidden',
+    name: 'HiddenMyselfVacanciesAndCompanies',
+    component: HiddenMyselfVacanciesAndCompanies
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: Settings
   },
   
 ]
