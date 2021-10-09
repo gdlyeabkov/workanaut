@@ -74,11 +74,14 @@
 import Header from "@/components/Header.vue"
 import Footer from "@/components/Footer.vue"
 
+import * as jwt from 'jsonwebtoken'
+
 export default {
   name: 'CreateResume',
     data(){
     return {
-      feedback: ''
+      feedback: '',
+      token: window.localStorage.getItem('workanauttoken')
     }
   },
   methods: {
@@ -111,7 +114,12 @@ export default {
         .then(result => {
           console.log(`JSON.parse(result): ${JSON.parse(result)}`)
           if(JSON.parse(result).status.includes('OK')){
-            alert('Соискатель зарегестрирован')
+            this.token = jwt.sign({
+              phone: this.feedback
+            }, 'workanautsecret', { expiresIn: '30m' })
+            localStorage.setItem('workanauttoken', this.token)
+            this.$router.push({ name: 'PersonalArea' })
+            // this.$router.push({ name: 'Login', query: { logintype: 'employee' } })
           } else if(JSON.parse(result).status.includes('Error')){
             alert('Такой соискатель уже зарегестрирован')
           }

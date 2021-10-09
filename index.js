@@ -71,12 +71,14 @@ mongoose.connect(url, connectionParams)
     const EmployerModel = mongoose.model('EmployerModel', EmployerSchema);
 
 const AspirantSchema = new mongoose.Schema({
-    feedback: String
+    feedback: String,
+    resumes: [mongoose.Schema.Types.Map]
 }, { collection : 'myaspirants' });
 
 const AspirantModel = mongoose.model('AspirantModel', AspirantSchema);
 
 const ResumeSchema = new mongoose.Schema({
+    aspirantEmail: String,
     name: {
         type: String,
         default: ''
@@ -104,6 +106,54 @@ const ResumeSchema = new mongoose.Schema({
     experience: {
         type: String,
         default: ''
+    },
+    profession: {
+        type: String,
+        default: ''
+    },
+    salary: {
+        type: String,
+        default: ''
+    },
+    specializations: {
+        type: String,
+        default: ''
+    },
+    level: {
+        type: String,
+        default: ''
+    },
+    language: {
+        type: String,
+        default: ''
+    },
+    skills: {
+        type: String,
+        default: ''
+    },
+    abour: {
+        type: String,
+        default: ''
+    },
+    workPlaces: {
+        type: String,
+        default: ''
+    },
+    date: {
+        type: String,
+        default: `${Date.now}`
+    },
+    isPublic: {
+        type: Boolean,
+        default: true
+    },
+    invites: {
+        type: Number,
+        default: 0
+    },
+    views: {
+        type: Number,
+        default: 0
     },
 }, { collection : 'myresumes' });
 
@@ -207,22 +257,82 @@ app.get('/api/aspirants/create', (req, res)=>{
         if(aspirantExists){
             return res.json({ "status": "Error" })
         } else {
-            let newResume = new ResumeModel({ name: req.query.feedback })
-            newResume.save(function (err) { 
-                let newAspirant = new AspirantModel({ feedback: req.query.aspirantfeedback });
-                newAspirant.save(function (err) {
-                    if(err){
-                        return res.json({ "status": "Error" })
-                    } else {
-                        return res.json({ "status": "OK" })
-                    }
-                })
+            let newAspirant = new AspirantModel({ feedback: req.query.aspirantfeedback });
+            newAspirant.save(function (err) {
+                if(err){
+                    return res.json({ "status": "Error" })
+                } else {
+                    return res.json({ "status": "OK" })
+                }
             })
         }
     })
 
     // return res.json({ status: 'OK' })
 
+})
+
+app.get('/api/resumes/create', (req, res)=>{
+        
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    
+    let query = AspirantModel.findOne({ email: req.query.aspirantemail })
+    query.exec((err, aspirant) => {
+        if (err){
+            return res.json({ "status": "Error" })
+        }
+        
+        let newResume = new ResumeModel({ aspirantEmail: req.query.aspirantemail, name: req.query.resumename, city: req.query.resumecity, secondName: req.query.resumesecondname, city: req.query.resumecity, born: req.query.resumeborn, gender: req.query.resumegender, citizenship: req.query.resumecitizenship, experience: req.query.resumeexperience, profession: req.query.resumeprofession, salary: req.query.resumesalary, specializations: req.query.resumespecializations, level: req.query.resumelevel, language: req.query.resumelanguage, skills: req.query.resumeskills, about: req.query.resumeabout, workPlaces: req.query.resumeworkplaces });
+        newResume.save(function (err, resume) {
+            if(err){
+                return res.json({ "status": "Error" })
+            } else {
+                AspirantModel.updateOne({ email: req.query.aspinratemail },
+                    { $push: 
+                        {
+                            resumes: [
+                                {
+                                    id: resume._id
+                                }
+                            ]
+                            
+                        }
+                }, (err, user) => {
+                    if(err){
+                        return res.json({ "message": "error" })
+                    } else {
+
+                        return res.json({ "status": "OK" })
+                    }
+                })
+            }
+        })
+    })
+})
+
+app.get('/api/aspirants/get', (req, res)=>{
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    
+    let query = AspirantModel.findOne({ feedback: req.query.aspirantfeedback })
+    query.exec((err, aspirant) => {
+        if (err){
+            return res.json({ "status": "Error" })
+        }
+        let query = ResumeModel.find({ aspirantEmail: req.query.aspirantfeedback })
+        query.exec((err, resumes) => {
+            if (err){
+                return res.json({ "status": "Error" })
+            }
+            return res.json({ "status": "OK", aspirant: aspirant, resumes: resumes })
+        })
+    })
 })
 
 app.get('/api/employers/create', (req, res)=>{

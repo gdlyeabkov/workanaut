@@ -209,7 +209,7 @@ export default {
             if(JSON.parse(result).status.includes('OK')){
               this.token = jwt.sign({
                 phone: this.feedback
-              }, 'workanautsecret', { expiresIn: '5m' })
+              }, 'workanautsecret', { expiresIn: '30m' })
               localStorage.setItem('workanauttoken', this.token)
               this.$router.push({ name: 'PersonalArea' })
               // $router.push({ name: 'Check', query: { feedback: feedback } })
@@ -248,7 +248,7 @@ export default {
             if(JSON.parse(result).status.includes('OK')){
               this.token = jwt.sign({
                 phone: this.feedback
-              }, 'workanautsecret', { expiresIn: '5m' })
+              }, 'workanautsecret', { expiresIn: '30m' })
               localStorage.setItem('workanauttoken', this.token)
               this.$router.push({ name: 'PersonalArea' })
               // $router.push({ name: 'Check', query: { feedback: feedback } })

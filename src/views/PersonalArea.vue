@@ -43,7 +43,7 @@
             </div>   
             <div class="main">
                 <div class="actions">
-                    <button @click="createResume()" class="btn btn-primary">
+                    <button  @click="$router.push({ name: 'MyResume' })" class="btn btn-primary">
                         Создать резюме
                     </button>
                     <button @click="findWork()" class="btn btn-primary">
@@ -73,9 +73,62 @@
                     </div>
                 </div>
                 <hr />
-                <div class="resume">
+                <!-- <div class="resume">
                     <span class="resumeHeader">
                         Программист
+                    </span>
+                    <span>
+                        Обновлено 30 августа 2021 в 13:17
+                    </span>
+                    <span>
+                        Видно всему интернету прямая ссылка
+                    </span>
+                    <div class="resumeBenefits">
+                        <div class="resumeBenefit">
+                            <span>
+                                16 показов в поиске за неделю
+                            </span>
+                        </div>
+                        <div class="resumeBenefit">
+                            <span>
+                                нет просмотров за неделю
+                            </span>
+                        </div>
+                        <div class="resumeBenefit">
+                            <span>
+                                нет приглашений за неделю
+                            </span>
+                        </div>
+                    </div>
+                    <span>
+                        Резюме редко попадает в поиск. Поднимите его самостоятельно или подключите «Продвижение резюме», чтобы получить больше просмотров и приглашений
+                    </span>
+                    <div>
+                        <button class="btn btn-primary btnAction">
+                            Поднять в поиске
+                        </button>
+                        <button class="btn btn-primary btnAction">
+                            3998 подходящих вакансий
+                        </button>
+                    </div>
+                    <div class="actions">
+                        <span class="action">
+                            Поднять в поиске
+                        </span>
+                        <span class="action">
+                            Изменить видимость
+                        </span>
+                        <span class="action">
+                            Редактировать
+                        </span>
+                        <span class="action">
+                            Дублировать
+                        </span>
+                    </div>
+                </div> -->
+                <div v-for="resume in resumes" :key="resume.proffesion" class="resume">
+                    <span class="resumeHeader">
+                        {{ resume.profession }}
                     </span>
                     <span>
                         Обновлено 30 августа 2021 в 13:17
@@ -143,15 +196,45 @@ export default {
     name: 'PersonalArea',
     data(){
         return {
+            resumes: [],
             token: window.localStorage.getItem('workanauttoken')
         }
     },
-    monted(){
+    mounted(){
         jwt.verify(this.token, 'workanautsecret', (err, decoded) => {
             if (err) {
                 this.$router.push({ name: "Login", query: { logintype: 'employee' } })
             } else {
-                fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
+                // fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
+                //     mode: 'cors',
+                //     method: 'GET'
+                // }).then(response => response.body).then(rb  => {
+                //     const reader = rb.getReader()
+                //     return new ReadableStream({
+                //     start(controller) {
+                //         function push() {
+                //         reader.read().then( ({done, value}) => {
+                //             if (done) {
+                //             console.log('done', done);
+                //             controller.close();
+                //             return;
+                //             }
+                //             controller.enqueue(value);
+                //             console.log(done, value);
+                //             push();
+                //         })
+                //         }
+                //         push();
+                //     }
+                //     });
+                // }).then(stream => {
+                //     return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                // })
+                // .then(result => {
+                //     console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+                // })
+                console.log(`decoded: ${decoded.phone}`)
+                fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {
@@ -177,7 +260,8 @@ export default {
                     return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
                 })
                 .then(result => {
-                    console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+                    console.log(`JSON.parse(result): ${JSON.parse(result).aspirant.resumes}`)
+                    this.resumes = JSON.parse(result).resumes
                 })
             }
         })
