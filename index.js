@@ -111,6 +111,22 @@ const VacancySchema = new mongoose.Schema({
         type: String,
         default: ''
     },
+    experience: {
+        type: Number,
+        default: 0
+    },
+    shedule: {
+        type: String,
+        default: 'Полный день'
+    },
+    worktype: {
+        type: String,
+        default: 'Полная занятость'
+    },
+    companyIndustry: {
+        type: String,
+        default: 'Услуги для бизнеса'
+    },
 }, { collection : 'myvacancies' })
 const VacancyModel = mongoose.model('VacancyModel', VacancySchema);
 
@@ -364,7 +380,7 @@ app.get('/api/vacancies/add', (req, res) => {
     res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
     
-    let newVacancy = new VacancyModel({ employerEmail: req.query.employeremail, company: req.query.vacancycompany, city: req.query.vacancycity, born: req.query.vacancyborn, profession: req.query.vacancyprofession, salary: req.query.vacancysalary });
+    let newVacancy = new VacancyModel({ employerEmail: req.query.employeremail, company: req.query.vacancycompany, city: req.query.vacancycity, born: req.query.vacancyborn, profession: req.query.vacancyprofession, salary: req.query.vacancysalary, experience: req.query.vacancyexperience, shedule: req.query.vacancyshedule, worktype: req.query.vacancyworktype, companyIndustry: req.query.vacancycompanyindustry });
     newVacancy.save(function (err, vacancy) {
         if(err){
             return res.json({ "status": "Error" })

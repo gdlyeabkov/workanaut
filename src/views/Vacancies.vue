@@ -25,7 +25,7 @@
             </div>
             <div class="searchWorkArea">
                 <input v-model="keywords" placeholder="Профессия, должность или компания" type="text" class="form-control">
-                <button @click="$router.push({ name: 'Vacancies', query: { keywords: keywords } })" class="btn btn-primary">
+                <button @click="refreshSearch()" class="btn btn-primary">
                     Найти
                 </button>
             </div>
@@ -45,7 +45,7 @@
             <hr />
             <div v-if="toggler.includes('vacancies')">
                 <span class="countOfResults">
-                    {{ offers.length }} вакансия «{{ keywords }}»
+                    {{ resumes.length }} вакансия «{{ keywords }}»
                 </span>
                 <div class="workHeader">
                     <div class="workHeaderItem">
@@ -116,7 +116,11 @@
                                     Россия
                                 </span>
                                 <span class="countOfResultsRegion">
-                                    18535
+                                    {{ 
+                                        tempResumes.filter(resume => {
+                                            return resume.city.toLowerCase().includes('россия')
+                                        }).length
+                                    }}
                                 </span>
                             </div>
                         </div>
@@ -127,7 +131,11 @@
                                     Москва
                                 </span>
                                 <span class="countOfResultsRegion">
-                                    18535
+                                    {{ 
+                                        tempResumes.filter(resume => {
+                                            return resume.city.toLowerCase().includes('москва')
+                                        }).length
+                                    }}
                                 </span>
                             </div>
                         </div>
@@ -138,7 +146,11 @@
                                     Московская область
                                 </span>
                                 <span class="countOfResultsRegion">
-                                    18535
+                                    {{ 
+                                        tempResumes.filter(resume => {
+                                            return resume.city.toLowerCase().includes('московская область')
+                                        }).length
+                                    }}
                                 </span>
                             </div>
                         </div>
@@ -149,7 +161,11 @@
                                     Санкт-Петербург
                                 </span>
                                 <span class="countOfResultsRegion">
-                                    18535
+                                    {{ 
+                                        tempResumes.filter(resume => {
+                                            return resume.city.toLowerCase().includes('санкт-петербург')
+                                        }).length
+                                    }}
                                 </span>
                             </div>
                         </div>
@@ -160,7 +176,11 @@
                                     Беларусь
                                 </span>
                                 <span class="countOfResultsRegion">
-                                    18535
+                                    {{ 
+                                        tempResumes.filter(resume => {
+                                            return resume.city.toLowerCase().includes('беларусь')
+                                        }).length
+                                    }}
                                 </span>
                             </div>
                         </div>
@@ -174,74 +194,106 @@
                         </span>
                         <div class="keywordsBlock">
                             <div class="keywordsBlockItem">
-                                <input type="radio" />
+                                <input @change="refreshSearch()" v-model="salary" :value="0" name="salary" type="radio" />
                                 <span>
                                     Не имеет значения
                                     <span class="countResultsException">
-                                        
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.salary >= 0
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
                             <div class="keywordsBlockItem">
-                                <input type="radio" />
+                                <input @change="refreshSearch()" v-model="salary" :value="25000" name="salary" type="radio" />
                                 <span>
                                     от 25 000 руб.
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.salary >= 25000
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
                             <div class="keywordsBlockItem">
-                                <input type="radio" />
+                                <input @change="refreshSearch()" v-model="salary" :value="55000" name="salary" type="radio" />
                                 <span>
                                     от 55 000 руб.
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.salary >= 55000
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
                             <div class="keywordsBlockItem">
-                                <input type="radio" />
+                                <input @change="refreshSearch()" v-model="salary" :value="85000" name="salary" type="radio" />
                                 <span>
                                     от 85 000 руб.
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.salary >= 85000
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
                             <div class="keywordsBlockItem">
-                                <input type="radio" />
+                                <input @change="refreshSearch()" v-model="salary" :value="110000" name="salary" type="radio" />
                                 <span>
                                     от 110 000 руб. 
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.salary >= 110000
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
                             <div class="keywordsBlockItem">
-                                <input type="radio" />
+                                <input @change="refreshSearch()" v-model="salary" :value="140000" name="salary" type="radio" />
                                 <span>
                                     от 140 000 руб.
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.salary >= 140000
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
                             <div class="keywordsBlockItem">
-                                <input type="radio" />
+                                <input @change="refreshSearch()" v-model="salary" :value="1" name="salary" type="radio" />
                                 <span>
                                     Своя зарплата
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.salary >= 0
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
                             <div class="keywordsBlockItem">
-                                <input type="radio" />
+                                <input name="salary" type="radio" />
                                 <span>
                                     Указан доход
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.salary >= 0
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
@@ -253,47 +305,67 @@
                         </span>
                         <div class="keywordsBlock">
                             <div class="keywordsBlockItem">
-                                <input type="checkbox" />
+                                <input name="profession" :value="'Рабо'" v-model="profession" @change="refreshSearch()" type="checkbox" />
                                 <span>
                                     Рабочий персонал 
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.profession.toLowerCase().includes('рабочий персонал')
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
                             <div class="keywordsBlockItem">
-                                <input type="checkbox" />
+                                <input name="profession" :value="'транспорт'" v-model="profession" @change="refreshSearch()" type="checkbox" />
                                 <span>
                                     Транспорт, логистика
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.profession.toLowerCase().includes('транспорт') || resume.profession.toLowerCase().includes('логистика')
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
                             <div class="keywordsBlockItem">
-                                <input type="checkbox" />
+                                <input name="profession" :value="'Прод'" v-model="profession" @change="refreshSearch()" type="checkbox" />
                                 <span>
                                     Продажи
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.profession.toLowerCase().includes('продажи')
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
                             <div class="keywordsBlockItem">
-                                <input type="checkbox" />
+                                <input name="profession" :value="'Начало'" v-model="profession" @change="refreshSearch()" type="checkbox" />
                                 <span>
                                     Начало карьеры, студенты
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.profession.toLowerCase().includes('начало') || resume.profession.toLowerCase().includes('карьер') || resume.profession.toLowerCase().includes('студенты')
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
                             <div class="keywordsBlockItem">
-                                <input type="checkbox" />
+                                <input name="profession" :value="'сельск'" v-model="profession" @change="refreshSearch()" type="checkbox" />
                                 <span>
                                     Производство, сельское хозяйство
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.profession.toLowerCase().includes('производство') || resume.profession.toLowerCase().includes('сельск') || resume.profession.toLowerCase().includes('хозяйств')
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
@@ -312,7 +384,11 @@
                                 <span>
                                     Розничная торговля
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.companyIndustry.toLowerCase().includes('розничная торговля')
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
@@ -321,7 +397,11 @@
                                 <span>
                                     Продукты питания 
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.companyIndustry.toLowerCase().includes('продукты питания')
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
@@ -330,7 +410,11 @@
                                 <span>
                                     Перевозки, логистика, склад, ВЭД
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.companyIndustry.toLowerCase().includes('Перевозки, логистика, склад, вэд')
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
@@ -339,7 +423,11 @@
                                 <span>
                                     Товары народного потребления (непищевые) 
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.companyIndustry.toLowerCase().includes('товары народного потребления (непищевые)')
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
@@ -348,7 +436,11 @@
                                 <span>
                                     Услуги для бизнеса
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.companyIndustry.toLowerCase().includes('услуги для бизнеса')
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
@@ -363,7 +455,7 @@
                         </span>
                         <div class="keywordsBlock">
                             <div class="keywordsBlockItem">
-                                <input type="radio" />
+                                <input name="experience" :value="-1" @change="refreshSearch()" v-model="experience" type="radio" />
                                 <span>
                                     Не имеет значения
                                     <span class="countResultsException">
@@ -372,38 +464,48 @@
                                 </span>
                             </div>
                             <div class="keywordsBlockItem">
-                                <input type="radio" />
+                                <input :value="0" @change="refreshSearch()" v-model="experience" name="experience" type="radio" />
                                 <span>
                                     Нет опыта
                                     <span class="countResultsException">
-                                        0
+                                        {{
+                                            tempResumes.filter(resume => {
+                                                return resume.experience === 0
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
                             <div class="keywordsBlockItem">
-                                <input type="radio" />
+                                <input :value="1" @change="refreshSearch()" v-model="experience" name="experience" type="radio" />
                                 <span>
                                     От 1 года до 3 лет 
                                     <span class="countResultsException">
-                                        0
+                                        {{
+                                            tempResumes.filter(resume => resume.experience >= 1 && 3 >= resume.experience).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
                             <div class="keywordsBlockItem">
-                                <input type="radio" />
+                                <input :value="3" @change="refreshSearch()" v-model="experience" name="experience" type="radio" />
                                 <span>
                                     От 3 до 6 лет 
                                     <span class="countResultsException">
-                                        0
+                                        {{
+                                            tempResumes.filter(resume => resume.experience >= 3 && 6 >= resume.experience).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
                             <div class="keywordsBlockItem">
-                                <input type="radio" />
+                                <input :value="6" @change="refreshSearch()" v-model="experience" name="experience" type="radio" />
                                 <span>
                                     Более 6 лет 
                                     <span class="countResultsException">
-                                        0
+                                        {{
+                                            tempResumes.filter(resume => resume.experience >= 6).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
@@ -419,7 +521,11 @@
                                 <span>
                                     Полная занятость
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.worktype.toLowerCase().includes('полная занятость')
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
@@ -428,7 +534,11 @@
                                 <span>
                                     Частичная занятость
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.worktype.toLowerCase().includes('частичная занятость')
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
@@ -437,7 +547,11 @@
                                 <span>
                                     Проектная работа
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.worktype.toLowerCase().includes('проектная работа')
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
@@ -446,7 +560,11 @@
                                 <span>
                                     Стажировка
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.worktype.toLowerCase().includes('стажировка')
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
@@ -455,7 +573,11 @@
                                 <span>
                                     Волонтерство
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.worktype.toLowerCase().includes('волонтерство')
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
@@ -471,7 +593,11 @@
                                 <span>
                                     Полный день
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.shedule.toLowerCase().includes('полный день')
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
@@ -480,7 +606,11 @@
                                 <span>
                                     Сменный график
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.shedule.toLowerCase().includes('сменный график')
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
@@ -489,7 +619,11 @@
                                 <span>
                                     Вахтовый метод
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.shedule.toLowerCase().includes('вахтовый метод')
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
@@ -498,7 +632,11 @@
                                 <span>
                                     Гибкий график 
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.shedule.toLowerCase().includes('гибкий график ')
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
@@ -507,7 +645,11 @@
                                 <span>
                                     Удаленная работа
                                     <span class="countResultsException">
-                                        0
+                                        {{ 
+                                            tempResumes.filter(resume => {
+                                                return resume.shedule.toLowerCase().includes('удаленная работа')
+                                            }).length
+                                        }}
                                     </span>
                                 </span>
                             </div>
@@ -605,7 +747,7 @@
                                     {{ resume.profession }}
                                 </span>
                                 <span class="vacancyItemSalary">
-                                    до {{ "46 000" }} руб.
+                                    до {{ resume.salary }} руб.
                                 </span>
                             </div>
                             <div class="vacancyItemAux vacancyItemAuxRow">
@@ -650,7 +792,7 @@
                                     {{ resume.profession }}
                                 </span>
                                 <span class="vacancyItemSalary">
-                                    до {{ "46 000" }} руб.
+                                    до {{ resume.salary }} руб.
                                 </span>
                             </div>
                             <div class="vacancyItemAux vacancyItemAuxRow">
@@ -869,13 +1011,26 @@ export default {
     name: 'Vacancies',
     data(){
         return {
+            tempResumes: [],
             resumes: [],
             userType: 'aspirant',
             keywords: '',
             toggler: 'vacancies',
             offers: [],
             workType: 'Постоянная работа',
-            token: localStorage.getItem('workanauttoken')
+            token: localStorage.getItem('workanauttoken'),
+            
+            russiaRegion: false,
+            moscowRegion: false,
+            moscowArearegionRegion: false,
+            stPetersburgRegion: false,
+            belarusRegion: false,
+
+            salary: 0,
+
+            experience: -1,
+
+            profession: []
         }
     },
     mounted(){
@@ -888,137 +1043,91 @@ export default {
                 this.keywords = this.$route.query.keywords
                 this.workType = this.$route.query.worktype
                 
-                // if(this.userType.includes('aspirant')){
-                //     fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
-                //         mode: 'cors',
-                //         method: 'GET'
-                //     }).then(response => response.body).then(rb  => {
-                //         const reader = rb.getReader()
-                //         return new ReadableStream({
-                //         start(controller) {
-                //             function push() {
-                //             reader.read().then( ({done, value}) => {
-                //                 if (done) {
-                //                 console.log('done', done);
-                //                 controller.close();
-                //                 return;
-                //                 }
-                //                 controller.enqueue(value);
-                //                 console.log(done, value);
-                //                 push();
-                //             })
-                //             }
-                //             push();
-                //         }
-                //         });
-                //     }).then(stream => {
-                //         return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
-                //     })
-                //     .then(result => {
-                //         console.log(`JSON.parse(result): ${JSON.parse(result).aspirant.resumes}`)
-                //         this.resumes = JSON.parse(result).resumes
-                //         this.aspirant = JSON.parse(result).aspirant
-                //     })
-                // } else if(this.userType.includes('employer')){
-                //     fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
-                //         mode: 'cors',
-                //         method: 'GET'
-                //     }).then(response => response.body).then(rb  => {
-                //         const reader = rb.getReader()
-                //         return new ReadableStream({
-                //         start(controller) {
-                //             function push() {
-                //             reader.read().then( ({done, value}) => {
-                //                 if (done) {
-                //                 console.log('done', done);
-                //                 controller.close();
-                //                 return;
-                //                 }
-                //                 controller.enqueue(value);
-                //                 console.log(done, value);
-                //                 push();
-                //             })
-                //             }
-                //             push();
-                //         }
-                //         });
-                //     }).then(stream => {
-                //         return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
-                //     })
-                //     .then(result => {
-                //         this.resumes = JSON.parse(result).vacancies
-                //         this.aspirant = JSON.parse(result).employer
-                //         console.log(`JSON.parse(result): ${JSON.parse(result).vacancies}`)
-                //     })
-                // }
-
-                if(this.userType.includes('aspirant')){
-                    fetch(`http://localhost:4000/api/vacancies/get/`, {
-                        mode: 'cors',
-                        method: 'GET'
-                    }).then(response => response.body).then(rb  => {
-                        const reader = rb.getReader()
-                        return new ReadableStream({
-                        start(controller) {
-                            function push() {
-                            reader.read().then( ({done, value}) => {
-                                if (done) {
-                                console.log('done', done);
-                                controller.close();
-                                return;
-                                }
-                                controller.enqueue(value);
-                                console.log(done, value);
-                                push();
-                            })
-                            }
-                            push();
-                        }
-                        });
-                    }).then(stream => {
-                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
-                    })
-                    .then(result => {
-                        console.log(`JSON.parse(result).vacancies: ${JSON.parse(result).vacancies.length}`)
-                        this.resumes = JSON.parse(result).vacancies
-                    })
-                } else if(this.userType.includes('employer')){
-                    fetch(`http://localhost:4000/api/resumes/get/`, {
-                        mode: 'cors',
-                        method: 'GET'
-                    }).then(response => response.body).then(rb  => {
-                        const reader = rb.getReader()
-                        return new ReadableStream({
-                        start(controller) {
-                            function push() {
-                            reader.read().then( ({done, value}) => {
-                                if (done) {
-                                console.log('done', done);
-                                controller.close();
-                                return;
-                                }
-                                controller.enqueue(value);
-                                console.log(done, value);
-                                push();
-                            })
-                            }
-                            push();
-                        }
-                        });
-                    }).then(stream => {
-                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
-                    })
-                    .then(result => {
-                        console.log(`JSON.parse(result): ${JSON.parse(result).resumes.length}`)
-                        this.resumes = JSON.parse(result).resumes
-                    })
-                }
+                this.refreshSearch()
 
             }
         })
 
     },
     methods: {
+        refreshSearch(){
+            if(this.userType.includes('aspirant')){
+                fetch(`http://localhost:4000/api/vacancies/get/`, {
+                    mode: 'cors',
+                    method: 'GET'
+                }).then(response => response.body).then(rb  => {
+                    const reader = rb.getReader()
+                    return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                        reader.read().then( ({done, value}) => {
+                            if (done) {
+                            console.log('done', done);
+                            controller.close();
+                            return;
+                            }
+                            controller.enqueue(value);
+                            console.log(done, value);
+                            push();
+                        })
+                        }
+                        push();
+                    }
+                    });
+                }).then(stream => {
+                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                })
+                .then(result => {
+                    console.log(`JSON.parse(result).vacancies: ${JSON.parse(result).vacancies.length}`)
+                    this.resumes = JSON.parse(result).vacancies
+                    
+                    // this.tempResumes = this.resumes
+                    this.tempResumes = this.resumes
+
+                    this.resumes = this.resumes.filter(vacancy => {
+                        console.log(`this.keywords: ${this.keywords}, vacancy.profession: ${vacancy.profession}, vacancy.company: ${vacancy.company}`)
+                        return this.profession.every((prof) => {
+                            return vacancy.profession.toLowerCase().includes(prof)
+                        }) &&
+                        vacancy.experience >= this.experience && vacancy.salary >= this.salary && this.keywords.length >= 1 && (vacancy.company.toLowerCase().includes(this.keywords) || vacancy.profession.toLowerCase().includes(this.keywords))
+                    })
+                })
+            } else if(this.userType.includes('employer')){
+                fetch(`http://localhost:4000/api/resumes/get/`, {
+                    mode: 'cors',
+                    method: 'GET'
+                }).then(response => response.body).then(rb  => {
+                    const reader = rb.getReader()
+                    return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                        reader.read().then( ({done, value}) => {
+                            if (done) {
+                            console.log('done', done);
+                            controller.close();
+                            return;
+                            }
+                            controller.enqueue(value);
+                            console.log(done, value);
+                            push();
+                        })
+                        }
+                        push();
+                    }
+                    });
+                }).then(stream => {
+                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                })
+                .then(result => {
+                    console.log(`JSON.parse(result): ${JSON.parse(result).resumes.length}`)
+                    this.resumes = JSON.parse(result).resumes
+                    this.tempResumes = this.resumes
+                    this.resumes = JSON.parse(result).resumes.filter(resume => {
+                        return this.keywords.length >= 1 && (resume.specializations.toLowerCase().includes(this.keywords) || resume.profession.toLowerCase().includes(this.keywords))
+                    })
+                })
+            }
+        },
         search(){
             this.offers = [
                 {

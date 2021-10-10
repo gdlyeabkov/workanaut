@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="main">
         <Header />
         <div>
             <div class="bar">
@@ -242,15 +242,57 @@
                     </div>
                     <div class="aboutMe">
                         <label for="">
-                            Дата опубликования
+                            Опыт работы
                         </label>
-                        <input type="text" class="w-50 form-control" required v-model="born">
+                        <input min="0" max="6" :disabled="!haveExperience" type="number" class="w-50 form-control" required v-model="experience">
                     </div>
+                    <div class="aboutMe">
+                        <label for="">
+                            У меня есть опыт работы
+                        </label>
+                        <input type="checkbox" v-model="haveExperience">
+                    </div>    
                     <div class="aboutMe">
                         <label for="">
                             Зарплата
                         </label>
                         <input type="text" class="w-50 form-control" required v-model="salary">
+                    </div>
+                    <div class="aboutMe">
+                        <label for="">
+                            График работы
+                        </label>
+                        <select class="w-50 form-control" v-model="shedule">
+                            <option value="Полный день">Полный день</option>
+                            <option value="Сменный график">Сменный график</option>
+                            <option value="Вахтовый метод">Вахтовый метод</option>
+                            <option value="Гибкий график">Гибкий график</option>
+                            <option value="Удаленная работа">Удаленная работа</option>
+                        </select>
+                    </div>
+                    <div class="aboutMe">
+                        <label for="">
+                            Тип занятости
+                        </label>
+                        <select class="w-50 form-control" v-model="worktype">
+                            <option value="Полная занятость">Полная занятость</option>
+                            <option value="Частичная занятость">Частичная занятость</option>
+                            <option value="Проектная работа">Проектная работа</option>
+                            <option value="Стажировка">Стажировка</option>
+                            <option value="Волонтерство">Волонтерство</option>
+                        </select>
+                    </div>
+                    <div class="aboutMe">
+                        <label for="">
+                            Отрасль компании
+                        </label>
+                        <select class="w-50 form-control" v-model="companyIndustry">
+                            <option value="Услуги для бизнеса">Услуги для бизнеса</option>
+                            <option value="Розничная торговля">Розничная торговля</option>
+                            <option value="Перевозки, логистика, склад, ВЭД">Перевозки, логистика, склад, ВЭД</option>
+                            <option value="Товары народного потребления (непищевые)">Товары народного потребления (непищевые)</option>
+                            <option value="Продукты питания">Продукты питания</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -282,10 +324,11 @@ export default {
             name: '',
             secondName: '',
             city: '',
-            born: '',
+            born: new Date().toLocaleDateString(),
             gender: '',
             citizenship: '',
-            experience: '',
+            haveExperience: false,
+            experience: 0,
             profession: '',
             salary: '',
             specializations: '',
@@ -295,6 +338,9 @@ export default {
             about: '',
             workPlaces: '',
             auxBlock: false,
+            shedule: 'Полный день',
+            worktype: 'Полная занятость',
+            companyIndustry: 'Услуги для бизнеса',
             token: window.localStorage.getItem('workanauttoken')
         }
     },
@@ -310,7 +356,7 @@ export default {
     },
     methods: {
         createVacancy(){
-            fetch(`http://localhost:4000/api/vacancies/add/?employeremail=${this.feedback}&vacancycity=${this.city}&vacancyborn=${this.born}&vacancycompany=${this.company}&vacancysalary=${this.salary}&vacancyprofession=${this.profession}`, {
+            fetch(`http://localhost:4000/api/vacancies/add/?employeremail=${this.feedback}&vacancycity=${this.city}&vacancycompany=${this.company}&vacancysalary=${this.salary}&vacancyprofession=${this.profession}&vacancyexperience=${this.experience}&vacancyshedule=${this.shedule}&vacancyworktype=${this.worktype}&vacancycompanyindustry=${this.companyIndustry}`, {
                 mode: 'cors',
                 method: 'GET'
             }).then(response => response.body).then(rb  => {
@@ -338,7 +384,7 @@ export default {
             .then(result => {
                 console.log(`JSON.parse(result): ${JSON.parse(result)}`)
                 if(JSON.parse(result).status.includes('OK')){
-                    this.$router.push({ name: 'PersonalArea', query: { usertype: userType }  })
+                    this.$router.push({ name: 'PersonalArea', query: { usertype: this.userType }  })
                 } else if(JSON.parse(result).status.includes('Error')){
                     alert('Неправильные данные для входа. Пожалуйста, попробуйте снова.')
                 }
@@ -463,10 +509,10 @@ export default {
         flex-direction: column;
         width: 35%;
         justify-content: space-around;
-        height: 200px;
     }
     
     .aboutMe {
+        margin: 10px;
         display: flex;
         justify-content: space-around;
     }
@@ -492,6 +538,10 @@ export default {
         text-decoration: underline;
         text-decoration-style: dashed;
         cursor: pointer;
+    }
+
+    .main {
+        height: 1750px;
     }
 
 
