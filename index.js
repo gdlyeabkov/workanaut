@@ -72,6 +72,15 @@ mongoose.connect(url, connectionParams)
 
 const AspirantSchema = new mongoose.Schema({
     feedback: String,
+    name: String,
+    secondName: String,
+    thirdName: String,
+    password: String,
+    email: String,
+    phone: String,
+    address: String,
+    socialsNetworks: [mongoose.Schema.Types.Map],
+    messages: [mongoose.Schema.Types.Map],
     resumes: [mongoose.Schema.Types.Map]
 }, { collection : 'myaspirants' });
 
@@ -209,7 +218,7 @@ app.get('/api/aspirants/check', (req,res)=>{
     res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
     
-    let queryBefore = AspirantModel.find({ email: { $in: req.query.aspirantemail }  })
+    let queryBefore = AspirantModel.find({ feedback: { $in: req.query.aspirantfeedback }  })
     queryBefore.exec((err, allAspirants) => {
         if(err){
             return res.json({ "status": "Error" })
@@ -257,7 +266,14 @@ app.get('/api/aspirants/create', (req, res)=>{
         if(aspirantExists){
             return res.json({ "status": "Error" })
         } else {
-            let newAspirant = new AspirantModel({ feedback: req.query.aspirantfeedback });
+            let possibleEmail = ''
+            let possiblePhone = ''
+            if(req.query.feedback.includes('@gmail.com')){
+                possibleEmail = req.query.feedback
+            } else if(req.query.feedback.includes('+7') && req.query.feedback.length === 12){
+                possiblePhone = req.query.feedback
+            }
+            let newAspirant = new AspirantModel({ feedback: req.query.aspirantfeedback, password: "",  email: possibleEmail,  phone: possiblePhone, address: ""  });
             newAspirant.save(function (err) {
                 if(err){
                     return res.json({ "status": "Error" })
@@ -417,6 +433,25 @@ app.get('/api/employers/password/set', (req, res) => {
             })
         })
     }
+})
+
+app.get('/api/aspirants/password/set', (req, res) => {
+    
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    
+    let encodedPassword = "#"
+    let saltRounds = 10
+    let salt = bcrypt.genSalt(saltRounds)
+    encodedPassword = bcrypt.hashSync(req.query.newpassword, saltRounds)
+    AspirantModel.updateOne({ feedback: req.query.aspirantfeedback }, { password: encodedPassword }, (err, citizen) => {
+        if(err){
+            return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+    })
 })
 
 

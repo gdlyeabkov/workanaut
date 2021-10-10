@@ -27,10 +27,10 @@
                     <button class="withoutBackgroundBtn createResumeBtn">
                         Создать резюме
                     </button>
-                    <span class="areaShortcuts material-icons-outlined">
+                    <span @click="$router.push({ name: 'FavoriteVacancies' })" class="areaShortcuts material-icons-outlined">
                         star_outline
                     </span>
-                    <span class="areaShortcuts material-icons-outlined">
+                    <span @click="messageWindow = true" class="areaShortcuts material-icons-outlined">
                         mode_comment
                     </span>
                     <span class="areaShortcuts material-icons-outlined">
@@ -39,6 +39,302 @@
                     <span id="context" @click="contextMenu = true"  class="areaShortcuts material-icons-outlined">
                         person_outline
                     </span>
+                </div>
+                <div v-if="messageWindow" class="backdrop">
+                    <div class="messagesBlock">
+                        <div class="asideMessages">
+                            <div class="asideMessagesHeader">
+                                <span @click="messageWindow = false" class="material-icons">
+                                    close
+                                </span>
+                                <h5>
+                                    Сообщения
+                                </h5>
+                            </div>
+                            <div class="asideMessagesHeader">
+                                <input v-model="showOnlyUnreaded" type="checkbox" />
+                                <span>
+                                    Показывать только непрочитанные
+                                </span>
+                            </div>
+                            <div class="asideMessagesBody">
+                                <div class="asideMessagesBodyItem" @click="chatSelected = true">
+                                    <div class="avatar">
+                                    </div>
+                                    <div class="asideMessagesBodyItemContent">
+                                        <div class="asideMessagesBodyItemContentHeader">
+                                            <span>
+                                                Frontend разработчи...
+                                            </span>
+                                            <span>
+                                                12.09
+                                            </span>
+                                        </div>
+                                        <div class="asideMessagesBodyItemContentMain">
+                                            <span class="material-icons">
+                                                work
+                                            </span>
+                                            <span>
+                                                Лига цифровой экономики
+                                            </span>
+                                        </div>
+                                        <div class="asideMessagesBodyItemContentFooter">
+                                            <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
+                                                {{ responseStatus }}
+                                            </span>
+                                            <span>
+                                                Здраствуйте, ...
+                                            </span>
+                                            <div class="countOfUnreadedMessages">
+                                                1
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="asideMessagesBodyItem">
+                                    <div class="avatar">
+                                    </div>
+                                    <div class="asideMessagesBodyItemContent">
+                                        <div class="asideMessagesBodyItemContentHeader">
+                                            <span>
+                                                Frontend разработчи...
+                                            </span>
+                                            <span>
+                                                12.09
+                                            </span>
+                                        </div>
+                                        <div class="asideMessagesBodyItemContentMain">
+                                            <span class="material-icons">
+                                                work
+                                            </span>
+                                            <span>
+                                                Лига цифровой экономики
+                                            </span>
+                                        </div>
+                                        <div class="asideMessagesBodyItemContentFooter">
+                                            <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
+                                                {{ responseStatus }}
+                                            </span>
+                                            <span>
+                                                Здраствуйте, ...
+                                            </span>
+                                            <div class="countOfUnreadedMessages">
+                                                1
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="asideMessagesBodyItem">
+                                    <div class="avatar">
+                                    </div>
+                                    <div class="asideMessagesBodyItemContent">
+                                        <div class="asideMessagesBodyItemContentHeader">
+                                            <span>
+                                                Frontend разработчи...
+                                            </span>
+                                            <span>
+                                                12.09
+                                            </span>
+                                        </div>
+                                        <div class="asideMessagesBodyItemContentMain">
+                                            <span class="material-icons">
+                                                work
+                                            </span>
+                                            <span>
+                                                Лига цифровой экономики
+                                            </span>
+                                        </div>
+                                        <div class="asideMessagesBodyItemContentFooter">
+                                            <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
+                                                {{ responseStatus }}
+                                            </span>
+                                            <span>
+                                                Здраствуйте, ...
+                                            </span>
+                                            <div class="countOfUnreadedMessages">
+                                                1
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="asideMessagesBodyItem">
+                                    <div class="avatar">
+                                    </div>
+                                    <div class="asideMessagesBodyItemContent">
+                                        <div class="asideMessagesBodyItemContentHeader">
+                                            <span>
+                                                Frontend разработчи...
+                                            </span>
+                                            <span>
+                                                12.09
+                                            </span>
+                                        </div>
+                                        <div class="asideMessagesBodyItemContentMain">
+                                            <span class="material-icons">
+                                                work
+                                            </span>
+                                            <span>
+                                                Лига цифровой экономики
+                                            </span>
+                                        </div>
+                                        <div class="asideMessagesBodyItemContentFooter">
+                                            <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
+                                                {{ responseStatus }}
+                                            </span>
+                                            <span>
+                                                Здраствуйте, ...
+                                            </span>
+                                            <div class="countOfUnreadedMessages">
+                                                1
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="asideMessagesBodyItem">
+                                    <div class="avatar">
+                                    </div>
+                                    <div class="asideMessagesBodyItemContent">
+                                        <div class="asideMessagesBodyItemContentHeader">
+                                            <span>
+                                                Frontend разработчи...
+                                            </span>
+                                            <span>
+                                                12.09
+                                            </span>
+                                        </div>
+                                        <div class="asideMessagesBodyItemContentMain">
+                                            <span class="material-icons">
+                                                work
+                                            </span>
+                                            <span>
+                                                Лига цифровой экономики
+                                            </span>
+                                        </div>
+                                        <div class="asideMessagesBodyItemContentFooter">
+                                            <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
+                                                {{ responseStatus }}
+                                            </span>
+                                            <span>
+                                                Здраствуйте, ...
+                                            </span>
+                                            <div class="countOfUnreadedMessages">
+                                                1
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mainMessages">
+                            <div v-if="!chatSelected" class="chatPreview">
+                                <span class="material-icons">
+                                    chat
+                                </span>
+                                <span>
+                                    Выберите чат, чтобы начать общение
+                                </span>
+                            </div>
+                            <div v-else-if="chatSelected" class="chat">
+                                <div class="chatHeader">
+                                    <div class="chatHeaderBody">
+                                        <div class="chatHeaderBodyContent">
+                                            <div class="avatar">
+                                            </div>
+                                            <div class="asideMessagesBodyItemContent">
+                                                <div class="asideMessagesBodyItemContentHeader">
+                                                    <span>
+                                                        Frontend разработчи...
+                                                    </span>
+                                                </div>
+                                                <div class="asideMessagesBodyItemContentFooter">
+                                                    <span>
+                                                        Программист
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <span class="btn btn-primary material-icons">
+                                            more_horiz
+                                        </span>
+                                    </div>
+                                    <hr />
+                                    <div class='charHeaderFooter'>
+                                        <span>
+                                            Приглашение на вакансию
+                                            <span>
+                                                Junoour Frontend
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div class="chatBody">
+                                    
+                                    <div class="chatBodyDate">
+                                        29 августа
+                                    </div>
+                                    <div class="chatBodyMessage">
+                                        <span>
+                                            Отклик на вакансию
+                                            Добрый день!
+                                            Меня зовут Глеб, я занимаюсь фронтенд и бекенд разработкой. Стек технологий: vue.js, react.js, angular, node.js, symfony, laravel, android, flutter, nest.js, next.js, nuxt.js, bootstrap, materialize, asp.net mvc, asp.net core, django, flask, java spring, ruby on rails
+                                            Пишу С# код на unity. Могу работать с логикой игры, частицами, анимациями, физикой, UI/UX, префабами и т.д.
+
+                                            Игры,2d и 3d анимации
+                                            https://drive.google.com/drive/folders/1u-WjrqvAjhSY8ueGh7ZtK7eX4B-GcRFl?usp=sharing
+                                            мой гитхаб https://github.com/gdlyeabkov
+                                        </span>
+                                        <div class="chatBodyMessageDate">
+                                            <span>
+                                                18:14
+                                            </span>
+                                            <span class="material-icons">
+                                                done_all
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="chatBodyOtherMessage">
+                                        <span>
+                                            Приглашение
+                                            "Здравствуйте, Глеб Сергеевич!
+
+                                            Благодарим Вас за отклик на вакансию Junior разработчик. Мы СТАРТАП, который активно растет огромными темпами.
+
+                                            Прочтите до конца, а затем заполните, пожалуйста анкету. После чего мы с Вами обязательно свяжемся!
+
+                                            У нас есть условие- у Вас должна быть основная работа, чтоб вы имели возможность уделять время на проект ABIVEE. Занятость частичная
+
+                                            Просьба, заполнять анкету только тем, кто действительно мотивирован на развитие и согласен начать взаимодействие именно в таком формате.
+
+                                            Ваше резюме показалось нам очень интересным. Мы хотели бы пригласить Вас на интервью, если согласны с условия выше. Приглашаем Вас пройти регистрацию на собеседование в компании ABIVEE Inc.
+
+                                            Пожалуйста пройдите по ссылке и заполните электронную анкету: hr.abivee.com
+
+                                            С уважением, HR Abivee"
+                                        </span>
+                                        <div class="chatBodyMessageDate">
+                                            <span>
+                                                18:14
+                                            </span>
+                                            <span class="material-icons">
+                                                done_all
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="chatFooter">
+                                    <input class="form-control" placeholder="Сообщение 2d Анимат..."  v-model="currentMessage" />
+                                    <span @click="sendMessage()" class="btn btn-primary material-icons">
+                                        send
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div v-if="contextMenu" class="contextMenu">
                     <div class="contextMenuContent">
@@ -229,7 +525,12 @@ export default {
             resumes: [],
             aspirant: {},
             token: window.localStorage.getItem('workanauttoken'),
-            contextMenu: false
+            contextMenu: false,
+            messageWindow: false,
+            showOnlyUnreaded: true,
+            responseStatus: 'Отказ',
+            chatSelected: false,
+            currentMessage: ''
         }
     },
     mounted(){
@@ -491,6 +792,184 @@ export default {
     .contextMenuLink:hover {
         background-color: rgb(245, 245, 245);
         cursor: pointer;
+    }
+
+    .backdrop {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        background-color: rgba(0, 0, 0, 0.8);
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .messagesBlock {
+        background-color: rgb(245, 245, 245);
+        height: 100%;
+        width: 65%;
+        display: flex;
+    }
+
+    .asideMessagesHeader {
+        display: flex;
+        align-items: center;
+    }
+
+    .asideMessagesHeader > span {
+        cursor: pointer;
+    }
+
+    .asideMessagesHeader > * {
+        margin: 15px;
+    }
+
+    .mainMessages {
+        width: 65%;
+    }
+
+    .asideMessages {
+        width: 35%;
+    }
+
+    .asideMessagesBody {
+        overflow-y: scroll;
+        
+    }
+
+    .avatar {
+        border-radius: 100%;
+        width: 65px;
+        height: 65px;
+        background-color: rgb(255, 0, 0);
+    }
+
+    .countOfUnreadedMessages {
+        border-radius: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        width: 20px;
+        height: 20px;
+        background-color: rgb(255, 0, 0);
+    }
+
+    .asideMessagesBodyItem {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        margin: 50px 0px;
+    }
+
+    .asideMessagesBodyItem:hover {
+        background-color: rgb(235, 235, 235);
+    }
+
+    .asideMessagesBodyItemContentHeader {
+        
+    }
+
+    .asideMessagesBodyItemContentMain {
+        display: flex;
+        justify-content: space-between;
+        
+    }
+
+    .asideMessagesBodyItemContentFooter {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .refusal {
+        color: rgb(200, 0, 0);
+    }
+
+    .offer {
+        color: rgb(0, 150, 0);
+    }
+
+    .status {
+        font-size: 18px;
+        font-weight: bolder;
+    }
+
+    .chatPreview > span.material-icons {
+        font-size: 48px;
+    }
+
+    .chatPreview {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .chatHeader {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .charHeaderFooter {
+        display: flex;
+        justify-content: center;
+    }
+
+    .chatHeaderBody {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .chatHeaderBodyContent {
+        display: flex;
+    }
+
+    .chatBody {
+        display: flex;
+        flex-direction: column;
+        overflow-y: scroll;
+    }
+
+    .chatFooter {
+        width: 40%;
+        height: 45px;
+        position: absolute;
+        top: calc(100% - 45px);
+        display: flex;
+        align-items: center;
+    }
+
+    .chatBodyDate {
+        color: rgb(175, 175, 175);
+        text-align: center;
+    }
+
+    .chatBodyMessageDate {
+        color: rgb(175, 175, 175);
+        text-align: right;
+    }
+
+    .chatBodyMessage {
+        margin: 25px 0px;
+        background-color: rgb(200, 235, 255);
+        border-radius: 15px;
+        width: 75%;
+        box-sizing: border-box;
+        padding: 25px;
+        align-self: flex-end;
+    }
+
+    .chatBodyOtherMessage {
+        margin: 25px 0px;
+        background-color: rgb(230, 230, 230);
+        border-radius: 15px;
+        width: 75%;
+        box-sizing: border-box;
+        padding: 25px;
+        align-self: flex-start;
     }
 
 </style>

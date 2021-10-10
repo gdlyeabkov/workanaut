@@ -27,78 +27,292 @@
                 <div>
                     <div>
                         <div class="privateData">
-                            <div class="privateDataRow">
+                            <div v-if="!nameDialog" class="privateDataRow">
                                 <span>
                                     Имя
                                 </span>
                                 <span>
                                     Дьяков Глеб Сергеевич
                                 </span>
-                                <span>
+                                <span class="unwantedTab"  v-if="!nameDialog" @click="nameDialog = !nameDialog">
                                     Изменить
                                 </span>
                             </div>
+                            <div v-else-if="nameDialog" class="dialog">
+                                <div class="dialogColumn">
+                                    <span>
+                                        Фамилия
+                                    </span>
+                                    <span>
+                                        Новый пароль
+                                    </span>
+                                    <span>
+                                        Повторите новый пароль
+                                    </span>
+                                </div>
+                                <div class="dialogColumn">
+                                    <input type="text" v-model="name" class="socialBtn form-control"/>
+                                    <input type="text" v-model="secondName" class="socialBtn form-control"/>
+                                    <input type="text" v-model="thirdName" class="socialBtn form-control"/>
+                                    <div class="rowOfButtons">
+                                        <button @click="save('name')" class="socialBtn btn btn-primary">
+                                            Сохранить
+                                        </button>
+                                        <button @click="nameDialog = false" class="socialBtn btn btn-primary">
+                                            Отменить
+                                        </button>
+                                    </div> 
+                                </div>
+                                <div class="dialogColumn">
+                                    
+                                </div>
+                            </div>
                             <hr />
-                            <div class="privateDataRow">
+                            <div v-if="!passwordDialog" class="privateDataRow">
                                 <span>
                                     Пароль
                                 </span>
                                 <span>
                                     Обновлен 2 года назад
                                 </span>
-                                <span>
+                                <span  class="unwantedTab" v-if="!passwordDialog" @click="passwordDialog = !passwordDialog">
                                     Изменить
                                 </span>
                             </div>
+                            <div v-else-if="passwordDialog" class="dialog">
+                                <div class="dialogColumn">
+                                    <span>
+                                        Старый пароль
+                                    </span>
+                                    <span>
+                                        Новый пароль
+                                    </span>
+                                    <span>
+                                        Повторите новый пароль
+                                    </span>
+                                </div>
+                                <div class="dialogColumn">
+                                    <input type="password" v-model="oldPassword" class="socialBtn form-control"/>
+                                    <input type="password" v-model="newPassword" class="socialBtn form-control"/>
+                                    <input type="password" v-model="repeatNewPassword" class="socialBtn form-control"/>
+                                    <div class="rowOfButtons">
+                                        <button @click="save('password')" class="socialBtn btn btn-primary">
+                                            Сохранить
+                                        </button>
+                                        <button @click="passwordDialog = false" class="socialBtn btn btn-primary">
+                                            Отменить
+                                        </button>
+                                    </div> 
+                                </div>
+                                <div class="dialogColumn">
+                                    <span>
+                                        Забыли пароль?
+                                    </span>
+                                </div>
+                            </div>
                             <hr />
-                            <div class="privateDataRow">
+                            <div v-if="!emailDialog" class="privateDataRow">
                                 <span>
                                     Email
                                 </span>
                                 <span>
                                     gdlyeabkov@gmail.com
                                 </span>
-                                <span>
+                                <span  v-if="!emailDialog" @click="emailDialog = !emailDialog" class="unwantedTab">
                                     Изменить
                                 </span>
                             </div>
+                            <div v-else-if="emailDialog" class="dialog">
+                                <div class="dialogColumn">
+                                    <span>
+                                        Email
+                                    </span>
+                                    <span>
+                                        Новый Email
+                                    </span>
+                                    <span>
+                                        Ваш текущий пароль
+                                    </span>
+                                </div>
+                                <div class="dialogColumn">
+                                    <span>
+                                        gdlyeabkov@gmail.com
+                                    </span>
+                                    <input type="password" v-model="newPassword" class="socialBtn form-control"/>
+                                    <input type="password" v-model="repeatNewPassword" class="socialBtn form-control"/>
+                                    <div class="rowOfButtons">
+                                        <button @click="save('email')" class="socialBtn btn btn-primary">
+                                            Сохранить
+                                        </button>
+                                        <button @click="emailDialog = false" class="socialBtn btn btn-primary">
+                                            Отменить
+                                        </button>
+                                    </div> 
+                                </div>
+                                <div class="dialogColumn">
+                                    <span>
+                                        Забыли пароль?
+                                    </span>
+                                </div>
+                            </div>
                             <hr />
-                            <div class="privateDataRow">
+                            <div v-if="!phoneDialog" class="privateDataRow">
                                 <span>
                                     Мобильный телефон
                                 </span>
                                 <span>
                                     +7 (925) 645-33-12
                                 </span>
-                                <span>
+                                <span  v-if="!phoneDialog" @click="phoneDialog = !phoneDialog" class="unwantedTab">
                                     Изменить
                                 </span>
                             </div>
+                            <div v-else-if="phoneDialog" class="dialog">
+                                <div class="dialogColumn">
+                                    <span>
+                                        Мобильный телефон
+                                    </span>
+                                    <span>
+                                        Новый мобильный телефон
+                                    </span>
+                                    <span>
+                                        Ваш текущий пароль
+                                    </span>
+                                </div>
+                                <div class="dialogColumn">
+                                    <span>
+                                        +79254683410
+                                    </span>
+                                    <input type="password" v-model="newPassword" class="socialBtn form-control"/>
+                                    <input type="password" v-model="repeatNewPassword" class="socialBtn form-control"/>
+                                    <div class="rowOfButtons">
+                                        <button @click="save('phone')" class="socialBtn btn btn-primary">
+                                            Сохранить
+                                        </button>
+                                        <button @click="phoneDialog = false" class="socialBtn btn btn-primary">
+                                            Отменить
+                                        </button>
+                                    </div> 
+                                </div>
+                                <div class="dialogColumn">
+                                    <span>
+                                        Забыли пароль?
+                                    </span>
+                                </div>
+                            </div>
                             <hr />
-                            <div class="privateDataRow">
+                            <div v-if="!regionDialog" class="privateDataRow">
                                 <span>
                                     Район поиска работы
                                 </span>
                                 <span>
                                     Не указан
                                 </span>
-                                <span>
-                                    Изменить
+                                <span  v-if="!regionDialog" @click="regionDialog = !regionDialog" class="unwantedTab">
+                                    Указать
                                 </span>
                             </div>
+                            <div v-else-if="regionDialog" class="dialog">
+                                <div class="dialogColumn regionLabel">
+                                    <span>
+                                        Район поиска работы
+                                    </span>
+                                </div>
+                                <div class="dialogColumn">
+                                    <input placeholder="Выберите адресс" type="text" v-model="address" class="socialBtn form-control"/>
+                                    <span>
+                                        Можно указать адрес дома, улицу или удобную станцию метро. Информация будет использована, чтобы показать работодателям примерное расстояние до места работы и помочь повысить ваши шансы получить приглашение
+                                    </span>
+                                    <div class="rowOfButtons">
+                                        <button @click="save('region')" class="socialBtn btn btn-primary">
+                                            Сохранить
+                                        </button>
+                                        <button @click="regionDialog = false" class="socialBtn btn btn-primary">
+                                            Отменить
+                                        </button>
+                                    </div> 
+                                </div>
+                            </div>
                             <hr />
-                            <div class="privateDataRow">
+                            <div v-if="!socialNetworksDialog" class="privateDataRow">
                                 <span>
                                     Социальные сети
                                 </span>
-                                <span>
-                                    
-                                </span>
-                                <span>
+                                <div class="socialColumn">
+                                    <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/vk-blue.svg" width="35px" alt="">
+                                    <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/ok-orange.svg" width="35px" alt="">
+                                    <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/facebook-blue.svg" width="35px" alt="">
+                                    <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/telegram_hover.svg" width="35px" alt="">
+                                </div>
+                                <span v-if="!socialNetworksDialog" @click="socialNetworksDialog = !socialNetworksDialog" class="unwantedTab">
                                     Изменить
                                 </span>
                             </div>
+                            <div v-else-if="socialNetworksDialog" class="dialog">
+                                <div class="socialColumn">
+                                    <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/vk-blue.svg" width="35px" alt="">
+                                    <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/ok-orange.svg" width="35px" alt="">
+                                    <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/facebook-blue.svg" width="35px" alt="">
+                                    <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/telegram_hover.svg" width="35px" alt="">
+                                    <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/facebook-blue.svg" width="35px" alt="">
+                                    <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/telegram_hover.svg" width="35px" alt="">
+                                </div>    
+                                <div class="dialogColumn">
+                                    <button :class="{ socialBtn: true, btn: true, 'btn-primary': socialNetMailru }" @click="socialNetMailru = !socialNetMailru">
+                                        {{
+                                            socialNetMailru ?
+                                                "Привязано"
+                                            :
+                                                "Привязать"
+                                        }}
+                                    </button>
+                                    <button :class="{ socialBtn: true, btn: true, 'btn-primary': socialNetOdnoklasniki }" @click="socialNetOdnoklasniki = !socialNetOdnoklasniki">
+                                        {{
+                                            socialNetOdnoklasniki ?
+                                                "Привязано"
+                                            :
+                                                "Привязать"
+                                        }}
+                                    </button>
+                                    <button :class="{ socialBtn: true, btn: true, 'btn-primary': socialNetFacebook }" @click="socialNetFacebook = !socialNetFacebook">
+                                        {{
+                                            socialNetFacebook ?
+                                                "Привязано"
+                                            :
+                                                "Привязать"
+                                        }}
+                                    </button>
+                                    <button :class="{ socialBtn: true, btn: true, 'btn-primary': socialNetVK }" @click="socialNetVK = !socialNetVK">
+                                        {{
+                                            socialNetVK ?
+                                                "Привязано"
+                                            :
+                                                "Привязать"
+                                        }}
+                                    </button>
+                                    <button :class="{ socialBtn: true, btn: true, 'btn-primary': socialNetGoogle }" @click="socialNetGoogle = !socialNetGoogle">
+                                        {{
+                                            socialNetGoogle ?
+                                                "Привязано"
+                                            :
+                                                "Привязать"
+                                        }}
+                                    </button>
+                                    <button :class="{ socialBtn: true, btn: true, 'btn-primary': socialNetDROnWork }" @click="socialNetDROnWork = !socialNetDROnWork">
+                                        {{
+                                            socialNetDROnWork ?
+                                                "Привязано"
+                                            :
+                                                "Привязать"
+                                        }}
+                                    </button>
+                                </div> 
+                                <span class="toggleSocial" @click="socialNetworksDialog = false">
+                                    Свернуть
+                                </span>
+                            </div>
                         </div>
+                        
                         <div class="status">
                             <h5>
                                 Мой статус на сайте
@@ -463,13 +677,118 @@
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 
+import * as jwt from 'jsonwebtoken'
+
 export default {
     name: 'Settings',
     data(){
         return {
             currentSetting: 'Личные данные',
-            unwatedTab: 'Вакансии'
+            unwatedTab: 'Вакансии',
+            nameDialog: false,
+            passwordDialog: false,
+            emailDialog: false,
+            phoneDialog: false,
+            regionDialog: false,
+            socialNetworksDialog: false,
+            aspirant: {},
+            token: window.localStorage.getItem('workanauttoken'),
+            name: '',
+            secondName: '',
+            thirdName: '',
+            oldPassword: '',
+            newPassword: '',
+            repeatNewPassword: '',
+            email: '',
+            newEmail: '',
+            phone: '',
+            newPhone: '',
+            address: '',
+            socialNetMailru: false,
+            socialNetOdnoklasniki: false,
+            socialNetFacebook: false,
+            socialNetVK: false,
+            socialNetGoogle: false,
+            socialNetDROnWork: false,
+
         }
+    },
+    mounted(){
+        jwt.verify(this.token, 'workanautsecret', (err, decoded) => {
+            if (err) {
+                this.$router.push({ name: "Login", query: { logintype: 'employee' } })
+            } else {
+                // console.log(`decoded.phone: ${decoded.phone}`)
+                fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
+                    mode: 'cors',
+                    method: 'GET'
+                }).then(response => response.body).then(rb  => {
+                    const reader = rb.getReader()
+                    return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                        reader.read().then( ({done, value}) => {
+                            if (done) {
+                            console.log('done', done);
+                            controller.close();
+                            return;
+                            }
+                            controller.enqueue(value);
+                            console.log(done, value);
+                            push();
+                        })
+                        }
+                        push();
+                    }
+                    });
+                }).then(stream => {
+                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                })
+                .then(result => {
+                    this.aspirant = JSON.parse(result).aspirant
+                })
+            }
+        })
+    },
+    methods: {
+        save(field){
+            if(field.includes('password')){
+                fetch(`http://localhost:4000/api/aspirants/password/set/?aspirantfeedback=${this.aspirant.feedback}&newpassword=${this.newPassword}`, {
+                    mode: 'cors',
+                    method: 'GET'
+                }).then(response => response.body).then(rb  => {
+                    const reader = rb.getReader()
+                    return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                        reader.read().then( ({done, value}) => {
+                            if (done) {
+                            console.log('done', done);
+                            controller.close();
+                            return;
+                            }
+                            controller.enqueue(value);
+                            console.log(done, value);
+                            push();
+                        })
+                        }
+                        push();
+                    }
+                    });
+                }).then(stream => {
+                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                })
+                .then(result => {
+                    console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+                    if(JSON.parse(result).status.includes('OK')){
+                        this.$router.push({ name: 'PersonalArea' })
+                    } else if(JSON.parse(result).status.includes('Error')){
+                       alert('Ошибка сохранения поля')  
+                    }
+                })        
+            }
+        }
+        
     },
     components: {
         Header,
@@ -651,6 +970,44 @@ export default {
 
     .settingsHeader > * {
         cursor: pointer;
+    }
+
+    .dialog {
+        width: 100%;
+        height: 350px;
+        background-color: rgb(245, 245, 245);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .dialogColumn {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .rowOfButtons {
+        display: flex;
+    }
+
+    .socialColumn {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .toggleSocial {
+        color: rgb(0, 0, 255);
+        cursor: pointer;
+        align-self: flex-start;
+    }
+
+    .socialBtn {
+        margin: 5px;
+    }
+
+    .regionLabel {
+        width: 45%;
+        margin: 5px;
     }
 
 </style>

@@ -218,7 +218,7 @@ export default {
             }
         })
       } else if(this.loginType.includes('employee')){
-        fetch(`http://localhost:4000/api/aspirants/check/?employeremail=${this.feedback}&employerpassword=${this.password}`, {
+        fetch(`http://localhost:4000/api/aspirants/check/?aspirantfeedback=${this.feedback}&aspirantpassword=${this.password}`, {
           mode: 'cors',
           method: 'GET'
         }).then(response => response.body).then(rb  => {
