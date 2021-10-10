@@ -2,9 +2,378 @@
     <div>
         <Header />
         <div>
+            <div v-if="messageWindow" class="backdrop">
+                <div class="messagesBlock">
+                    <div class="asideMessages">
+                        <div class="asideMessagesHeader">
+                            <span @click="messageWindow = false" class="material-icons">
+                                close
+                            </span>
+                            <h5>
+                                Сообщения
+                            </h5>
+                        </div>
+                        <div class="asideMessagesHeader">
+                            <input v-model="showOnlyUnreaded" type="checkbox" />
+                            <span>
+                                Показывать только непрочитанные
+                            </span>
+                        </div>
+                        <div class="asideMessagesBody">
+                            <div class="asideMessagesBodyItem" @click="chatSelected = true">
+                                <div class="avatar">
+                                </div>
+                                <div class="asideMessagesBodyItemContent">
+                                    <div class="asideMessagesBodyItemContentHeader">
+                                        <span>
+                                            Frontend разработчи...
+                                        </span>
+                                        <span>
+                                            12.09
+                                        </span>
+                                    </div>
+                                    <div class="asideMessagesBodyItemContentMain">
+                                        <span class="material-icons">
+                                            work
+                                        </span>
+                                        <span>
+                                            Лига цифровой экономики
+                                        </span>
+                                    </div>
+                                    <div class="asideMessagesBodyItemContentFooter">
+                                        <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
+                                            {{ responseStatus }}
+                                        </span>
+                                        <span>
+                                            Здраствуйте, ...
+                                        </span>
+                                        <div class="countOfUnreadedMessages">
+                                            1
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="asideMessagesBodyItem">
+                                <div class="avatar">
+                                </div>
+                                <div class="asideMessagesBodyItemContent">
+                                    <div class="asideMessagesBodyItemContentHeader">
+                                        <span>
+                                            Frontend разработчи...
+                                        </span>
+                                        <span>
+                                            12.09
+                                        </span>
+                                    </div>
+                                    <div class="asideMessagesBodyItemContentMain">
+                                        <span class="material-icons">
+                                            work
+                                        </span>
+                                        <span>
+                                            Лига цифровой экономики
+                                        </span>
+                                    </div>
+                                    <div class="asideMessagesBodyItemContentFooter">
+                                        <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
+                                            {{ responseStatus }}
+                                        </span>
+                                        <span>
+                                            Здраствуйте, ...
+                                        </span>
+                                        <div class="countOfUnreadedMessages">
+                                            1
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="asideMessagesBodyItem">
+                                <div class="avatar">
+                                </div>
+                                <div class="asideMessagesBodyItemContent">
+                                    <div class="asideMessagesBodyItemContentHeader">
+                                        <span>
+                                            Frontend разработчи...
+                                        </span>
+                                        <span>
+                                            12.09
+                                        </span>
+                                    </div>
+                                    <div class="asideMessagesBodyItemContentMain">
+                                        <span class="material-icons">
+                                            work
+                                        </span>
+                                        <span>
+                                            Лига цифровой экономики
+                                        </span>
+                                    </div>
+                                    <div class="asideMessagesBodyItemContentFooter">
+                                        <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
+                                            {{ responseStatus }}
+                                        </span>
+                                        <span>
+                                            Здраствуйте, ...
+                                        </span>
+                                        <div class="countOfUnreadedMessages">
+                                            1
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="asideMessagesBodyItem">
+                                <div class="avatar">
+                                </div>
+                                <div class="asideMessagesBodyItemContent">
+                                    <div class="asideMessagesBodyItemContentHeader">
+                                        <span>
+                                            Frontend разработчи...
+                                        </span>
+                                        <span>
+                                            12.09
+                                        </span>
+                                    </div>
+                                    <div class="asideMessagesBodyItemContentMain">
+                                        <span class="material-icons">
+                                            work
+                                        </span>
+                                        <span>
+                                            Лига цифровой экономики
+                                        </span>
+                                    </div>
+                                    <div class="asideMessagesBodyItemContentFooter">
+                                        <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
+                                            {{ responseStatus }}
+                                        </span>
+                                        <span>
+                                            Здраствуйте, ...
+                                        </span>
+                                        <div class="countOfUnreadedMessages">
+                                            1
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="asideMessagesBodyItem">
+                                <div class="avatar">
+                                </div>
+                                <div class="asideMessagesBodyItemContent">
+                                    <div class="asideMessagesBodyItemContentHeader">
+                                        <span>
+                                            Frontend разработчи...
+                                        </span>
+                                        <span>
+                                            12.09
+                                        </span>
+                                    </div>
+                                    <div class="asideMessagesBodyItemContentMain">
+                                        <span class="material-icons">
+                                            work
+                                        </span>
+                                        <span>
+                                            Лига цифровой экономики
+                                        </span>
+                                    </div>
+                                    <div class="asideMessagesBodyItemContentFooter">
+                                        <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
+                                            {{ responseStatus }}
+                                        </span>
+                                        <span>
+                                            Здраствуйте, ...
+                                        </span>
+                                        <div class="countOfUnreadedMessages">
+                                            1
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mainMessages">
+                        <div v-if="!chatSelected" class="chatPreview">
+                            <span class="material-icons">
+                                chat
+                            </span>
+                            <span>
+                                Выберите чат, чтобы начать общение
+                            </span>
+                        </div>
+                        <div v-else-if="chatSelected" class="chat">
+                            <div class="chatHeader">
+                                <div class="chatHeaderBody">
+                                    <div class="chatHeaderBodyContent">
+                                        <div class="avatar">
+                                        </div>
+                                        <div class="asideMessagesBodyItemContent">
+                                            <div class="asideMessagesBodyItemContentHeader">
+                                                <span>
+                                                    Frontend разработчи...
+                                                </span>
+                                            </div>
+                                            <div class="asideMessagesBodyItemContentFooter">
+                                                <span>
+                                                    Программист
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span id="more" @click="treeDotContextMenu = true" class="btn btn-primary material-icons">
+                                        more_horiz
+                                    </span>
+                                    <div v-if="treeDotContextMenu" class="treeDotContextMenu">
+                                        <span>
+                                            О компании
+                                        </span>
+                                        <span>
+                                            Участники чата
+                                        </span>
+                                        <span>
+                                            Отключить уведомления в чате
+                                        </span>
+                                        <span>
+                                            Это спам
+                                        </span>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class='charHeaderFooter'>
+                                    <span>
+                                        Приглашение на вакансию
+                                        <span>
+                                            Junoour Frontend
+                                        </span>
+                                    </span>
+                                </div>
+                                <hr />
+                            </div>
+                            <div class="chatBody">
+                                
+                                <div class="chatBodyDate">
+                                    29 августа
+                                </div>
+                                <div class="chatBodyMessage">
+                                    <span>
+                                        Отклик на вакансию
+                                        Добрый день!
+                                        Меня зовут Глеб, я занимаюсь фронтенд и бекенд разработкой. Стек технологий: vue.js, react.js, angular, node.js, symfony, laravel, android, flutter, nest.js, next.js, nuxt.js, bootstrap, materialize, asp.net mvc, asp.net core, django, flask, java spring, ruby on rails
+                                        Пишу С# код на unity. Могу работать с логикой игры, частицами, анимациями, физикой, UI/UX, префабами и т.д.
+
+                                        Игры,2d и 3d анимации
+                                        https://drive.google.com/drive/folders/1u-WjrqvAjhSY8ueGh7ZtK7eX4B-GcRFl?usp=sharing
+                                        мой гитхаб https://github.com/gdlyeabkov
+                                    </span>
+                                    <div class="chatBodyMessageDate">
+                                        <span>
+                                            18:14
+                                        </span>
+                                        <span class="material-icons">
+                                            done_all
+                                        </span>
+
+                                    </div>
+                                </div>
+
+                                <div class="chatBodyOtherMessage">
+                                    <span>
+                                        Приглашение
+                                        "Здравствуйте, Глеб Сергеевич!
+
+                                        Благодарим Вас за отклик на вакансию Junior разработчик. Мы СТАРТАП, который активно растет огромными темпами.
+
+                                        Прочтите до конца, а затем заполните, пожалуйста анкету. После чего мы с Вами обязательно свяжемся!
+
+                                        У нас есть условие- у Вас должна быть основная работа, чтоб вы имели возможность уделять время на проект ABIVEE. Занятость частичная
+
+                                        Просьба, заполнять анкету только тем, кто действительно мотивирован на развитие и согласен начать взаимодействие именно в таком формате.
+
+                                        Ваше резюме показалось нам очень интересным. Мы хотели бы пригласить Вас на интервью, если согласны с условия выше. Приглашаем Вас пройти регистрацию на собеседование в компании ABIVEE Inc.
+
+                                        Пожалуйста пройдите по ссылке и заполните электронную анкету: hr.abivee.com
+
+                                        С уважением, HR Abivee"
+                                    </span>
+                                    <div class="chatBodyMessageDate">
+                                        <span>
+                                            18:14
+                                        </span>
+                                        <span class="material-icons">
+                                            done_all
+                                        </span>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="chatFooter">
+                                <input class="form-control" placeholder="Сообщение 2d Анимат..."  v-model="currentMessage" />
+                                <span @click="sendMessage()" class="btn btn-primary material-icons">
+                                    send
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="bellContextMenu" class="bellContextMenu">
+                <div class="bellContextMenuRow">
+                    <span class="material-icons">
+                        info
+                    </span>
+                    <div class="bellContextMenuColumn">
+                        <span>
+                            Где вы ищите работу
+                        </span>
+                        <span>
+                            Указать место
+                        </span>
+                    </div>
+                </div>
+                <hr />
+                <div class="bellContextMenuRow">
+                    <span class="material-icons">
+                        drafts
+                    </span>
+                    <div class="bellContextMenuColumn">
+                        <span>
+                            Нет новых вакансий в автопоиске
+                        </span>
+                        <span>
+                            Настроить автопоиск
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div v-if="contextMenu" class="contextMenu">
+                <div class="contextMenuContent">
+                    <span class="contextMenuHeader contextMenuLink">
+                        {{ aspirant.feedback }}
+                    </span>
+                    <hr />
+                    <span @click="$router.push({ name: 'Settings' })" class="contextMenuLink">
+                        Настройки
+                    </span>
+                    <span @click="$router.push({ name: 'Mailings' })" class="contextMenuLink">
+                        Рассылки
+                    </span>
+                    <span @click="$router.push({ name: 'HiddenMyselfVacanciesAndCompanies' })" class="contextMenuLink">
+                        Скрытые мной вакансии и компании
+                    </span>
+                    <span @click="$router.push({ name: 'Settings' })" class="contextMenuLink">
+                        Изображения
+                    </span>
+                    <span @click="$router.push({ name: 'ConnectedServices' })" class="contextMenuLink">
+                        Подключённые услуги
+                    </span>
+                    <span @click="$router.push({ name: 'MyApps' })" class="contextMenuLink">
+                        Мои приложения
+                    </span>
+                    <hr />
+                    <span @click="logout()" class="contextMenuLink">
+                        Выход
+                    </span>
+                </div>
+            </div>
             <div class="bar">
                 <div class="barItem">
-                <div @click="$router.push({ name: 'AuthPage' })" class="logo">
+                <div class="logo">
                     hh
                 </div>
                 <span @click="$router.push({ name: 'PersonalArea' })" class="help">
@@ -409,147 +778,198 @@
                         </span>
                     </div>
                 </div>
-            </div>   
-            <div class="main">
-                <div class="actions">
-                    <button  @click="$router.push({ name: 'MyResume' })" class="btn btn-primary">
-                        Создать резюме
-                    </button>
-                    <button @click="findWork()" class="btn btn-primary">
-                        Найти работу
-                    </button>
-                    <button @click="orderResume()" class="btn btn-primary">
-                        Заказать резюме
-                    </button>
-                </div>
-                <h3>
-                    Мои резюме
-                </h3>
-                <div class="achievement">
-                    <div class="achievementPicture">
-                        0/10
-                    </div>
-                    <div class="achievementDesc">
-                        <span  class="achievementDescHeader">
-                            Откликнитесь ещё 10 раз
-                        </span>
-                        <span>
-                            По статистике для одного приглашения требуется около десяти откликов
-                        </span>
-                        <span>
-                            Подходящие для отклика вакансии
-                        </span>
-                    </div>
-                </div>
-                <!-- <hr /> -->
-                <!-- <div class="resume">
-                    <span class="resumeHeader">
-                        Программист
-                    </span>
-                    <span>
-                        Обновлено 30 августа 2021 в 13:17
-                    </span>
-                    <span>
-                        Видно всему интернету прямая ссылка
-                    </span>
-                    <div class="resumeBenefits">
-                        <div class="resumeBenefit">
-                            <span>
-                                16 показов в поиске за неделю
-                            </span>
+            </div>
+            <div class="searchWorkArea">
+                <input v-model="keywords" placeholder="Профессия, должность или компания" type="text" class="form-control">
+                <button @click="$router.push({ name: 'Vacancies', query: { keywords: keywords, worktype: 'Постоянная работа' } })" class="btn btn-primary">
+                    Найти
+                </button>
+            </div>
+            <hr />
+            <div class="totalContainer">
+                <div class="authMenu">
+                    <div class="authMenuHeader">
+                        <h3>
+                            Мои события
+                        </h3>
+                        <div class="authMenuHeaderColumn">
+                            <div class="authMenuHeaderRow">
+                                <div>
+                                    <span class="material-icons-outlined">
+                                        person_outline
+                                    </span>
+                                    <span>  
+                                        Отклики и приглашения
+                                    </span>
+                                </div>
+                                <span>  
+                                    {{ aspirant.responses.length }}
+                                </span>
+                            </div>
+                            <div class="authMenuHeaderRow">
+                                <div>
+                                    <span class="material-icons">
+                                        visibility
+                                    </span>
+                                    <span>  
+                                        Просмотры резюме
+                                    </span>
+                                </div>
+                                <span>  
+                                    {{ resumes.length }}
+                                </span>
+                            </div>
+                            <div class="authMenuHeaderRow">
+                                <div>
+                                    <span class="material-icons-outlined">
+                                        star
+                                    </span>
+                                    <span>  
+                                        Избранные вакансии
+                                    </span>
+                                </div>
+                                <span>  
+                                    {{ aspirant.vacancies.length }}
+                                </span>
+                            </div>
+                            <div class="authMenuHeaderRow">
+                                <div>
+                                    <span class="material-icons">
+                                        search
+                                    </span>
+                                    <span>  
+                                        Автопоиски
+                                    </span>
+                                </div>
+                                <span>  
+                                    +1
+                                </span>
+                            </div>
                         </div>
-                        <div class="resumeBenefit">
-                            <span>
-                                нет просмотров за неделю
-                            </span>
-                        </div>
-                        <div class="resumeBenefit">
-                            <span>
-                                нет приглашений за неделю
-                            </span>
-                        </div>
-                    </div>
-                    <span>
-                        Резюме редко попадает в поиск. Поднимите его самостоятельно или подключите «Продвижение резюме», чтобы получить больше просмотров и приглашений
-                    </span>
-                    <div>
-                        <button class="btn btn-primary btnAction">
-                            Поднять в поиске
-                        </button>
-                        <button class="btn btn-primary btnAction">
-                            3998 подходящих вакансий
-                        </button>
-                    </div>
-                    <div class="actions">
-                        <span class="action">
-                            Поднять в поиске
-                        </span>
-                        <span class="action">
-                            Изменить видимость
-                        </span>
-                        <span class="action">
-                            Редактировать
-                        </span>
-                        <span class="action">
-                            Дублировать
-                        </span>
-                    </div>
-                </div> -->
-                <div v-for="resume in resumes" :key="resume.proffesion" class="resume">
-                    <span class="resumeHeader">
-                        {{ resume.profession }}
-                    </span>
-                    <span>
-                        Обновлено 30 августа 2021 в 13:17
-                    </span>
-                    <span>
-                        Видно всему интернету прямая ссылка
-                    </span>
-                    <div class="resumeBenefits">
-                        <div class="resumeBenefit">
-                            <span>
-                                16 показов в поиске за неделю
-                            </span>
-                        </div>
-                        <div class="resumeBenefit">
-                            <span>
-                                нет просмотров за неделю
-                            </span>
-                        </div>
-                        <div class="resumeBenefit">
-                            <span>
-                                нет приглашений за неделю
-                            </span>
-                        </div>
-                    </div>
-                    <span>
-                        Резюме редко попадает в поиск. Поднимите его самостоятельно или подключите «Продвижение резюме», чтобы получить больше просмотров и приглашений
-                    </span>
-                    <div>
-                        <button class="btn btn-primary btnAction">
-                            Поднять в поиске
-                        </button>
-                        <button class="btn btn-primary btnAction">
-                            3998 подходящих вакансий
-                        </button>
-                    </div>
-                    <div class="actions">
-                        <span class="action">
-                            Поднять в поиске
-                        </span>
-                        <span class="action">
-                            Изменить видимость
-                        </span>
-                        <span class="action">
-                            Редактировать
-                        </span>
-                        <span class="action">
-                            Дублировать
-                        </span>
                     </div>
                     <hr />
+                    <div class="authMenuFooter">
+                        <h5>
+                            Подработка
+                        </h5>
+                        <span>
+                            Разовые задания, неполный рабочий день, временная работа и другая подработка
+                        </span>
+                        <button class="btn btn-light withoutBackgroundBtn createResumeBtn">
+                            Найти
+                        </button>
+                    </div>
+                </div>
+                <div class="relevantedBlock">
+                    <h5>
+                        Рекомендуем лично вам
+                    </h5>
+                    <div class="vacancyBlock">
+                        <div class="vacancyColumn">
+                            <div class="vacancyItem">
+                                <span>
+                                    Верстальщик
+                                </span>
+                                <span class="vacancyDesc">
+                                    з/п не указана
+                                </span>
+                                <span class="vacancyDesc">
+                                    Компания «СПОРТМАСТЕР», Розничные продажи, Москва
+                                </span>
+                            </div>
+                            <div class="vacancyItem">
+                                <span>
+                                    Верстальщик
+                                </span>
+                                <span class="vacancyDesc">
+                                    з/п не указана
+                                </span>
+                                <span class="vacancyDesc">
+                                    Компания «СПОРТМАСТЕР», Розничные продажи, Москва
+                                </span>
+                            </div>
+                            <div class="vacancyItem">
+                                <span>
+                                    Верстальщик
+                                </span>
+                                <span class="vacancyDesc">
+                                    з/п не указана
+                                </span>
+                                <span class="vacancyDesc">
+                                    Компания «СПОРТМАСТЕР», Розничные продажи, Москва
+                                </span>
+                            </div>
+                            <div class="vacancyItem">
+                                <span>
+                                    Верстальщик
+                                </span>
+                                <span class="vacancyDesc">
+                                    з/п не указана
+                                </span>
+                                <span class="vacancyDesc">
+                                    Компания «СПОРТМАСТЕР», Розничные продажи, Москва
+                                </span>
+                            </div>
+                        </div>
+                        <div class="vacancyColumn">
+                            <div class="vacancyItem">
+                                <span>
+                                    Верстальщик
+                                </span>
+                                <span class="vacancyDesc">
+                                    з/п не указана
+                                </span>
+                                <span class="vacancyDesc">
+                                    Компания «СПОРТМАСТЕР», Розничные продажи, Москва
+                                </span>
+                            </div>
+                            <div class="vacancyItem">
+                                <span>
+                                    Верстальщик
+                                </span>
+                                <span class="vacancyDesc">
+                                    з/п не указана
+                                </span>
+                                <span class="vacancyDesc">
+                                    Компания «СПОРТМАСТЕР», Розничные продажи, Москва
+                                </span>
+                            </div>
+                            <div class="vacancyItem">
+                                <span>
+                                    Верстальщик
+                                </span>
+                                <span class="vacancyDesc">
+                                    з/п не указана
+                                </span>
+                                <span class="vacancyDesc">
+                                    Компания «СПОРТМАСТЕР», Розничные продажи, Москва
+                                </span>
+                            </div>
+                            <div class="vacancyItem">
+                                <span>
+                                    Верстальщик
+                                </span>
+                                <span class="vacancyDesc">
+                                    з/п не указана
+                                </span>
+                                <span class="vacancyDesc">
+                                    Компания «СПОРТМАСТЕР», Розничные продажи, Москва
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btnsContainer">
+                        <button class="btn btn-primary createResumeBtn withoutBackgroundBtn">
+                            Показать все
+                        </button>
+                        <button class="btn btn-primary createResumeBtn withoutBackgroundBtn">
+                            На карте
+                        </button>
+                    </div>
                 </div>
             </div>
+            <hr />
+            
         </div>
         <Footer />
     </div>
@@ -562,7 +982,7 @@ import Footer from '@/components/Footer.vue'
 import * as jwt from 'jsonwebtoken'
 
 export default {
-    name: 'PersonalArea',
+    name: 'AuthPage',
     data(){
         return {
             resumes: [],
@@ -596,35 +1016,6 @@ export default {
             if (err) {
                 this.$router.push({ name: "Login", query: { logintype: 'employee' } })
             } else {
-                // fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
-                //     mode: 'cors',
-                //     method: 'GET'
-                // }).then(response => response.body).then(rb  => {
-                //     const reader = rb.getReader()
-                //     return new ReadableStream({
-                //     start(controller) {
-                //         function push() {
-                //         reader.read().then( ({done, value}) => {
-                //             if (done) {
-                //             console.log('done', done);
-                //             controller.close();
-                //             return;
-                //             }
-                //             controller.enqueue(value);
-                //             console.log(done, value);
-                //             push();
-                //         })
-                //         }
-                //         push();
-                //     }
-                //     });
-                // }).then(stream => {
-                //     return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
-                // })
-                // .then(result => {
-                //     console.log(`JSON.parse(result): ${JSON.parse(result)}`)
-                // })
-                console.log(`decoded: ${decoded.phone}`)
                 fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
                     mode: 'cors',
                     method: 'GET'
@@ -705,7 +1096,6 @@ export default {
   }
 
   .logo {
-    cursor: pointer;
     color: rgb(255, 255, 255);
     font-weight: bolder;
     font-size: 24px;
@@ -747,78 +1137,98 @@ export default {
         cursor: pointer;
     }
 
-    .main {
-        width: 75%;
-    }
+    .searchWorkArea {
+    width: 65%;
+    display: flex;
+    margin: auto;
+  }
+  .searchWorkArea > * {
+    height: 45px;
+  }
+  .searchWorkArea > button {
+    width: 175px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .actions {
-        margin: 15px 0px;
-        width: 50%;
-        display: flex;
-        justify-content: space-around;
-    }
+  .authMenu {
+    width: 35%;
+    display: flex;
+    flex-direction: column;    
+    background-color: rgb(245, 245, 245);
+  }
 
-    .achievement {
-        width: 50%;
-        box-shadow: 0 0 25px solid rgb(100, 100, 100);
-        height: 200px;
-        display: flex;
-    }
+  .authMenuHeader {
+      display: flex;
+      flex-direction: column;    
+      height: 100%;
+      width: 100%;
+  }
 
-    .achievementPicture {
-        border-radius: 100%;
-        border: 3px solid rgb(100, 0, 150);
-        width: 45px;
-        height: 45px;
+  .authMenuHeaderColumn {
+      display: flex;
+      flex-direction: column;    
+      height: 100%;
+      width: 100%;
+  }
+  
+  .authMenuHeaderRow {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+  }
+
+  .authMenuHeaderRow > * {
+      align-self: center;
+  }
+
+  .authMenuFooter {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .authMenuFooter > * {
+      align-self: flex-start;
+  }
+
+  .totalContainer {
+      display: flex;
+      background-color: rgb(245, 245, 245);
+  }
+
+    .vacancyColumn {
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         align-items: center;
     }
 
-    .achievementDesc {
-        margin: 0px 25px;
+    .vacancyBlock {
         display: flex;
+        margin-left: 35px;
+        justify-content: center;
+    }
+
+    .vacancyItem {
+        display: flex;
+        margin: 35px;
         flex-direction: column;
     }
 
-     .achievementDescHeader {
-        font-size: 24px;
-        font-weight: bolder;
+    .vacancyDesc {
+        color: rgb(175, 175, 175);
+        font-size: 12px;
     }
 
-    .action {
-        cursor: pointer;
-        color: rgb(0, 0, 255);
-    }
-
-    .resumeBenefits {
+    .btnsContainer {
+        margin-left: 75px;
+        width: 50%;
         display: flex;
         justify-content: space-around;
-        width: 75%;
     }
-
-    .resumeBenefit {
-        width: 20%;
-        height: 50px;
-        box-sizing: border-box;
-        padding: 15px;
-        border-radius: 5px;
-        border: 1px solid rgb(175, 175, 175);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .resumeHeader {
-        color: rgb(0, 0, 255);
-        font-size: 24px;
-        display: block;
-    }
-
-    .btnAction {
-        margin: 15px;
-    }
-
+    
     .contextMenu {
         width: 325px;
         height: 375px;
@@ -1068,5 +1478,6 @@ export default {
         flex-direction: column;
         justify-content: space-between;
     }
+
 
 </style>

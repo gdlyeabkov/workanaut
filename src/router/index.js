@@ -23,6 +23,7 @@ import Mailings from '../views/Mailings.vue'
 import Images from '../views/Images.vue'
 import ConnectedServices from '../views/ConnectedServices.vue'
 import MyApps from '../views/MyApps.vue'
+import AuthPage from '../views/AuthPage.vue'
 
 Vue.use(VueRouter)
 
@@ -141,6 +142,11 @@ const routes = [
     path: '/settings',
     name: 'Settings',
     component: Settings
+  },
+  {
+    path: '/auth',
+    name: 'AuthPage',
+    component: AuthPage
   },
   
 ]

@@ -211,7 +211,7 @@ export default {
                 phone: this.feedback
               }, 'workanautsecret', { expiresIn: '30m' })
               localStorage.setItem('workanauttoken', this.token)
-              this.$router.push({ name: 'PersonalArea' })
+              this.$router.push({ name: 'AuthPage' })
               // $router.push({ name: 'Check', query: { feedback: feedback } })
             } else if(JSON.parse(result).status.includes('Error')){
               alert('Ошикбка входа')  
@@ -250,7 +250,7 @@ export default {
                 phone: this.feedback
               }, 'workanautsecret', { expiresIn: '30m' })
               localStorage.setItem('workanauttoken', this.token)
-              this.$router.push({ name: 'PersonalArea' })
+              this.$router.push({ name: 'AuthPage' })
               // $router.push({ name: 'Check', query: { feedback: feedback } })
             } else if(JSON.parse(result).status.includes('Error')){
               this.errors = 'Неправильные данные для входа. Пожалуйста, попробуйте снова.'

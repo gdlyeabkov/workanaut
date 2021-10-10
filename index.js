@@ -81,6 +81,9 @@ const AspirantSchema = new mongoose.Schema({
     address: String,
     socialsNetworks: [mongoose.Schema.Types.Map],
     messages: [mongoose.Schema.Types.Map],
+    responses: [mongoose.Schema.Types.Map],
+    vacancies: [mongoose.Schema.Types.Map],
+    invites: [mongoose.Schema.Types.Map],
     resumes: [mongoose.Schema.Types.Map]
 }, { collection : 'myaspirants' });
 
@@ -326,6 +329,53 @@ app.get('/api/resumes/create', (req, res)=>{
                 })
             }
         })
+    })
+})
+
+app.get('/api/views/add', (req, res) => {
+    
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    
+    ResumeModel.updateOne({ _id: req.query.resumeid },
+        {
+            $inc: views        
+        }, (err, user) => {
+        if(err){
+            return res.json({ "status": "Error" })
+        } else {
+
+            return res.json({ "status": "OK" })
+        }
+    })
+})
+
+app.get('/api/responses/add', (req, res) => {
+    
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    
+    AspirantModel.updateOne({ feedback: req.query.aspirantfeedback },
+        { $push: 
+            {
+                responses: [
+                    {
+                        employer: resume.employerid
+                    }
+                ]
+                
+            }
+    }, (err, user) => {
+        if(err){
+            return res.json({ "status": "Error" })
+        } else {
+
+            return res.json({ "status": "OK" })
+        }
     })
 })
 
