@@ -4,7 +4,7 @@
         <div>
             <div class="bar">
                 <div class="barItem">
-                <div class="logo">
+                <div @click="$router.push({ name: 'AuthPage', query: { usertype: userType } })" class="logo">
                     hh
                 </div>
                 <span class="help">
@@ -590,7 +590,97 @@
                     </span>
                 </div>
                 <div class="vacancies">
-                    <div class="vacancyItem">
+                    <div v-if="userType.includes('aspirant')">
+                        <div v-for="resume in resumes" :key="resume._id" class="vacancyItem">
+                            <div class="vacancyItemBenefits">
+                                <div class="vacancyItemBenefit vacancyItemBenefitFirst">
+                                    Отклик без резюме
+                                </div>
+                                <div class="vacancyItemBenefit vacancyItemBenefitSecond">
+                                    Будьте первыми
+                                </div>
+                            </div>
+                            <div class="vacancyItemHeader">
+                                <span class="vacancyItemName">
+                                    {{ resume.profession }}
+                                </span>
+                                <span class="vacancyItemSalary">
+                                    до {{ "46 000" }} руб.
+                                </span>
+                            </div>
+                            <div class="vacancyItemAux vacancyItemAuxRow">
+                                <span>
+                                    {{ resume.company }}
+                                </span>
+                                <span class="material-icons">
+                                    done
+                                </span>
+                            </div>
+                            <span class="vacancyItemAux">
+                                {{ resume.city }}
+                            </span>
+                            <div class="vacancyItemDesc">
+                                <span >
+                                    Погрузка-разгрузка входных металлических дверей. Перемещение дверей по территории склада.
+                                </span>
+                                <img width="125px" :src="`https://hhcdn.ru/employer-logo/3796715.jpeg`" alt="">
+                            </div>
+                            <div>
+                                <button class="btn btn-primary">
+                                    Откликнуться
+                                </button>
+                                <button class="btn btn-light">
+                                    Показать контакты
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="userType.includes('employer')">
+                        <div v-for="resume in resumes" :key="resume._id" class="vacancyItem">
+                            <div class="vacancyItemBenefits">
+                                <div class="vacancyItemBenefit vacancyItemBenefitFirst">
+                                    Отклик без резюме
+                                </div>
+                                <div class="vacancyItemBenefit vacancyItemBenefitSecond">
+                                    Будьте первыми
+                                </div>
+                            </div>
+                            <div class="vacancyItemHeader">
+                                <span class="vacancyItemName">
+                                    {{ resume.profession }}
+                                </span>
+                                <span class="vacancyItemSalary">
+                                    до {{ "46 000" }} руб.
+                                </span>
+                            </div>
+                            <div class="vacancyItemAux vacancyItemAuxRow">
+                                <span>
+                                    {{ resume.company }}
+                                </span>
+                                <span class="material-icons">
+                                    done
+                                </span>
+                            </div>
+                            <span class="vacancyItemAux">
+                                {{ resume.city }}
+                            </span>
+                            <div class="vacancyItemDesc">
+                                <span >
+                                    Погрузка-разгрузка входных металлических дверей. Перемещение дверей по территории склада.
+                                </span>
+                                <img width="125px" :src="`https://hhcdn.ru/employer-logo/3796715.jpeg`" alt="">
+                            </div>
+                            <div>
+                                <button class="btn btn-primary">
+                                    Откликнуться
+                                </button>
+                                <button class="btn btn-light">
+                                    Показать контакты
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="vacancyItem">
                         <div class="vacancyItemBenefits">
                             <div class="vacancyItemBenefit vacancyItemBenefitFirst">
                                 Отклик без резюме
@@ -761,50 +851,7 @@
                                 Показать контакты
                             </button>
                         </div>
-                    </div>
-                    <div class="vacancyItem">
-                        <div class="vacancyItemBenefits">
-                            <div class="vacancyItemBenefit vacancyItemBenefitFirst">
-                                Отклик без резюме
-                            </div>
-                            <div class="vacancyItemBenefit vacancyItemBenefitSecond">
-                                Будьте первыми
-                            </div>
-                        </div>
-                        <div class="vacancyItemHeader">
-                            <span class="vacancyItemName">
-                                Грузчик на склад
-                            </span>
-                            <span class="vacancyItemSalary">
-                                до {{ "46 000" }} руб.
-                            </span>
-                        </div>
-                        <div class="vacancyItemAux vacancyItemAuxRow">
-                            <span>
-                                Входные двери Ferroni
-                            </span>
-                            <span class="material-icons">
-                                done
-                            </span>
-                        </div>
-                        <span class="vacancyItemAux">
-                            Калининград
-                        </span>
-                        <div class="vacancyItemDesc">
-                            <span >
-                                Погрузка-разгрузка входных металлических дверей. Перемещение дверей по территории склада.
-                            </span>
-                            <img width="125px" :src="`https://hhcdn.ru/employer-logo/3796715.jpeg`" alt="">
-                        </div>
-                        <div>
-                            <button class="btn btn-primary">
-                                Откликнуться
-                            </button>
-                            <button class="btn btn-light">
-                                Показать контакты
-                            </button>
-                        </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -816,19 +863,160 @@
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 
+import * as jwt from 'jsonwebtoken'
+
 export default {
     name: 'Vacancies',
     data(){
         return {
+            resumes: [],
+            userType: 'aspirant',
             keywords: '',
             toggler: 'vacancies',
             offers: [],
-            workType: 'Постоянная работа'
+            workType: 'Постоянная работа',
+            token: localStorage.getItem('workanauttoken')
         }
     },
     mounted(){
-        this.keywords = this.$route.query.keywords
-        this.workType = this.$route.query.worktype
+        
+        jwt.verify(this.token, 'workanautsecret', (err, decoded) => {
+            if (err) {
+                this.$router.push({ name: "Login", query: { logintype: 'employee' } })
+            } else {
+                this.userType = this.$route.query.usertype
+                this.keywords = this.$route.query.keywords
+                this.workType = this.$route.query.worktype
+                
+                // if(this.userType.includes('aspirant')){
+                //     fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
+                //         mode: 'cors',
+                //         method: 'GET'
+                //     }).then(response => response.body).then(rb  => {
+                //         const reader = rb.getReader()
+                //         return new ReadableStream({
+                //         start(controller) {
+                //             function push() {
+                //             reader.read().then( ({done, value}) => {
+                //                 if (done) {
+                //                 console.log('done', done);
+                //                 controller.close();
+                //                 return;
+                //                 }
+                //                 controller.enqueue(value);
+                //                 console.log(done, value);
+                //                 push();
+                //             })
+                //             }
+                //             push();
+                //         }
+                //         });
+                //     }).then(stream => {
+                //         return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                //     })
+                //     .then(result => {
+                //         console.log(`JSON.parse(result): ${JSON.parse(result).aspirant.resumes}`)
+                //         this.resumes = JSON.parse(result).resumes
+                //         this.aspirant = JSON.parse(result).aspirant
+                //     })
+                // } else if(this.userType.includes('employer')){
+                //     fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
+                //         mode: 'cors',
+                //         method: 'GET'
+                //     }).then(response => response.body).then(rb  => {
+                //         const reader = rb.getReader()
+                //         return new ReadableStream({
+                //         start(controller) {
+                //             function push() {
+                //             reader.read().then( ({done, value}) => {
+                //                 if (done) {
+                //                 console.log('done', done);
+                //                 controller.close();
+                //                 return;
+                //                 }
+                //                 controller.enqueue(value);
+                //                 console.log(done, value);
+                //                 push();
+                //             })
+                //             }
+                //             push();
+                //         }
+                //         });
+                //     }).then(stream => {
+                //         return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                //     })
+                //     .then(result => {
+                //         this.resumes = JSON.parse(result).vacancies
+                //         this.aspirant = JSON.parse(result).employer
+                //         console.log(`JSON.parse(result): ${JSON.parse(result).vacancies}`)
+                //     })
+                // }
+
+                if(this.userType.includes('aspirant')){
+                    fetch(`http://localhost:4000/api/vacancies/get/`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                            }
+                            push();
+                        }
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        console.log(`JSON.parse(result).vacancies: ${JSON.parse(result).vacancies.length}`)
+                        this.resumes = JSON.parse(result).vacancies
+                    })
+                } else if(this.userType.includes('employer')){
+                    fetch(`http://localhost:4000/api/resumes/get/`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                            }
+                            push();
+                        }
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        console.log(`JSON.parse(result): ${JSON.parse(result).resumes.length}`)
+                        this.resumes = JSON.parse(result).resumes
+                    })
+                }
+
+            }
+        })
+
     },
     methods: {
         search(){

@@ -7,10 +7,10 @@
                     <div class="logo">
                         hh
                     </div>
-                    <span @click="$router.push({ name: 'PersonalArea' })" class="help">
+                    <span @click="$router.push({ name: 'PersonalArea', query: { usertype: userType } })" class="help">
                         Мои резюме
                     </span>
-                    <span @click="$router.push({ name: 'Responses' })" class="help">
+                    <span @click="$router.push({ name: 'Responses', query: { usertype: userType } })" class="help">
                         Отклики
                     </span>
                     <span class="help">
@@ -91,6 +91,14 @@ import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 export default {
     name: 'Response',
+    data(){
+        return {
+            userType: 'aspirant'
+        }
+    },
+    mounted(){
+        this.userType = this.$route.query.usertype
+    },
     components: {
         Header,
         Footer

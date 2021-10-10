@@ -7,7 +7,7 @@
                 <div class="logo">
                     hh
                 </div>
-                <span @click="$router.push({ name: 'PersonalArea' })" class="help">
+                <span @click="$router.push({ name: 'PersonalArea', query: { usertype: userType } })" class="help">
                     Мои резюме
                 </span>
                 <span @click="$router.push({ name: 'Responses', query: { responsetype: 'Активные' } })" class="help">
@@ -255,8 +255,12 @@ export default {
     name: 'FavoriteVacancies',
     data(){
         return {
+            userType: 'aspirant',
             currentPage: '1'
         }
+    },
+    mounted(){
+        this.userType = this.$route.query.usertype
     },
     components: {
         Header,

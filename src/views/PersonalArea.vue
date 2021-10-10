@@ -4,13 +4,18 @@
         <div>
             <div class="bar">
                 <div class="barItem">
-                <div @click="$router.push({ name: 'AuthPage' })" class="logo">
+                <div @click="$router.push({ name: 'AuthPage', query: { usertype: userType } })" class="logo">
                     hh
                 </div>
-                <span @click="$router.push({ name: 'PersonalArea' })" class="help">
-                    Мои резюме
+                <span @click="$router.push({ name: 'PersonalArea', query: { usertype: userType }  })" class="help">
+                    {{
+                        userType.includes('employer') ?
+                            "Мои вакансии"
+                        :
+                            "Мои резюме"
+                    }}
                 </span>
-                <span @click="$router.push({ name: 'Responses', query: { responsetype: 'Активные' } })" class="help">
+                <span @click="$router.push({ name: 'Responses', query: { usertype: userType, responsetype: 'Активные' } })" class="help">
                     Отклики
                 </span>
                 <span class="help">
@@ -25,7 +30,12 @@
                         Поиск
                     </span>
                     <button class="withoutBackgroundBtn createResumeBtn">
-                        Создать резюме
+                        {{
+                            userType.includes('employer') ?
+                                "Создать вакансию"
+                            :
+                                "Создать резюме"
+                        }}
                     </button>
                     <span @click="$router.push({ name: 'FavoriteVacancies' })" class="areaShortcuts material-icons-outlined">
                         star_outline
@@ -412,20 +422,30 @@
             </div>   
             <div class="main">
                 <div class="actions">
-                    <button  @click="$router.push({ name: 'MyResume' })" class="btn btn-primary">
-                        Создать резюме
+                    <button  @click="$router.push({ name: 'MyResume', query: { usertype: userType } })" class="btn btn-primary">
+                        {{
+                            userType.includes('employer') ?
+                                "Создать вакансию"
+                            :
+                                "Создать резюме"
+                        }}
                     </button>
-                    <button @click="findWork()" class="btn btn-primary">
+                    <button v-if="userType.includes('aspirant')" @click="findWork()" class="btn btn-primary">
                         Найти работу
                     </button>
-                    <button @click="orderResume()" class="btn btn-primary">
+                    <button v-if="userType.includes('aspirant')" @click="orderResume()" class="btn btn-primary">
                         Заказать резюме
                     </button>
                 </div>
                 <h3>
-                    Мои резюме
+                    {{
+                        userType.includes('aspirant') ?
+                            "Мои резюме"
+                        :
+                            "Мои вакансии"
+                    }}
                 </h3>
-                <div class="achievement">
+                <div v-if="userType.includes('aspirant')" class="achievement">
                     <div class="achievementPicture">
                         0/10
                     </div>
@@ -565,6 +585,7 @@ export default {
     name: 'PersonalArea',
     data(){
         return {
+            userType: 'aspirant',
             resumes: [],
             aspirant: {},
             token: window.localStorage.getItem('workanauttoken'),
@@ -580,6 +601,8 @@ export default {
     },
     mounted(){
         
+        this.userType = this.$route.query.usertype
+
         document.body.addEventListener("click", (event) => {
             if(!event.target.id.includes('context'))
                 this.contextMenu = false
@@ -625,36 +648,71 @@ export default {
                 //     console.log(`JSON.parse(result): ${JSON.parse(result)}`)
                 // })
                 console.log(`decoded: ${decoded.phone}`)
-                fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
-                    mode: 'cors',
-                    method: 'GET'
-                }).then(response => response.body).then(rb  => {
-                    const reader = rb.getReader()
-                    return new ReadableStream({
-                    start(controller) {
-                        function push() {
-                        reader.read().then( ({done, value}) => {
-                            if (done) {
-                            console.log('done', done);
-                            controller.close();
-                            return;
+                
+                if(this.userType.includes('aspirant')){
+                    fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
                             }
-                            controller.enqueue(value);
-                            console.log(done, value);
                             push();
-                        })
                         }
-                        push();
-                    }
-                    });
-                }).then(stream => {
-                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
-                })
-                .then(result => {
-                    console.log(`JSON.parse(result): ${JSON.parse(result).aspirant.resumes}`)
-                    this.resumes = JSON.parse(result).resumes
-                    this.aspirant = JSON.parse(result).aspirant
-                })
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        console.log(`JSON.parse(result): ${JSON.parse(result).aspirant.resumes}`)
+                        this.resumes = JSON.parse(result).resumes
+                        this.aspirant = JSON.parse(result).aspirant
+                    })
+                } else if(this.userType.includes('employer')){
+                    fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                            }
+                            push();
+                        }
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        // console.log(`JSON.parse(result): ${JSON.parse(result).aspirant.resumes}`)
+                        this.resumes = JSON.parse(result).vacancies
+                        this.aspirant = JSON.parse(result).employer
+                    })
+                }
+
             }
         })
     },

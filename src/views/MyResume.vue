@@ -7,10 +7,15 @@
                 <div class="logo">
                     hh
                 </div>
-                <span @click="$router.push({ name: 'PersonalArea' })" class="help">
-                    Мои резюме
+                <span @click="$router.push({ name: 'PersonalArea', query: { usertype: userType } })" class="help">
+                    {{
+                        userType.includes('employer') ?
+                            "Мои вакансии"
+                        :
+                            "Мои резюме"
+                    }}
                 </span>
-                <span @click="$router.push({ name: 'Responses', query: { responsetype: 'Активные' } })" class="help">
+                <span @click="$router.push({ name: 'Responses', query: { usertype: userType, responsetype: 'Активные' } })" class="help">
                     Отклики
                 </span>
                 <span class="help">
@@ -42,14 +47,19 @@
                 </div>
             </div>   
             <h2>
-                Ваше резюме
+                {{
+                     userType.includes('aspirant') ?
+                        "Ваше резюме"
+                    :
+                        "Ваша вакансия"
+                }}
             </h2>
             <div class="actions">
                 <div class="action">
                     <button @click="uploadFromFile()" class="btn btn-primary">
                         Загрузить из файла
                     </button>
-                    <button @click="createResume()" class="withoutBackgroundBtn createResumeBtn btn btn-primary">
+                    <button v-if="userType.includes('aspirant')" @click="createResume()" class="withoutBackgroundBtn createResumeBtn btn btn-primary">
                         Заказать резюме
                     </button>
                 </div>
@@ -57,94 +67,184 @@
                     По-русски
                 </button>
             </div>
-            <h2>
-                Контактные данные
-            </h2>
-            <div class="inputData">
-                <div class="aboutMe">
-                    <label for="">
-                        Имя
-                    </label>
-                    <input type="text" class="w-50 form-control" required v-model="name">
-                </div>
-                <div class="aboutMe">
-                    <label for="">
-                        Фамилия
-                    </label>
-                    <input type="text" class="w-50 form-control" required v-model="secondName">
-                </div>
-                <div class="aboutMe">
-                    <label for="">
-                        Город проживания
-                    </label>
-                    <input type="text" class="w-50 form-control" required v-model="city">
-                </div>
-            </div>
-            <h2>
-                Основная информация
-            </h2>
-            <div class="inputData">
-                <div class="aboutMe">
-                    <label for="">
-                        Дата рождения
-                    </label>
-                    <input type="date" class="w-50 form-control" required v-model="born">
-                </div>
-                <div class="aboutMe">
-                    <label for="">
-                        Пол
-                    </label>
-                    <div class="case">
-                        <div class="aboutMe">
-                            <input value="Мужской" name="gender" type="radio" v-model="gender" />
-                            <label for="">
-                                Мужской
-                            </label>
-                        </div>
-                        <div class="aboutMe">
-                            <input value="Женский" name="gender" type="radio" v-model="gender" />
-                            <label for="">
-                                Женский
-                            </label>
-                        </div>        
-                    </div>
-                </div>
-                <div class="aboutMe">
-                    <label for="">
-                        Гражданство
-                    </label>
-                    <input type="text" class="w-50 form-control" required v-model="citizenship">
-                </div>
-                <div class="aboutMe">
-                    <label for="">
-                        Опыт работы
-                    </label>
-                    <div class="case">
-                        <div class="aboutMe">
-                            <input value="Есть опыт работы" @change="auxBlock = true" name="experience" type="radio" v-model="experience" />
-                            <label for="">
-                                Есть опыт работы
-                            </label>
-                        </div>
-                        <div class="aboutMe">
-                            <input @change="auxBlock = false" value="Нет опыта работы" name="experience" type="radio" v-model="experience" />
-                            <label for="">
-                                Нет опыта работы
-                            </label>
-                        </div>        
-                    </div>
-                </div>
-            </div>
-            <div v-if="auxBlock">
-                <h3>
-                    Специальность
-                </h3>
+            <div v-if="userType.includes('aspirant')">
+                <h2>
+                    Контактные данные
+                </h2>
                 <div class="inputData">
                     <div class="aboutMe">
                         <label for="">
-                            Желаемая должность
+                            Имя
+                        </label>
+                        <input type="text" class="w-50 form-control" required v-model="name">
+                    </div>
+                    <div class="aboutMe">
+                        <label for="">
+                            Фамилия
+                        </label>
+                        <input type="text" class="w-50 form-control" required v-model="secondName">
+                    </div>
+                    <div class="aboutMe">
+                        <label for="">
+                            Город проживания
+                        </label>
+                        <input type="text" class="w-50 form-control" required v-model="city">
+                    </div>
+                </div>
+                <h2>
+                    Основная информация
+                </h2>
+                <div class="inputData">
+                    <div class="aboutMe">
+                        <label for="">
+                            Дата рождения
+                        </label>
+                        <input type="date" class="w-50 form-control" required v-model="born">
+                    </div>
+                    <div class="aboutMe">
+                        <label for="">
+                            Пол
+                        </label>
+                        <div class="case">
+                            <div class="aboutMe">
+                                <input value="Мужской" name="gender" type="radio" v-model="gender" />
+                                <label for="">
+                                    Мужской
+                                </label>
+                            </div>
+                            <div class="aboutMe">
+                                <input value="Женский" name="gender" type="radio" v-model="gender" />
+                                <label for="">
+                                    Женский
+                                </label>
+                            </div>        
+                        </div>
+                    </div>
+                    <div class="aboutMe">
+                        <label for="">
+                            Гражданство
+                        </label>
+                        <input type="text" class="w-50 form-control" required v-model="citizenship">
+                    </div>
+                    <div class="aboutMe">
+                        <label for="">
+                            Опыт работы
+                        </label>
+                        <div class="case">
+                            <div class="aboutMe">
+                                <input value="Есть опыт работы" @change="auxBlock = true" name="experience" type="radio" v-model="experience" />
+                                <label for="">
+                                    Есть опыт работы
+                                </label>
+                            </div>
+                            <div class="aboutMe">
+                                <input @change="auxBlock = false" value="Нет опыта работы" name="experience" type="radio" v-model="experience" />
+                                <label for="">
+                                    Нет опыта работы
+                                </label>
+                            </div>        
+                        </div>
+                    </div>
+                </div>
+                <div v-if="auxBlock">
+                    <h3>
+                        Специальность
+                    </h3>
+                    <div class="inputData">
+                        <div class="aboutMe">
+                            <label for="">
+                                Желаемая должность
+                            </label>
+                            <input type="text" class="w-50 form-control" required v-model="profession">
+                        </div>
+                        <div class="aboutMe">
+                            <label for="">
+                                Зарплата
+                            </label>
+                            <input type="text" class="w-50 form-control" required v-model="salary">
+                        </div>
+                        <div class="aboutMe">
+                            <label for="">
+                                Профессиональная область
+                            </label>
+                            <input type="text" class="w-50 form-control" required v-model="specializations">
+                        </div>
+                    </div>
+                    <h3>
+                        Опыт работы
+                    </h3>
+                    <div class="inputData">
+                        <div class="aboutMe">
+                            <label for="">
+                                Места работы
+                            </label>
+                            <input type="text" class="w-50 form-control" required v-model="workPlaces">
+                        </div>
+                        <div class="aboutMe">
+                            <label for="">
+                                О себе
+                            </label>
+                            <input type="text" class="w-50 form-control" required v-model="about">
+                        </div>
+                        <div class="aboutMe">
+                            <label for="">
+                                Ключевые навыки
+                            </label>
+                            <input type="text" class="w-50 form-control" required v-model="skills">
+                        </div>
+                    </div>
+                    <h3>
+                        Образование
+                    </h3>
+                    <div class="inputData">
+                        <div class="aboutMe">
+                            <label for="">
+                                Уровень
+                            </label>
+                            <input type="text" class="w-50 form-control" required v-model="level">
+                        </div>
+                    </div>
+                    <h3>
+                        Владение языками
+                    </h3>
+                    <div class="inputData">
+                        <div class="aboutMe">
+                            <label for="">
+                                Родной язык
+                            </label>
+                            <input type="text" class="w-50 form-control" required v-model="lanuage">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-else-if="userType.includes('employer')">
+                <h2>
+                    Контактные данные
+                </h2>
+                <div class="inputData">
+                    <div class="aboutMe">
+                        <label for="">
+                            Профессия
                         </label>
                         <input type="text" class="w-50 form-control" required v-model="profession">
+                    </div>
+                    <div class="aboutMe">
+                        <label for="">
+                            Город проживания
+                        </label>
+                        <input type="text" class="w-50 form-control" required v-model="city">
+                    </div>
+                    <div class="aboutMe">
+                        <label for="">
+                            Компания
+                        </label>
+                        <input type="text" class="w-50 form-control" required v-model="company">
+                    </div>
+                    <div class="aboutMe">
+                        <label for="">
+                            Дата опубликования
+                        </label>
+                        <input type="text" class="w-50 form-control" required v-model="born">
                     </div>
                     <div class="aboutMe">
                         <label for="">
@@ -152,63 +252,16 @@
                         </label>
                         <input type="text" class="w-50 form-control" required v-model="salary">
                     </div>
-                    <div class="aboutMe">
-                        <label for="">
-                            Профессиональная область
-                        </label>
-                        <input type="text" class="w-50 form-control" required v-model="specializations">
-                    </div>
-                </div>
-                <h3>
-                    Опыт работы
-                </h3>
-                <div class="inputData">
-                    <div class="aboutMe">
-                        <label for="">
-                            Места работы
-                        </label>
-                        <input type="text" class="w-50 form-control" required v-model="workPlaces">
-                    </div>
-                    <div class="aboutMe">
-                        <label for="">
-                            О себе
-                        </label>
-                        <input type="text" class="w-50 form-control" required v-model="about">
-                    </div>
-                    <div class="aboutMe">
-                        <label for="">
-                            Ключевые навыки
-                        </label>
-                        <input type="text" class="w-50 form-control" required v-model="skills">
-                    </div>
-                </div>
-                <h3>
-                    Образование
-                </h3>
-                <div class="inputData">
-                    <div class="aboutMe">
-                        <label for="">
-                            Уровень
-                        </label>
-                        <input type="text" class="w-50 form-control" required v-model="level">
-                    </div>
-                </div>
-                <h3>
-                    Владение языками
-                </h3>
-                <div class="inputData">
-                    <div class="aboutMe">
-                        <label for="">
-                            Родной язык
-                        </label>
-                        <input type="text" class="w-50 form-control" required v-model="lanuage">
-                    </div>
                 </div>
             </div>
             
-            <button type="submit" @click="createResume()" class="btn btn-primary">
+            <button v-if="userType.includes('aspirant')" type="submit" @click="createResume()" class="btn btn-primary">
                 Сохранить и опубликовать
             </button>
+            <button v-else-if="userType.includes('employer')" type="submit" @click="createVacancy()" class="btn btn-primary">
+                Сохранить и опубликовать
+            </button>
+
         </div>
         <Footer />
     </div>
@@ -224,6 +277,8 @@ export default {
     name: 'MyResume',
     data(){
         return {
+            userType: 'aspirant',
+            company: '',
             name: '',
             secondName: '',
             city: '',
@@ -249,10 +304,46 @@ export default {
                 this.$router.push({ name: "Login", query: { logintype: 'employee' } })
             } else {
                 this.feedback = decoded.phone
+                this.userType = this.$route.query.usertype
             }
         })
     },
     methods: {
+        createVacancy(){
+            fetch(`http://localhost:4000/api/vacancies/add/?employeremail=${this.feedback}&vacancycity=${this.city}&vacancyborn=${this.born}&vacancycompany=${this.company}&vacancysalary=${this.salary}&vacancyprofession=${this.profession}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                start(controller) {
+                    function push() {
+                    reader.read().then( ({done, value}) => {
+                        if (done) {
+                        console.log('done', done);
+                        controller.close();
+                        return;
+                        }
+                        controller.enqueue(value);
+                        console.log(done, value);
+                        push();
+                    })
+                    }
+                    push();
+                }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+                if(JSON.parse(result).status.includes('OK')){
+                    this.$router.push({ name: 'PersonalArea', query: { usertype: userType }  })
+                } else if(JSON.parse(result).status.includes('Error')){
+                    alert('Неправильные данные для входа. Пожалуйста, попробуйте снова.')
+                }
+            })
+        },
         createResume(){
             fetch(`http://localhost:4000/api/resumes/create/?aspirantemail=${this.feedback}&resumename=${this.name}&resumesecondname=${this.secondName}&resumecity=${this.city}&resumeborn=${this.born}&resumegender=${this.gender}&resumecitizenship=${this.citizenship}&resumeexperience=${this.experience}&resumeprofession=${this.profession}&resumesalary=${this.salary}&resumespecializations=${this.specializations}&resumelevel=${this.level}&resumelanuage=${this.lanuage}&resumeskills=${this.skills}&resumeabout=${this.about}&resumeworkplaces=${this.workPlaces}`, {
                 mode: 'cors',
@@ -282,7 +373,7 @@ export default {
             .then(result => {
                 console.log(`JSON.parse(result): ${JSON.parse(result)}`)
                 if(JSON.parse(result).status.includes('OK')){
-                    this.$router.push({ name: 'PersonalArea' })
+                    this.$router.push({ name: 'PersonalArea', query: { usertype: this.userType }  })
                 } else if(JSON.parse(result).status.includes('Error')){
                     alert('Неправильные данные для входа. Пожалуйста, попробуйте снова.')
                 }

@@ -4,11 +4,16 @@
         <div class="main">
             <div class="bar">
                 <div class="barItem">
-                    <div class="logo">
+                    <div @click="$router.push({ name: 'AuthPage', query: { usertype: userType } })" class="logo">
                         hh
                     </div>
-                    <span @click="$router.push({ name: 'PersonalArea' })" class="help">
-                        Мои резюме
+                    <span @click="$router.push({ name: 'PersonalArea', query: { usertype: userType }  })" class="help">
+                        {{
+                            userType.includes('employer') ?
+                                "Мои вакансии"
+                            :
+                                "Мои резюме"
+                        }}
                     </span>
                     <span @click="$router.push({ name: 'Responses' })" class="help">
                         Отклики
@@ -68,7 +73,12 @@
                             </span>
                         </div>
                         <span>
-                            Вакансия
+                            {{
+                                userType.includes('aspirant') ?
+                                    "Вакансия"
+                                :       
+                                    "Резюме"
+                            }}
                         </span>
                         <div>
                             <span>
@@ -712,11 +722,13 @@ export default {
     name: 'Responses',
     data(){
         return {
+            userType: 'aspirant',
             responseType: 'Все отклики',
             responseStatus: 'Отказ'
         }
     },
     mounted(){
+        this.userType = this.$route.query.usertype
         this.responseType = this.$route.query.responsetype
     },
     components: {

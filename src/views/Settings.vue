@@ -683,6 +683,7 @@ export default {
     name: 'Settings',
     data(){
         return {
+            usertype: "aspirant", 
             currentSetting: 'Личные данные',
             unwatedTab: 'Вакансии',
             nameDialog: false,
@@ -718,6 +719,7 @@ export default {
             if (err) {
                 this.$router.push({ name: "Login", query: { logintype: 'employee' } })
             } else {
+                this.usertype = this.$route.query.usertype
                 // console.log(`decoded.phone: ${decoded.phone}`)
                 fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
                     mode: 'cors',
@@ -781,7 +783,7 @@ export default {
                 .then(result => {
                     console.log(`JSON.parse(result): ${JSON.parse(result)}`)
                     if(JSON.parse(result).status.includes('OK')){
-                        this.$router.push({ name: 'PersonalArea' })
+                        this.$router.push({ name: 'PersonalArea', query: { usertype: userType }  })
                     } else if(JSON.parse(result).status.includes('Error')){
                        alert('Ошибка сохранения поля')  
                     }

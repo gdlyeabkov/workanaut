@@ -81,8 +81,12 @@ export default {
     data(){
     return {
       feedback: '',
+      userType: 'aspirant',
       token: window.localStorage.getItem('workanauttoken')
     }
+  },
+  mounted(){
+    this.userType = this.$route.query.usertype
   },
   methods: {
     createAspirant() {
@@ -118,7 +122,7 @@ export default {
               phone: this.feedback
             }, 'workanautsecret', { expiresIn: '30m' })
             localStorage.setItem('workanauttoken', this.token)
-            this.$router.push({ name: 'PersonalArea' })
+            this.$router.push({ name: 'PersonalArea', query: { usertype: userType } })
             // this.$router.push({ name: 'Login', query: { logintype: 'employee' } })
           } else if(JSON.parse(result).status.includes('Error')){
             alert('Такой соискатель уже зарегестрирован')

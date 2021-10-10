@@ -376,10 +376,15 @@
                 <div class="logo">
                     hh
                 </div>
-                <span @click="$router.push({ name: 'PersonalArea' })" class="help">
-                    Мои резюме
+                <span @click="$router.push({ name: 'PersonalArea', query: { usertype: userType } })" class="help">
+                    {{
+                        userType.includes('aspirant') ?
+                            "Мои резюме"
+                        :
+                            "Мои вакансии"
+                    }}
                 </span>
-                <span @click="$router.push({ name: 'Responses', query: { responsetype: 'Активные' } })" class="help">
+                <span @click="$router.push({ name: 'Responses', query: { usertype: userType, responsetype: 'Активные' } })" class="help">
                     Отклики
                 </span>
                 <span class="help">
@@ -394,7 +399,12 @@
                         Поиск
                     </span>
                     <button class="withoutBackgroundBtn createResumeBtn">
-                        Создать резюме
+                        {{
+                            userType.includes('employer') ?
+                                "Создать вакансию"
+                            :
+                                "Создать резюме"
+                        }}
                     </button>
                     <span @click="$router.push({ name: 'FavoriteVacancies' })" class="areaShortcuts material-icons-outlined">
                         star_outline
@@ -781,7 +791,7 @@
             </div>
             <div class="searchWorkArea">
                 <input v-model="keywords" placeholder="Профессия, должность или компания" type="text" class="form-control">
-                <button @click="$router.push({ name: 'Vacancies', query: { keywords: keywords, worktype: 'Постоянная работа' } })" class="btn btn-primary">
+                <button @click="$router.push({ name: 'Vacancies', query: { usertype: userType, keywords: keywords, worktype: 'Постоянная работа' } })" class="btn btn-primary">
                     Найти
                 </button>
             </div>
@@ -806,7 +816,7 @@
                                     {{ aspirant.responses.length }}
                                 </span>
                             </div>
-                            <div class="authMenuHeaderRow">
+                            <div v-if="userType.includes('aspirant')" class="authMenuHeaderRow">
                                 <div>
                                     <span class="material-icons">
                                         visibility
@@ -819,7 +829,7 @@
                                     {{ resumes.length }}
                                 </span>
                             </div>
-                            <div class="authMenuHeaderRow">
+                            <div v-if="userType.includes('aspirant')" class="authMenuHeaderRow">
                                 <div>
                                     <span class="material-icons-outlined">
                                         star
@@ -847,8 +857,8 @@
                             </div>
                         </div>
                     </div>
-                    <hr />
-                    <div class="authMenuFooter">
+                    <hr  v-if="userType.includes('aspirant')" />
+                    <div v-if="userType.includes('aspirant')" class="authMenuFooter">
                         <h5>
                             Подработка
                         </h5>
@@ -985,6 +995,7 @@ export default {
     name: 'AuthPage',
     data(){
         return {
+            userType: 'aspirant',
             resumes: [],
             aspirant: {},
             token: window.localStorage.getItem('workanauttoken'),
@@ -1000,6 +1011,8 @@ export default {
     },
     mounted(){
         
+        this.userType = this.$route.query.usertype
+
         document.body.addEventListener("click", (event) => {
             if(!event.target.id.includes('context'))
                 this.contextMenu = false
