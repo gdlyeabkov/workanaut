@@ -254,7 +254,6 @@ export default {
               // $router.push({ name: 'Check', query: { feedback: feedback } })
             } else if(JSON.parse(result).status.includes('Error')){
               this.errors = 'Неправильные данные для входа. Пожалуйста, попробуйте снова.'
-
             }
         })
       }
@@ -389,7 +388,10 @@ export default {
   }
 
   .authErrors {
-    color: rgb(175, 0, 0);
+    color: rgb(175, 0, 0) !important;
+    text-decoration: none !important;
+    font-weight: bolder;
+    text-align: center;
   }
 
 </style>

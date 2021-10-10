@@ -33,7 +33,7 @@
                     <span @click="messageWindow = true" class="areaShortcuts material-icons-outlined">
                         mode_comment
                     </span>
-                    <span class="areaShortcuts material-icons-outlined">
+                    <span id="bell" @click="bellContextMenu = true" class="areaShortcuts material-icons-outlined">
                         notifications
                     </span>
                     <span id="context" @click="contextMenu = true"  class="areaShortcuts material-icons-outlined">
@@ -253,9 +253,23 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <span class="btn btn-primary material-icons">
+                                        <span id="more" @click="treeDotContextMenu = true" class="btn btn-primary material-icons">
                                             more_horiz
                                         </span>
+                                        <div v-if="treeDotContextMenu" class="treeDotContextMenu">
+                                            <span>
+                                                О компании
+                                            </span>
+                                            <span>
+                                                Участники чата
+                                            </span>
+                                            <span>
+                                                Отключить уведомления в чате
+                                            </span>
+                                            <span>
+                                                Это спам
+                                            </span>
+                                        </div>
                                     </div>
                                     <hr />
                                     <div class='charHeaderFooter'>
@@ -333,6 +347,35 @@
                                     </span>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="bellContextMenu" class="bellContextMenu">
+                    <div class="bellContextMenuRow">
+                        <span class="material-icons">
+                            info
+                        </span>
+                        <div class="bellContextMenuColumn">
+                            <span>
+                                Где вы ищите работу
+                            </span>
+                            <span>
+                                Указать место
+                            </span>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="bellContextMenuRow">
+                        <span class="material-icons">
+                            drafts
+                        </span>
+                        <div class="bellContextMenuColumn">
+                            <span>
+                                Нет новых вакансий в автопоиске
+                            </span>
+                            <span>
+                                Настроить автопоиск
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -530,7 +573,9 @@ export default {
             showOnlyUnreaded: true,
             responseStatus: 'Отказ',
             chatSelected: false,
-            currentMessage: ''
+            currentMessage: '',
+            bellContextMenu: false,
+            treeDotContextMenu: false,
         }
     },
     mounted(){
@@ -538,6 +583,13 @@ export default {
         document.body.addEventListener("click", (event) => {
             if(!event.target.id.includes('context'))
                 this.contextMenu = false
+
+            if(!event.target.id.includes('bell'))
+                this.bellContextMenu = false
+
+            if(!event.target.id.includes('more'))
+                this.treeDotContextMenu = false
+            
         })
     
         jwt.verify(this.token, 'workanautsecret', (err, decoded) => {
@@ -773,8 +825,8 @@ export default {
         box-sizing: border-box;
         padding: 35px;
         position: absolute;
-        top: 100px;
-        left: 950px;
+        top: 125px;
+        left: 1250px;
         z-index: 5;
         border: 1px solid rgb(225, 225, 225);
         box-shadow: 0 0 50px rgb(215, 205, 175);
@@ -970,6 +1022,50 @@ export default {
         box-sizing: border-box;
         padding: 25px;
         align-self: flex-start;
+    }
+
+    .treeDotContextMenu {
+        line-height: 35px;
+        width: 325px;
+        height: 175px;
+        background-color: rgb(255, 255, 255);
+        box-sizing: border-box;
+        padding: 15px 25px;
+        position: absolute;
+        top: 50px; 
+        left: 1350px;
+        z-index: 15;
+        display: flex;
+        flex-direction: column; 
+        box-shadow: 0 0 15px rgb(200, 200, 200);
+    }
+
+    .bellContextMenu {
+        width: 500px;
+        height: 275px;
+        background-color: rgb(255, 255, 255);
+        box-sizing: border-box;
+        padding: 35px;
+        position: absolute;
+        top: 125px;
+        left: 1000px;
+        z-index: 5;
+        border: 1px solid rgb(225, 225, 225);
+        box-shadow: 0 0 50px rgb(215, 205, 175);
+    }
+
+    .bellContextMenuRow {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .bellContextMenuColumn {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
 </style>

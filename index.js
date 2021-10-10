@@ -224,7 +224,7 @@ app.get('/api/aspirants/check', (req,res)=>{
             return res.json({ "status": "Error" })
         }
         if(allAspirants.length >= 1){
-            let query =  AspirantModel.findOne({'email': req.query.aspirantemail}, function(err, aspirant){
+            let query =  AspirantModel.findOne({ 'feedback': req.query.aspirantfeedback }, function(err, aspirant){
                 if (err){
                     return res.json({ "status": "Error" })
                 } else {
@@ -268,12 +268,12 @@ app.get('/api/aspirants/create', (req, res)=>{
         } else {
             let possibleEmail = ''
             let possiblePhone = ''
-            if(req.query.feedback.includes('@gmail.com')){
-                possibleEmail = req.query.feedback
-            } else if(req.query.feedback.includes('+7') && req.query.feedback.length === 12){
-                possiblePhone = req.query.feedback
+            if(req.query.aspirantfeedback.includes('@gmail.com')){
+                possibleEmail = req.query.aspirantfeedback
+            } else if(req.query.aspirantfeedback.includes('+7') && req.query.aspirantfeedback.length === 12){
+                possiblePhone = req.query.aspirantfeedback
             }
-            let newAspirant = new AspirantModel({ feedback: req.query.aspirantfeedback, password: "",  email: possibleEmail,  phone: possiblePhone, address: ""  });
+            let newAspirant = new AspirantModel({ feedback: req.query.aspirantfeedback, name: "", secondName: "", thirdName: "", password: "",  email: possibleEmail,  phone: possiblePhone, address: ""  });
             newAspirant.save(function (err) {
                 if(err){
                     return res.json({ "status": "Error" })
