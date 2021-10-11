@@ -2,27 +2,7 @@
     <div>
         <Header :currentPage="'Прикреплённые'" :auth="true" />
         <div>
-            <div class="bar">
-                <div class="barItem">
-                <div @click="$router.push({ name: 'AuthPage', query: { usertype: userType } })" class="logo">
-                    hh
-                </div>
-                <span class="help">
-                    Помощь
-                </span>
-                </div>
-                <div class="barItem">
-                <span>
-                    Поиск
-                </span>
-                <button class="withoutBackgroundBtn createResumeBtn">
-                    Создать резюме
-                </button>
-                <button class="withoutBackgroundBtn loginBtn">
-                    Войти
-                </button>
-                </div>
-            </div>
+            <BarAuth />
             <div class="searchWorkArea">
                 <input v-model="keywords" placeholder="Профессия, должность или компания" type="text" class="form-control">
                 <button @click="refreshSearch()" class="btn btn-primary">
@@ -43,7 +23,7 @@
                 </div>
             </div>
             <hr />
-            <div v-if="toggler.includes('vacancies')">
+            <div v-if="toggler.includes('vacancies') && userType.includes('aspirant')">
                 <span class="countOfResults">
                     {{ resumes.length }} вакансия «{{ keywords }}»
                 </span>
@@ -743,7 +723,7 @@
                                 </div>
                             </div>
                             <div class="vacancyItemHeader">
-                                <span class="vacancyItemName">
+                                <span @click="$router.push({ name: 'Vacancy', query: { usertype: userType, vacancyid: resume._id } })" class="vacancyItemName">
                                     {{ resume.profession }}
                                 </span>
                                 <span class="vacancyItemSalary">
@@ -797,7 +777,7 @@
                             </div>
                             <div class="vacancyItemAux vacancyItemAuxRow">
                                 <span>
-                                    {{ resume.company }}
+                                    {{ resume.salary }}
                                 </span>
                                 <span class="material-icons">
                                     done
@@ -1003,6 +983,7 @@
 
 <script>
 import Header from '@/components/Header.vue'
+import BarAuth from '@/components/BarAuth.vue'
 import Footer from '@/components/Footer.vue'
 
 import * as jwt from 'jsonwebtoken'
@@ -1081,7 +1062,6 @@ export default {
                     console.log(`JSON.parse(result).vacancies: ${JSON.parse(result).vacancies.length}`)
                     this.resumes = JSON.parse(result).vacancies
                     
-                    // this.tempResumes = this.resumes
                     this.tempResumes = this.resumes
 
                     this.resumes = this.resumes.filter(vacancy => {
@@ -1138,6 +1118,7 @@ export default {
     },
     components: {
         Header,
+        BarAuth,
         Footer
     }
 }
@@ -1357,7 +1338,11 @@ export default {
         color: rgb(0, 0, 255);
         font-size: 20px;
         font-weight: bolder;
+        cursor: pointer;
+    }
 
+    .vacancyItemName:hover {
+        color: rgb(255, 0, 0);
     }
 
     .vacancyItemHeader {

@@ -104,7 +104,7 @@ export default {
               phone: this.feedback
             }, 'workanautsecret', { expiresIn: '30m' })
             localStorage.setItem('workanauttoken', this.token)
-            this.$router.push({ name: 'PersonalArea', query: { usertype: userType } })
+            this.$router.push({ name: 'PersonalArea', query: { usertype: "aspirant" } })
             // this.$router.push({ name: 'Login', query: { logintype: 'employee' } })
           } else if(JSON.parse(result).status.includes('Error')){
             alert('Такой соискатель уже зарегестрирован')

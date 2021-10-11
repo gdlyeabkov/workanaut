@@ -2,25 +2,7 @@
     <div>
         <Header :currentPage="'Работадателям'" :auth="false" />
         <div>
-            <div class="bar">
-                <div class="barItem">
-                <div class="logo">
-                    hh
-                </div>
-                <span >
-                    Прайс-лист
-                </span>
-                <span class="help">
-                    Помощь
-                </span>
-                </div>
-                <div class="barItem">
-                    <button class="withoutBackgroundBtn createResumBtn">
-                        Войти
-                    </button>
-                </div>
-            </div>
-            
+            <Bar />
             <div class="supportBlock">
                 <span class="supportHeader">
                     Размещайте вакансию на hh.ru
@@ -93,11 +75,13 @@
 
 <script>
 import Header from '@/components/Header.vue'
+import Bar from '@/components/Bar.vue'
 import Footer from '@/components/Footer.vue'
 export default {
     name: 'Employers',
     components: {
         Header,
+        Bar,
         Footer
     }
 }
@@ -138,60 +122,4 @@ export default {
         margin: 25px 0px;
         display: flex;
     }
-
-    .bar {
-    height: 75px;
-    background-color: rgb(245, 245, 245);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-  }
-  
-  .barItem {
-    height: 75px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .barItem > * {
-    margin: 10px;
-  }
-
-  .help {
-    text-decoration: underline;
-    text-decoration-style: dotted;
-  }
-
-  .logo {
-    color: rgb(255, 255, 255);
-    font-weight: bolder;
-    font-size: 24px;
-    display: flex; 
-    justify-content: center;
-    align-items: center;
-    border-radius: 100%;
-    background-color: rgb(200, 0, 0);
-    width: 45px;
-    height: 45px
-  }
-
-  .withoutBackgroundBtn {
-    background-color: transparent;
-    border-radius: 25px;
-    width: 175px;
-  }
-
-  .createResumeBtn {
-    color: rgb(0, 125, 0);
-    border: 1px solid rgb(0, 125, 0);
-  }
-
-  .loginBtn {
-    cursor: pointer;
-    color: rgb(235, 235, 235);
-    border: 1px solid rgb(235, 235, 235);
-  }
-
-
 </style>

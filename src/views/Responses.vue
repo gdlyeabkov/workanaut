@@ -2,50 +2,7 @@
     <div>
         <Header :currentPage="'Отклики'" :auth="true" />
         <div class="main">
-            <div class="bar">
-                <div class="barItem">
-                    <div @click="$router.push({ name: 'AuthPage', query: { usertype: userType } })" class="logo">
-                        hh
-                    </div>
-                    <span @click="$router.push({ name: 'PersonalArea', query: { usertype: userType }  })" class="help">
-                        {{
-                            userType.includes('employer') ?
-                                "Мои вакансии"
-                            :
-                                "Мои резюме"
-                        }}
-                    </span>
-                    <span @click="$router.push({ name: 'Responses' })" class="help">
-                        Отклики
-                    </span>
-                    <span class="help">
-                        Помощь
-                    </span>
-                </div>
-                <div class="barItem">
-                    <span class="areaShortcuts material-icons-outlined">
-                        search
-                    </span>
-                    <span class="areaShortcutsLabel">
-                        Поиск
-                    </span>
-                    <button class="withoutBackgroundBtn createResumeBtn">
-                        Создать резюме
-                    </button>
-                    <span class="areaShortcuts material-icons-outlined">
-                        star_outline
-                    </span>
-                    <span class="areaShortcuts material-icons-outlined">
-                        mode_comment
-                    </span>
-                    <span class="areaShortcuts material-icons-outlined">
-                        notifications
-                    </span>
-                    <span class="areaShortcuts material-icons-outlined">
-                        person_outline
-                    </span>
-                </div>
-            </div>
+            <BarAuth />
             <h3>
                 Отклики и приглашения
             </h3>
@@ -716,6 +673,7 @@
 
 <script>
 import Header from '@/components/Header.vue'
+import BarAuth from '@/components/BarAuth.vue'
 import Footer from '@/components/Footer.vue'
 
 export default {
@@ -733,6 +691,7 @@ export default {
     },
     components: {
         Header,
+        BarAuth,
         Footer
     }
 }

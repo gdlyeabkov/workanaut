@@ -783,7 +783,7 @@ export default {
                 .then(result => {
                     console.log(`JSON.parse(result): ${JSON.parse(result)}`)
                     if(JSON.parse(result).status.includes('OK')){
-                        this.$router.push({ name: 'PersonalArea', query: { usertype: userType }  })
+                        this.$router.push({ name: 'PersonalArea', query: { usertype: this.userType }  })
                     } else if(JSON.parse(result).status.includes('Error')){
                        alert('Ошибка сохранения поля')  
                     }

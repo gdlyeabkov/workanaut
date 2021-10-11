@@ -2,375 +2,6 @@
     <div>
         <Header :currentPage="'Личный кабинет'" :auth="true" />
         <div>
-            <div v-if="messageWindow" class="backdrop">
-                <div class="messagesBlock">
-                    <div class="asideMessages">
-                        <div class="asideMessagesHeader">
-                            <span @click="messageWindow = false" class="material-icons">
-                                close
-                            </span>
-                            <h5>
-                                Сообщения
-                            </h5>
-                        </div>
-                        <div class="asideMessagesHeader">
-                            <input v-model="showOnlyUnreaded" type="checkbox" />
-                            <span>
-                                Показывать только непрочитанные
-                            </span>
-                        </div>
-                        <div class="asideMessagesBody">
-                            <div class="asideMessagesBodyItem" @click="chatSelected = true">
-                                <div class="avatar">
-                                </div>
-                                <div class="asideMessagesBodyItemContent">
-                                    <div class="asideMessagesBodyItemContentHeader">
-                                        <span>
-                                            Frontend разработчи...
-                                        </span>
-                                        <span>
-                                            12.09
-                                        </span>
-                                    </div>
-                                    <div class="asideMessagesBodyItemContentMain">
-                                        <span class="material-icons">
-                                            work
-                                        </span>
-                                        <span>
-                                            Лига цифровой экономики
-                                        </span>
-                                    </div>
-                                    <div class="asideMessagesBodyItemContentFooter">
-                                        <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
-                                            {{ responseStatus }}
-                                        </span>
-                                        <span>
-                                            Здраствуйте, ...
-                                        </span>
-                                        <div class="countOfUnreadedMessages">
-                                            1
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="asideMessagesBodyItem">
-                                <div class="avatar">
-                                </div>
-                                <div class="asideMessagesBodyItemContent">
-                                    <div class="asideMessagesBodyItemContentHeader">
-                                        <span>
-                                            Frontend разработчи...
-                                        </span>
-                                        <span>
-                                            12.09
-                                        </span>
-                                    </div>
-                                    <div class="asideMessagesBodyItemContentMain">
-                                        <span class="material-icons">
-                                            work
-                                        </span>
-                                        <span>
-                                            Лига цифровой экономики
-                                        </span>
-                                    </div>
-                                    <div class="asideMessagesBodyItemContentFooter">
-                                        <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
-                                            {{ responseStatus }}
-                                        </span>
-                                        <span>
-                                            Здраствуйте, ...
-                                        </span>
-                                        <div class="countOfUnreadedMessages">
-                                            1
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="asideMessagesBodyItem">
-                                <div class="avatar">
-                                </div>
-                                <div class="asideMessagesBodyItemContent">
-                                    <div class="asideMessagesBodyItemContentHeader">
-                                        <span>
-                                            Frontend разработчи...
-                                        </span>
-                                        <span>
-                                            12.09
-                                        </span>
-                                    </div>
-                                    <div class="asideMessagesBodyItemContentMain">
-                                        <span class="material-icons">
-                                            work
-                                        </span>
-                                        <span>
-                                            Лига цифровой экономики
-                                        </span>
-                                    </div>
-                                    <div class="asideMessagesBodyItemContentFooter">
-                                        <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
-                                            {{ responseStatus }}
-                                        </span>
-                                        <span>
-                                            Здраствуйте, ...
-                                        </span>
-                                        <div class="countOfUnreadedMessages">
-                                            1
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="asideMessagesBodyItem">
-                                <div class="avatar">
-                                </div>
-                                <div class="asideMessagesBodyItemContent">
-                                    <div class="asideMessagesBodyItemContentHeader">
-                                        <span>
-                                            Frontend разработчи...
-                                        </span>
-                                        <span>
-                                            12.09
-                                        </span>
-                                    </div>
-                                    <div class="asideMessagesBodyItemContentMain">
-                                        <span class="material-icons">
-                                            work
-                                        </span>
-                                        <span>
-                                            Лига цифровой экономики
-                                        </span>
-                                    </div>
-                                    <div class="asideMessagesBodyItemContentFooter">
-                                        <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
-                                            {{ responseStatus }}
-                                        </span>
-                                        <span>
-                                            Здраствуйте, ...
-                                        </span>
-                                        <div class="countOfUnreadedMessages">
-                                            1
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="asideMessagesBodyItem">
-                                <div class="avatar">
-                                </div>
-                                <div class="asideMessagesBodyItemContent">
-                                    <div class="asideMessagesBodyItemContentHeader">
-                                        <span>
-                                            Frontend разработчи...
-                                        </span>
-                                        <span>
-                                            12.09
-                                        </span>
-                                    </div>
-                                    <div class="asideMessagesBodyItemContentMain">
-                                        <span class="material-icons">
-                                            work
-                                        </span>
-                                        <span>
-                                            Лига цифровой экономики
-                                        </span>
-                                    </div>
-                                    <div class="asideMessagesBodyItemContentFooter">
-                                        <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
-                                            {{ responseStatus }}
-                                        </span>
-                                        <span>
-                                            Здраствуйте, ...
-                                        </span>
-                                        <div class="countOfUnreadedMessages">
-                                            1
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mainMessages">
-                        <div v-if="!chatSelected" class="chatPreview">
-                            <span class="material-icons">
-                                chat
-                            </span>
-                            <span>
-                                Выберите чат, чтобы начать общение
-                            </span>
-                        </div>
-                        <div v-else-if="chatSelected" class="chat">
-                            <div class="chatHeader">
-                                <div class="chatHeaderBody">
-                                    <div class="chatHeaderBodyContent">
-                                        <div class="avatar">
-                                        </div>
-                                        <div class="asideMessagesBodyItemContent">
-                                            <div class="asideMessagesBodyItemContentHeader">
-                                                <span>
-                                                    Frontend разработчи...
-                                                </span>
-                                            </div>
-                                            <div class="asideMessagesBodyItemContentFooter">
-                                                <span>
-                                                    Программист
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <span id="more" @click="treeDotContextMenu = true" class="btn btn-primary material-icons">
-                                        more_horiz
-                                    </span>
-                                    <div v-if="treeDotContextMenu" class="treeDotContextMenu">
-                                        <span>
-                                            О компании
-                                        </span>
-                                        <span>
-                                            Участники чата
-                                        </span>
-                                        <span>
-                                            Отключить уведомления в чате
-                                        </span>
-                                        <span>
-                                            Это спам
-                                        </span>
-                                    </div>
-                                </div>
-                                <hr />
-                                <div class='charHeaderFooter'>
-                                    <span>
-                                        Приглашение на вакансию
-                                        <span>
-                                            Junoour Frontend
-                                        </span>
-                                    </span>
-                                </div>
-                                <hr />
-                            </div>
-                            <div class="chatBody">
-                                
-                                <div class="chatBodyDate">
-                                    29 августа
-                                </div>
-                                <div class="chatBodyMessage">
-                                    <span>
-                                        Отклик на вакансию
-                                        Добрый день!
-                                        Меня зовут Глеб, я занимаюсь фронтенд и бекенд разработкой. Стек технологий: vue.js, react.js, angular, node.js, symfony, laravel, android, flutter, nest.js, next.js, nuxt.js, bootstrap, materialize, asp.net mvc, asp.net core, django, flask, java spring, ruby on rails
-                                        Пишу С# код на unity. Могу работать с логикой игры, частицами, анимациями, физикой, UI/UX, префабами и т.д.
-
-                                        Игры,2d и 3d анимации
-                                        https://drive.google.com/drive/folders/1u-WjrqvAjhSY8ueGh7ZtK7eX4B-GcRFl?usp=sharing
-                                        мой гитхаб https://github.com/gdlyeabkov
-                                    </span>
-                                    <div class="chatBodyMessageDate">
-                                        <span>
-                                            18:14
-                                        </span>
-                                        <span class="material-icons">
-                                            done_all
-                                        </span>
-
-                                    </div>
-                                </div>
-
-                                <div class="chatBodyOtherMessage">
-                                    <span>
-                                        Приглашение
-                                        "Здравствуйте, Глеб Сергеевич!
-
-                                        Благодарим Вас за отклик на вакансию Junior разработчик. Мы СТАРТАП, который активно растет огромными темпами.
-
-                                        Прочтите до конца, а затем заполните, пожалуйста анкету. После чего мы с Вами обязательно свяжемся!
-
-                                        У нас есть условие- у Вас должна быть основная работа, чтоб вы имели возможность уделять время на проект ABIVEE. Занятость частичная
-
-                                        Просьба, заполнять анкету только тем, кто действительно мотивирован на развитие и согласен начать взаимодействие именно в таком формате.
-
-                                        Ваше резюме показалось нам очень интересным. Мы хотели бы пригласить Вас на интервью, если согласны с условия выше. Приглашаем Вас пройти регистрацию на собеседование в компании ABIVEE Inc.
-
-                                        Пожалуйста пройдите по ссылке и заполните электронную анкету: hr.abivee.com
-
-                                        С уважением, HR Abivee"
-                                    </span>
-                                    <div class="chatBodyMessageDate">
-                                        <span>
-                                            18:14
-                                        </span>
-                                        <span class="material-icons">
-                                            done_all
-                                        </span>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="chatFooter">
-                                <input class="form-control" placeholder="Сообщение 2d Анимат..."  v-model="currentMessage" />
-                                <span @click="sendMessage()" class="btn btn-primary material-icons">
-                                    send
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div v-if="bellContextMenu" class="bellContextMenu">
-                <div class="bellContextMenuRow">
-                    <span class="material-icons">
-                        info
-                    </span>
-                    <div class="bellContextMenuColumn">
-                        <span>
-                            Где вы ищите работу
-                        </span>
-                        <span>
-                            Указать место
-                        </span>
-                    </div>
-                </div>
-                <hr />
-                <div class="bellContextMenuRow">
-                    <span class="material-icons">
-                        drafts
-                    </span>
-                    <div class="bellContextMenuColumn">
-                        <span>
-                            Нет новых вакансий в автопоиске
-                        </span>
-                        <span>
-                            Настроить автопоиск
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div v-if="contextMenu" class="contextMenu">
-                <div class="contextMenuContent">
-                    <span class="contextMenuHeader contextMenuLink">
-                        {{ aspirant.feedback }}
-                    </span>
-                    <hr />
-                    <span @click="$router.push({ name: 'Settings' })" class="contextMenuLink">
-                        Настройки
-                    </span>
-                    <span @click="$router.push({ name: 'Mailings' })" class="contextMenuLink">
-                        Рассылки
-                    </span>
-                    <span @click="$router.push({ name: 'HiddenMyselfVacanciesAndCompanies' })" class="contextMenuLink">
-                        Скрытые мной вакансии и компании
-                    </span>
-                    <span @click="$router.push({ name: 'Settings' })" class="contextMenuLink">
-                        Изображения
-                    </span>
-                    <span @click="$router.push({ name: 'ConnectedServices' })" class="contextMenuLink">
-                        Подключённые услуги
-                    </span>
-                    <span @click="$router.push({ name: 'MyApps' })" class="contextMenuLink">
-                        Мои приложения
-                    </span>
-                    <hr />
-                    <span @click="logout()" class="contextMenuLink">
-                        Выход
-                    </span>
-                </div>
-            </div>
             <BarAuth />
             <div class="totalContainer">
                 <div class="authMenu">
@@ -384,12 +15,12 @@
                                     <span class="material-icons-outlined">
                                         person_outline
                                     </span>
-                                    <span>  
+                                    <span class="authLink">  
                                         Отклики и приглашения
                                     </span>
                                 </div>
                                 <span>  
-                                    {{ aspirant.responses.length }}
+                                    {{ totalResponses }}
                                 </span>
                             </div>
                             <div v-if="userType.includes('aspirant')" class="authMenuHeaderRow">
@@ -397,12 +28,12 @@
                                     <span class="material-icons">
                                         visibility
                                     </span>
-                                    <span>  
+                                    <span class="authLink">  
                                         Просмотры резюме
                                     </span>
                                 </div>
                                 <span>  
-                                    {{ resumes.length }}
+                                    {{ totalViews() }}
                                 </span>
                             </div>
                             <div v-if="userType.includes('aspirant')" class="authMenuHeaderRow">
@@ -410,12 +41,12 @@
                                     <span class="material-icons-outlined">
                                         star
                                     </span>
-                                    <span>  
+                                    <span class="authLink" @click="$router.push({ name: 'FavoriteVacancies', query: { usertype: userType } })">  
                                         Избранные вакансии
                                     </span>
                                 </div>
                                 <span>  
-                                    {{ aspirant.vacancies.length }}
+                                    {{ totalFavorites }}
                                 </span>
                             </div>
                             <div class="authMenuHeaderRow">
@@ -423,7 +54,7 @@
                                     <span class="material-icons">
                                         search
                                     </span>
-                                    <span>  
+                                    <span class="authLink">  
                                         Автопоиски
                                     </span>
                                 </div>
@@ -450,7 +81,7 @@
                     <h5>
                         Рекомендуем лично вам
                     </h5>
-                    <div class="vacancyBlock">
+                    <!-- <div class="vacancyBlock">
                         <div class="vacancyColumn">
                             <div class="vacancyItem">
                                 <span>
@@ -542,6 +173,39 @@
                                     Компания «СПОРТМАСТЕР», Розничные продажи, Москва
                                 </span>
                             </div>
+                        </div>
+                    </div> -->
+                    <div v-for="vacancy in vacancies.filter((vacancy, vacancyIdx) => {
+                            return vacancyIdx <= 2
+                        })" :key="vacancy._id" class="vacancyBlock">
+                        <div class="vacancyColumn">
+                            <div class="vacancyItem">
+                                <span>
+                                    {{ vacancy.profession }}
+                                </span>
+                                <span class="vacancyDesc">
+                                    {{ vacancy.salary }} руб. в месяц
+                                </span>
+                                <span class="vacancyDesc">
+                                    Компания {{ vacancy.company }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="vacancyColumn">
+                            <div v-for="vacancy in vacancies.filter((vacancy, vacancyIdx) => {
+                                return vacancyIdx <= 5 && vacancyIdx >= 3
+                            })" :key="vacancy._id" class="vacancyItem">
+                                <span>
+                                    {{ vacancy.profession }}
+                                </span>
+                                <span class="vacancyDesc">
+                                    {{ vacancy.salary }} руб. в месяц
+                                </span>
+                                <span class="vacancyDesc">
+                                    Компания {{ vacancy.company }}
+                                </span>
+                            </div>
+                            
                         </div>
                     </div>
                     <div class="btnsContainer">
@@ -574,8 +238,11 @@ export default {
         return {
             userType: 'aspirant',
             resumes: [],
+            vacancies: [],
             aspirant: {},
             token: window.localStorage.getItem('workanauttoken'),
+            totalResponses: 0,
+            totalFavorites: 0
         }
     },
     mounted(){
@@ -586,41 +253,84 @@ export default {
             if (err) {
                 this.$router.push({ name: "Login", query: { logintype: 'employee' } })
             } else {
-                fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
-                    mode: 'cors',
-                    method: 'GET'
-                }).then(response => response.body).then(rb  => {
-                    const reader = rb.getReader()
-                    return new ReadableStream({
-                    start(controller) {
-                        function push() {
-                        reader.read().then( ({done, value}) => {
-                            if (done) {
-                            console.log('done', done);
-                            controller.close();
-                            return;
+                if(this.userType.includes('aspirant')){
+                    fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
                             }
-                            controller.enqueue(value);
-                            console.log(done, value);
                             push();
-                        })
                         }
-                        push();
-                    }
-                    });
-                }).then(stream => {
-                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
-                })
-                .then(result => {
-                    console.log(`JSON.parse(result): ${JSON.parse(result).aspirant.resumes}`)
-                    this.resumes = JSON.parse(result).resumes
-                    this.aspirant = JSON.parse(result).aspirant
-                })
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        console.log(`JSON.parse(result): ${JSON.parse(result).aspirant.resumes}`)
+                        this.resumes = JSON.parse(result).resumes
+                        this.vacancies = JSON.parse(result).vacancies
+                        this.aspirant = JSON.parse(result).aspirant
+                        this.totalResponses = this.aspirant.responses.length
+                        this.totalFavorites = this.aspirant.favorites.length
+                    })
+                } else if(this.userType.includes('employer')){
+                    fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                            }
+                            push();
+                        }
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+                        this.resumes = JSON.parse(result).vacancies
+                        this.aspirant = JSON.parse(result).employer
+                        
+                    })
+                }
             }
         })
     },
     methods: {
-        
+        totalViews(){
+            let views = 0
+            this.resumes.map(resume => {
+                views += resume.views
+            })
+            return views
+        }
     },
     components: {
         Header,
@@ -1042,5 +752,9 @@ export default {
         justify-content: space-between;
     }
 
+     .authLink:hover {
+        color: rgb(255, 0, 0);
+        cursor: pointer;
+     }
 
 </style>

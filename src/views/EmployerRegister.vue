@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import * as jwt from 'jsonwebtoken'
+
 export default {
     name: 'EmployerRegister',
     data(){
@@ -56,6 +58,7 @@ export default {
             employerEmail: '',
             employerCompany: '',
             employerRegion: 'Москва',
+            token: '',
         }
     },
     methods: {
@@ -89,7 +92,17 @@ export default {
                 console.log(`JSON.parse(result): ${JSON.parse(result)}`)
                 if(JSON.parse(result).status.includes('OK')){
                     // alert('Зарегестрирован')
-                    this.$router.push({ name: 'Login', query: { logintype: 'employer' } })
+                    
+                    // this.$router.push({ name: 'Login', query: { logintype: 'employer' } })
+
+                    this.$router.push({ name: 'EmployerSetPassword', query: { email: this.employerEmail } })
+                    
+                    // this.token = jwt.sign({
+                    //     phone: this.employerEmail
+                    // }, 'workanautsecret', { expiresIn: '30m' })
+                    // localStorage.setItem('workanauttoken', this.token)
+                    // this.$router.push({ name: 'AuthPage', query: { usertype: 'employer' } })
+                    // this.$router.push({ name: 'AuthPage', query: { usertype: 'employer' } })
                 } else if(JSON.parse(result).status.includes('Error')){
                     alert('Уже зарегестрирован')
                 }

@@ -414,10 +414,10 @@
             <div v-if="contextMenu" class="contextMenu">
                 <div class="contextMenuContent">
                     <span class="contextMenuHeader contextMenuLink">
-                        {{ aspirant.feedback }}
+                        {{ nickname }}
                     </span>
                     <hr />
-                    <span @click="$router.push({ name: 'Settings' })" class="contextMenuLink">
+                    <span @click="$router.push({ name: 'Settings', query: { usertype: userType } })" class="contextMenuLink">
                         Настройки
                     </span>
                     <span @click="$router.push({ name: 'Mailings' })" class="contextMenuLink">
@@ -474,6 +474,7 @@ export default {
             currentMessage: '',
             bellContextMenu: false,
             treeDotContextMenu: false,
+            nickname: ''
         }
     },
     mounted(){
@@ -500,36 +501,69 @@ export default {
             if (err) {
                 this.$router.push({ name: "Login", query: { logintype: 'employee' } })
             } else {
-                fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
-                    mode: 'cors',
-                    method: 'GET'
-                }).then(response => response.body).then(rb  => {
-                    const reader = rb.getReader()
-                    return new ReadableStream({
-                    start(controller) {
-                        function push() {
-                        reader.read().then( ({done, value}) => {
-                            if (done) {
-                            console.log('done', done);
-                            controller.close();
-                            return;
+                if(this.userType.includes('aspirant')){
+                    fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
                             }
-                            controller.enqueue(value);
-                            console.log(done, value);
                             push();
-                        })
                         }
-                        push();
-                    }
-                    });
-                }).then(stream => {
-                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
-                })
-                .then(result => {
-                    console.log(`JSON.parse(result): ${JSON.parse(result).aspirant.resumes}`)
-                    this.resumes = JSON.parse(result).resumes
-                    this.aspirant = JSON.parse(result).aspirant
-                })
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        this.resumes = JSON.parse(result).resumes
+                        this.aspirant = JSON.parse(result).aspirant
+                        this.nickname = this.aspirant.feedback
+                    })
+                } else if(this.userType.includes('employer')){
+                    fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                            }
+                            push();
+                        }
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        this.resumes = JSON.parse(result).vacancies
+                        this.aspirant = JSON.parse(result).employer
+                        this.nickname = this.aspirant.phone
+                    })
+                }
             }
         })
     },

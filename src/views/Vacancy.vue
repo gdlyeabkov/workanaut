@@ -2,39 +2,19 @@
     <div>
         <Header :currentPage="'Прикрелплённая'" :auth="false"/>
         <div>
-            <div class="bar">
-                <div class="barItem">
-                <div class="logo">
-                    hh
-                </div>
-                <span class="help">
-                    Помощь
-                </span>
-                </div>
-                <div class="barItem">
-                <span>
-                    Поиск
-                </span>
-                <button class="withoutBackgroundBtn createResumeBtn">
-                    Создать резюме
-                </button>
-                <button class="withoutBackgroundBtn loginBtn">
-                    Войти
-                </button>
-                </div>
-            </div>
+            <BarAuth />
             <div class="sidebar">
                 <span class="profession">
-                    HR-менеджер/Ведущий менеджер по подбору и адаптации персонала/Рекрутер
+                    {{ resume.profession }}
                 </span>
                 <span class="salary">
-                    от 50 000 до 80 000 руб. на руки
+                    от {{ resume.salary }} руб. на руки
                 </span>
                 <span class="companyName">
-                    ООО Хэндимен
+                    {{ resume.company }}
                 </span>
                 <span class="companyPlace">
-                    Москва, улица Большая Якиманка, 35с1
+                    {{ resume.address }}
                 </span>
                 <span>
                     Сейчас эту вакансию смотрят <span class="watchOthers">{{ "3" }} человека</span>
@@ -46,18 +26,18 @@
                     <button @click="showContacts()" class="btn btn-primary">
                         Показать контакты
                     </button>
-                    <button @click="favorite()" class="btn btn-primary">
-                        *
-                    </button>
-                    <button @click="block()" class="btn btn-primary">
-                        0
-                    </button>
+                    <span @click="favorite()" class="material-icons btn btn-primary">
+                        star
+                    </span>
+                    <span @click="block()" class="btn btn-primary material-icons">
+                        block
+                    </span>
                 </div>
                 <span>
-                    Требуемый опыт работы: не требуется
+                    Требуемый опыт работы: {{ resume.experience }}
                 </span>
                 <span>
-                    Полная занятость, полный день
+                    {{ resume.worktype }}, {{ resume.shedule }}
                 </span>
                 <span>
                     В компанию ООО «Хэндимен» - требуются грузчики. Мы являемся прямым работодателем в сфере организации переездов, погрузо-разгрузочных работ, сборки мебели и стеллажей.
@@ -200,81 +180,192 @@
 
 <script>
 import Header from '@/components/Header.vue'
+import BarAuth from '@/components/BarAuth.vue'
 import Footer from '@/components/Footer.vue'
+
+import * as jwt from 'jsonwebtoken'
 
 export default {
     name: 'Vacancies',
     data(){
         return {
-            
+            userType: 'aspirant',
+            aspirantFeedback: '',
+            token: localStorage.getItem('workanauttoken'),
+            resume: {
+                profession: 'HR-менеджер/Ведущий менеджер по подбору и адаптации персонала/Рекрутер',
+                salary: 50000,
+                company: 'ООО Хэндимен',
+                address: 'Москва, улица Большая Якиманка, 35с1',
+                experience: 0,
+                worktype: 'Полная занятость',
+                shedule: 'полный день'
+            }
         }
+    },
+    methods: {
+        click(){
+            fetch(`http://localhost:4000/api/vacancy/response/?aspirantfeedback=${this.aspirantFeedback}&vacancyid=${this.$route.query.vacancyid}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                start(controller) {
+                    function push() {
+                    reader.read().then( ({done, value}) => {
+                        if (done) {
+                        console.log('done', done);
+                        controller.close();
+                        return;
+                        }
+                        controller.enqueue(value);
+                        console.log(done, value);
+                        push();
+                    })
+                    }
+                    push();
+                }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                console.log(`JSON.parse(result).vacancies: ${JSON.parse(result)}`)
+                if(JSON.parse(result).status.includes('OK')){
+                    this.$router.push({ name: 'Vacancies', query: { usertype: this.userType } })
+                } else if(JSON.parse(result).status.includes('Error')){
+                    alert('Ошибка отклика')
+                }
+            })
+        },
+        block(){
+            fetch(`http://localhost:4000/api/vacancy/block/?aspirantfeedback=${this.aspirantFeedback}&vacancyid=${this.$route.query.vacancyid}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                start(controller) {
+                    function push() {
+                    reader.read().then( ({done, value}) => {
+                        if (done) {
+                        console.log('done', done);
+                        controller.close();
+                        return;
+                        }
+                        controller.enqueue(value);
+                        console.log(done, value);
+                        push();
+                    })
+                    }
+                    push();
+                }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                console.log(`JSON.parse(result).vacancies: ${JSON.parse(result)}`)
+                if(JSON.parse(result).status.includes('OK')){
+                    this.$router.push({ name: 'Vacancies', query: { usertype: this.userType } })
+                } else if(JSON.parse(result).status.includes('Error')){
+                    alert('Ошибка блокировки')
+                }
+            })
+        },
+        favorite(){
+            fetch(`http://localhost:4000/api/vacancy/favorite/?aspirantfeedback=${this.aspirantFeedback}&vacancyid=${this.$route.query.vacancyid}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                start(controller) {
+                    function push() {
+                    reader.read().then( ({done, value}) => {
+                        if (done) {
+                        console.log('done', done);
+                        controller.close();
+                        return;
+                        }
+                        controller.enqueue(value);
+                        console.log(done, value);
+                        push();
+                    })
+                    }
+                    push();
+                }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                console.log(`JSON.parse(result).vacancies: ${JSON.parse(result)}`)
+                if(JSON.parse(result).status.includes('OK')){
+                    this.$router.push({ name: 'Vacancies', query: { usertype: this.userType } })
+                } else if(JSON.parse(result).status.includes('Error')){
+                    alert('Ошибка добавления в избранное')
+                }
+            })
+        }
+    },
+    mounted(){
+        jwt.verify(this.token, 'workanautsecret', (err, decoded) => {
+            if (err) {
+                this.$router.push({ name: "Login", query: { logintype: 'employee' } })
+            } else {
+                this.userType = this.$route.query.usertype
+                this.aspirantFeedback = decoded.phone
+                fetch(`http://localhost:4000/api/vacancy/get/?vacancyid=${this.$route.query.vacancyid}`, {
+                    mode: 'cors',
+                    method: 'GET'
+                }).then(response => response.body).then(rb  => {
+                    const reader = rb.getReader()
+                    return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                        reader.read().then( ({done, value}) => {
+                            if (done) {
+                            console.log('done', done);
+                            controller.close();
+                            return;
+                            }
+                            controller.enqueue(value);
+                            console.log(done, value);
+                            push();
+                        })
+                        }
+                        push();
+                    }
+                    });
+                }).then(stream => {
+                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                })
+                .then(result => {
+                    console.log(`JSON.parse(result).vacancies: ${JSON.parse(result)}`)
+                    if(JSON.parse(result).status.includes('OK')){
+                        this.resume = JSON.parse(result).resume
+                    } else if(JSON.parse(result).status.includes('Error')){
+                        alert('Ошибка получения резюме')
+                    }
+                })
+            }
+        })
     },
     components: {
         Header,
+        BarAuth,
         Footer
     }
 }
 </script>
 
 <style scoped>
-    .bar {
-        height: 75px;
-        background-color: rgb(0, 0, 0);
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-    }
-
-    .barItem {
-        height: 75px;
-        background-color: rgb(0, 0, 0);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .barItem > * {
-        margin: 10px;
-    }
-
-    .help {
-        color: rgb(255, 255, 255);
-        text-decoration: underline;
-        text-decoration-style: dotted;
-    }
-
-    .logo {
-        color: rgb(255, 255, 255);
-        font-weight: bolder;
-        font-size: 24px;
-        display: flex; 
-        justify-content: center;
-        align-items: center;
-        border-radius: 100%;
-        background-color: rgb(200, 0, 0);
-        width: 45px;
-        height: 45px
-    }
-
-    .withoutBackgroundBtn {
-        background-color: transparent;
-        border-radius: 25px;
-        width: 175px;
-    }
-
-    .createResumeBtn {
-        color: rgb(0, 125, 0);
-        border: 1px solid rgb(0, 125, 0);
-    }
-
-    .loginBtn {
-        color: rgb(235, 235, 235);
-        border: 1px solid rgb(235, 235, 235);
-    }
     
     .sidebar, .notification {
         float: left;
-        height: 375px;
+        height: 1150px;
     }
 
     .sidebar {
@@ -330,7 +421,7 @@ export default {
     .actions {
         display: flex;
         justify-content: space-between;
-        width: 375px;
+        width: 425px;
     }
 
     .aboutSkills {

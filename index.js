@@ -66,6 +66,7 @@ mongoose.connect(url, connectionParams)
         password: String,
         company: String,
         region: String,
+        responses: [mongoose.Schema.Types.Map],
     }, { collection : 'myemployers' });
 
     const EmployerModel = mongoose.model('EmployerModel', EmployerSchema);
@@ -84,7 +85,9 @@ const AspirantSchema = new mongoose.Schema({
     responses: [mongoose.Schema.Types.Map],
     vacancies: [mongoose.Schema.Types.Map],
     invites: [mongoose.Schema.Types.Map],
-    resumes: [mongoose.Schema.Types.Map]
+    resumes: [mongoose.Schema.Types.Map],
+    favorites: [mongoose.Schema.Types.Map],
+    blocked: [mongoose.Schema.Types.Map]
 }, { collection : 'myaspirants' });
 
 const AspirantModel = mongoose.model('AspirantModel', AspirantSchema);
@@ -212,6 +215,18 @@ const ResumeSchema = new mongoose.Schema({
 
 const ResumeModel = mongoose.model('ResumeModel', ResumeSchema);
     
+app.get('/api/resumes/all', (req, res) => {
+
+
+    let queryOfResumes = ResumeModel.find({ _id: { $in: req.query.resumes }  })
+    queryOfResumes.exec((err, allResumes) => {
+        if(err){
+            return res.json({ "status": "Error" })
+        }
+        return res.json({ "status": "OK", resumes: allResumes })
+    })
+
+})
 
 app.get('/api/employee', (req, res)=>{
         
@@ -300,7 +315,7 @@ app.get('/api/aspirants/create', (req, res)=>{
             return res.json({ "status": "Error" })
         }
         
-        var aspirantExists = false;
+        let aspirantExists = false
 
         allAspirants.forEach(aspirant => {
             if(aspirant.feedback.includes(req.query.aspirantfeedback)){
@@ -321,9 +336,8 @@ app.get('/api/aspirants/create', (req, res)=>{
             newAspirant.save(function (err) {
                 if(err){
                     return res.json({ "status": "Error" })
-                } else {
-                    return res.json({ "status": "OK" })
                 }
+                return res.json({ "status": "OK" })
             })
         }
     })
@@ -373,6 +387,121 @@ app.get('/api/resumes/create', (req, res)=>{
     })
 })
 
+app.get('/api/vacancy/favorite', (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    
+    AspirantModel.updateOne({ feedback: req.query.aspirantfeedback },
+        { $push: 
+            {
+                favorites: [
+                    {
+                        id: req.query.vacancyid
+                    }
+                ]
+            }
+    }, (err, aspirant) => {
+        if(err){
+            return res.json({ "status": "Error" })
+        } else {
+            return res.json({ "status": "OK" })
+        }
+    })
+})
+
+app.get('/api/vacancy/block', (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    
+    AspirantModel.updateOne({ feedback: req.query.aspirantfeedback },
+        { $push: 
+            {
+                blocked: [
+                    {
+                        id: req.query.vacancyid
+                    }
+                ]
+            }
+    }, (err, aspirant) => {
+        if(err){
+            return res.json({ "status": "Error" })
+        } else {
+            return res.json({ "status": "OK" })
+        }
+    })
+})
+
+app.get('/api/vacancy/view', (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    
+    AspirantModel.updateOne({ feedback: req.query.aspirantfeedback },
+        {
+            "$inc": { "views": 1 }
+        }, (err, aspirant) => {
+            if(err){
+                return res.json({ "status": "Error" })
+            } else {
+                return res.json({ "status": "OK" })
+            }
+    })
+})
+
+app.get('/api/vacancy/response', (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    
+    AspirantModel.updateOne({ feedback: req.query.aspirantfeedback },
+        { $push: 
+            {
+                responses: [
+                    {
+                        id: req.query.vacancyid
+                    }
+                ]
+            }
+    }, (err, aspirant) => {
+        if(err){
+            return res.json({ "status": "Error" })
+        } else {
+            let query = VacancyModel.findOne({ _id: req.query.vacancyid })
+            query.exec((err, vacancy) => {
+                if(err) {
+                    return res.json({ "status": "Error" })
+                }
+                EmployerModel.updateOne({ email: vacancy.employerEmail },
+                    { $push: 
+                        {
+                            responses: [
+                                {
+                                    id: req.query.vacancyid
+                                }
+                            ]
+                        }
+                }, (err, employer) => {
+                    if(err){
+                        return res.json({ "status": "Error" })
+                    } else {
+                        return res.json({ "status": "OK" })
+                    }
+                })
+            })
+        }
+    })
+})
+
 app.get('/api/vacancies/add', (req, res) => {
     
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -417,7 +546,7 @@ app.get('/api/views/add', (req, res) => {
     
     ResumeModel.updateOne({ _id: req.query.resumeid },
         {
-            $inc: views        
+            $inc: views
         }, (err, user) => {
         if(err){
             return res.json({ "status": "Error" })
@@ -472,10 +601,53 @@ app.get('/api/aspirants/get', (req, res)=>{
             if (err){
                 return res.json({ "status": "Error" })
             }
-            return res.json({ "status": "OK", aspirant: aspirant, resumes: resumes })
+            let query = VacancyModel.find({  })
+            query.exec((err, vacancies) => {
+                if (err){
+                    return res.json({ "status": "Error" })
+                }
+                return res.json({ "status": "OK", aspirant: aspirant, resumes: resumes, vacancies: vacancies })
+            })
         })
     })
 })
+
+app.get('/api/vacancy/get', (req, res)=>{
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+
+    let query = VacancyModel.findOne({ _id: req.query.vacancyid })
+    query.exec((err, vacancy) => {
+        if(err) {
+            return res.json({ status: "Error" })
+        } else {
+            return res.json({ status: "OK", resume: vacancy   })
+        }
+    })
+
+})
+
+app.get('/api/resume/get', (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+
+    let query = ResumeModel.findOne({ _id: req.query.resumeid })
+    query.exec((err, resume) => {
+        if(err) {
+            return res.json({ status: "Error" })
+        } else {
+            return res.json({ status: "OK", resume: resume   })
+        }
+    })
+
+})
+
 
 app.get('/api/vacancies/get', (req, res)=>{
 
@@ -589,7 +761,7 @@ app.get('/api/employers/password/set', (req, res) => {
     if(req.query.employerphone.includes('@gmail.com')){
         EmployerModel.updateOne({ email: req.query.employerphone }, { password: encodedPassword }, (err, citizen) => {
             if(err){
-                return res.json({ status: 'Error' })        
+                return res.json({ status: 'Error' })
             }
             let mailOptions = {
                 from: `"${'gdlyeabkov'}" <${"gdlyeabkov"}>`,

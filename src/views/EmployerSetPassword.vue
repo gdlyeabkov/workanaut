@@ -24,11 +24,13 @@ export default {
     name: 'EmployerRegister',
     data(){
         return {
-            employerPhone: ''
+            employerPhone: '',
         }
     },
     mounted(){
-
+        if(this.$route.query.email !== null && this.$route.query.email !== undefined) {
+            this.employerPhone = this.$route.query.email
+        }
     },
     methods: {
         setPassword(){
@@ -61,7 +63,7 @@ export default {
                 console.log(`JSON.parse(result): ${JSON.parse(result)}`)
                 if(JSON.parse(result).status.includes('OK')){
                     alert(`Задан новый пароль: ${JSON.parse(result).newPassword}`)
-                    // this.$router.push({ name: 'Login', query: { logintype: 'employer' } })
+                    this.$router.push({ name: 'Login', query: { logintype: 'employer' } })
                 } else if(JSON.parse(result).status.includes('Error')){
                     alert('Ошикбка задания нового пароля')
                     
