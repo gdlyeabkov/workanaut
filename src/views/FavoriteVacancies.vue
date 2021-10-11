@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Header />
+        <Header :currentPage="'Лучшие вакансии'" :auth="true" />
         <div>
             <div class="bar">
                 <div class="barItem">

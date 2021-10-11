@@ -1,7 +1,77 @@
 <template>
     <div>
-        <Header :currentPage="'Личный кабинет'" :auth="true" />
-        <div>
+        <div class="bar">
+            <div class="barItem">
+                <div @click="$router.push({ name: 'AuthPage', query: { usertype: userType } })" class="logo">
+                    hh
+                </div>
+                <span @click="$router.push({ name: 'PersonalArea', query: { usertype: userType } })" class="help">
+                    {{
+                        userType.includes('aspirant') ?
+                            "Мои резюме"
+                        :
+                            "Мои вакансии"
+                    }}
+                </span>
+                <span @click="$router.push({ name: 'Responses', query: { usertype: userType, responsetype: 'Активные' } })" class="help">
+                    Отклики
+                </span>
+                <span @click="drawContextMenu(true)"  id="help" class="help">
+                    Помощь
+                </span>
+                <div v-if="contextMenuToggler" class="contextMenuHelp">
+                    <span>
+                    Виртуальный консультант
+                    </span>
+                    <span>
+                    Вопросы и ответы
+                    </span>
+                    <span>
+                    Сообщество поддержки
+                    </span>
+                    <span>
+                    Пишите нам
+                    </span>
+                    <hr />
+                    <span class="contextMenuSubContent">
+                    Техподдержка онлайн
+                    </span>
+                    <span class="contextMenuSubContent allOperatorClosed">
+                        Все операторы заняты
+                    </span>
+                    <span class="contextMenuSubContent">
+                        Пожалуйста, свяжитесь с нами позднее или воспользуйтесь другими сервисами выше.
+                    </span>
+                </div>
+            </div>
+            <div class="barItem">
+                <span @click="searchToggler = !searchToggler" class="areaShortcuts material-icons-outlined">
+                    search
+                </span>
+                <span @click="searchToggler = !searchToggler" class="areaShortcutsLabel">
+                    Поиск
+                </span>
+                <button @click="$router.push({ name: 'MyResume', query: { usertype: userType } })" class="withoutBackgroundBtn createResumeBtn">
+                    {{
+                        userType.includes('employer') ?
+                            "Создать вакансию"
+                        :
+                            "Создать резюме"
+                    }}
+                </button>
+                <span @click="$router.push({ name: 'FavoriteVacancies' })" class="areaShortcuts material-icons-outlined">
+                    star_outline
+                </span>
+                <span @click="messageWindow = true" class="areaShortcuts material-icons-outlined">
+                    mode_comment
+                </span>
+                <span id="bell" @click="bellContextMenu = true" class="areaShortcuts material-icons-outlined">
+                    notifications
+                </span>
+                <span id="context" @click="contextMenu = true"  class="areaShortcuts material-icons-outlined">
+                    person_outline
+                </span>
+            </div>
             <div v-if="messageWindow" class="backdrop">
                 <div class="messagesBlock">
                     <div class="asideMessages">
@@ -371,217 +441,61 @@
                     </span>
                 </div>
             </div>
-            <BarAuth />
-            <div class="totalContainer">
-                <div class="authMenu">
-                    <div class="authMenuHeader">
-                        <h3>
-                            Мои события
-                        </h3>
-                        <div class="authMenuHeaderColumn">
-                            <div class="authMenuHeaderRow">
-                                <div>
-                                    <span class="material-icons-outlined">
-                                        person_outline
-                                    </span>
-                                    <span>  
-                                        Отклики и приглашения
-                                    </span>
-                                </div>
-                                <span>  
-                                    {{ aspirant.responses.length }}
-                                </span>
-                            </div>
-                            <div v-if="userType.includes('aspirant')" class="authMenuHeaderRow">
-                                <div>
-                                    <span class="material-icons">
-                                        visibility
-                                    </span>
-                                    <span>  
-                                        Просмотры резюме
-                                    </span>
-                                </div>
-                                <span>  
-                                    {{ resumes.length }}
-                                </span>
-                            </div>
-                            <div v-if="userType.includes('aspirant')" class="authMenuHeaderRow">
-                                <div>
-                                    <span class="material-icons-outlined">
-                                        star
-                                    </span>
-                                    <span>  
-                                        Избранные вакансии
-                                    </span>
-                                </div>
-                                <span>  
-                                    {{ aspirant.vacancies.length }}
-                                </span>
-                            </div>
-                            <div class="authMenuHeaderRow">
-                                <div>
-                                    <span class="material-icons">
-                                        search
-                                    </span>
-                                    <span>  
-                                        Автопоиски
-                                    </span>
-                                </div>
-                                <span>  
-                                    +1
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <hr  v-if="userType.includes('aspirant')" />
-                    <div v-if="userType.includes('aspirant')" class="authMenuFooter">
-                        <h5>
-                            Подработка
-                        </h5>
-                        <span>
-                            Разовые задания, неполный рабочий день, временная работа и другая подработка
-                        </span>
-                        <button class="btn btn-light withoutBackgroundBtn createResumeBtn">
-                            Найти
-                        </button>
-                    </div>
-                </div>
-                <div class="relevantedBlock">
-                    <h5>
-                        Рекомендуем лично вам
-                    </h5>
-                    <div class="vacancyBlock">
-                        <div class="vacancyColumn">
-                            <div class="vacancyItem">
-                                <span>
-                                    Верстальщик
-                                </span>
-                                <span class="vacancyDesc">
-                                    з/п не указана
-                                </span>
-                                <span class="vacancyDesc">
-                                    Компания «СПОРТМАСТЕР», Розничные продажи, Москва
-                                </span>
-                            </div>
-                            <div class="vacancyItem">
-                                <span>
-                                    Верстальщик
-                                </span>
-                                <span class="vacancyDesc">
-                                    з/п не указана
-                                </span>
-                                <span class="vacancyDesc">
-                                    Компания «СПОРТМАСТЕР», Розничные продажи, Москва
-                                </span>
-                            </div>
-                            <div class="vacancyItem">
-                                <span>
-                                    Верстальщик
-                                </span>
-                                <span class="vacancyDesc">
-                                    з/п не указана
-                                </span>
-                                <span class="vacancyDesc">
-                                    Компания «СПОРТМАСТЕР», Розничные продажи, Москва
-                                </span>
-                            </div>
-                            <div class="vacancyItem">
-                                <span>
-                                    Верстальщик
-                                </span>
-                                <span class="vacancyDesc">
-                                    з/п не указана
-                                </span>
-                                <span class="vacancyDesc">
-                                    Компания «СПОРТМАСТЕР», Розничные продажи, Москва
-                                </span>
-                            </div>
-                        </div>
-                        <div class="vacancyColumn">
-                            <div class="vacancyItem">
-                                <span>
-                                    Верстальщик
-                                </span>
-                                <span class="vacancyDesc">
-                                    з/п не указана
-                                </span>
-                                <span class="vacancyDesc">
-                                    Компания «СПОРТМАСТЕР», Розничные продажи, Москва
-                                </span>
-                            </div>
-                            <div class="vacancyItem">
-                                <span>
-                                    Верстальщик
-                                </span>
-                                <span class="vacancyDesc">
-                                    з/п не указана
-                                </span>
-                                <span class="vacancyDesc">
-                                    Компания «СПОРТМАСТЕР», Розничные продажи, Москва
-                                </span>
-                            </div>
-                            <div class="vacancyItem">
-                                <span>
-                                    Верстальщик
-                                </span>
-                                <span class="vacancyDesc">
-                                    з/п не указана
-                                </span>
-                                <span class="vacancyDesc">
-                                    Компания «СПОРТМАСТЕР», Розничные продажи, Москва
-                                </span>
-                            </div>
-                            <div class="vacancyItem">
-                                <span>
-                                    Верстальщик
-                                </span>
-                                <span class="vacancyDesc">
-                                    з/п не указана
-                                </span>
-                                <span class="vacancyDesc">
-                                    Компания «СПОРТМАСТЕР», Розничные продажи, Москва
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="btnsContainer">
-                        <button class="btn btn-primary createResumeBtn withoutBackgroundBtn">
-                            Показать все
-                        </button>
-                        <button class="btn btn-primary createResumeBtn withoutBackgroundBtn">
-                            На карте
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <hr />
-            
         </div>
-        <Footer />
+        <div v-if="searchToggler" class="searchWorkArea">
+            <input v-model="keywords" placeholder="Профессия, должность или компания" type="text" class="form-control">
+            <button @click="$router.push({ name: 'Vacancies', query: { usertype: userType, keywords: keywords, worktype: 'Постоянная работа' } })" class="btn btn-primary">
+                Найти
+            </button>
+        </div>
+        <hr />
     </div>
 </template>
 
 <script>
-import Header from '@/components/Header.vue'
-import BarAuth from '@/components/BarAuth.vue'
-import Footer from '@/components/Footer.vue'
-
 import * as jwt from 'jsonwebtoken'
 
 export default {
-    name: 'AuthPage',
+    name: 'Bar',
     data(){
         return {
-            userType: 'aspirant',
+            searchToggler: false,
+            keywords: '',
             resumes: [],
+            userType: 'aspirant',
             aspirant: {},
             token: window.localStorage.getItem('workanauttoken'),
+            contextMenuToggler: false,
+            contextMenu: false,
+            messageWindow: false,
+            showOnlyUnreaded: true,
+            responseStatus: 'Отказ',
+            chatSelected: false,
+            currentMessage: '',
+            bellContextMenu: false,
+            treeDotContextMenu: false,
         }
     },
     mounted(){
         
         this.userType = this.$route.query.usertype
 
+        document.body.addEventListener("click", (event) => {
+            
+            if(!event.target.id.includes('context'))
+                this.contextMenu = false
+
+            if(!event.target.id.includes('bell'))
+                this.bellContextMenu = false
+
+            if(!event.target.id.includes('more'))
+                this.treeDotContextMenu = false
+           
+            if(!event.target.id.includes('help'))
+                this.contextMenuToggler = false
+
+        })
+    
         jwt.verify(this.token, 'workanautsecret', (err, decoded) => {
             if (err) {
                 this.$router.push({ name: "Login", query: { logintype: 'employee' } })
@@ -620,18 +534,30 @@ export default {
         })
     },
     methods: {
-        
+        drawContextMenu(toggler){
+            if(toggler) {
+                this.contextMenuToggler = true
+            } else if(!toggler) {
+                
+            }
+        },
+        logout() {
+            this.token = jwt.sign({
+                phone: "this.feedback"
+            }, 'workanautsecret', { expiresIn: 1 })
+            localStorage.setItem('workanauttoken', "this.token")
+            setTimeout(() => {
+                this.$router.push({ name: 'Home' })
+            }, 1000)
+        }
     },
-    components: {
-        Header,
-        BarAuth,
-        Footer
+    props: {
+        
     }
 }
 </script>
-
 <style scoped>
-.bar {
+    .bar {
     height: 75px;
     background-color: rgb(0, 0, 0);
     display: flex;
@@ -1041,6 +967,39 @@ export default {
         flex-direction: column;
         justify-content: space-between;
     }
+
+.contextMenuHelp > span {
+    font-size: 18px;
+  }
+
+  .contextMenuHelp {
+    text-align: left;
+    box-sizing: border-box;
+    padding: 15px 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 350px;
+    height: 325px;
+    position: absolute;
+    z-index: 5;
+    box-shadow: 0 0 15px rgb(150, 150, 150);
+    top: 60px;
+    left: 300px;
+    background-color:rgb(250, 250, 250);
+    border: 1ps solid rgb(200, 200, 200);
+  }
+
+  .contextMenuSubContent {
+    color: rgb(150, 150, 150);
+  }
+
+  .allOperatorClosed {
+    color: rgb(255, 255, 255);
+    background-color: rgb(150, 150, 150);
+    border-radius: 10px;
+    padding: 2px 15px;
+  }
 
 
 </style>

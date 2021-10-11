@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Header :currentPage="'Готовое резюме'" />
+        <Header :currentPage="'Готовое резюме'" :auth="false" />
         <div>
             <div class="bar">
                 <div class="barItem">

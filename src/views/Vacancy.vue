@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Header/>
+        <Header :currentPage="'Прикрелплённая'" :auth="false"/>
         <div>
             <div class="bar">
                 <div class="barItem">

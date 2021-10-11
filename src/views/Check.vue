@@ -1,28 +1,8 @@
 <template>
     <div>
-        <Header />
+        <Header :currentPage="'Проверка пользователя по смс'" :auth="false" />
         <div>
-            <div class="bar">
-                <div class="barItem">
-                <div class="logo">
-                    hh
-                </div>
-                <span class="help">
-                    Помощь
-                </span>
-                </div>
-                <div class="barItem">
-                <span>
-                    Поиск
-                </span>
-                <button class="withoutBackgroundBtn createResumeBtn">
-                    Создать резюме
-                </button>
-                <button class="withoutBackgroundBtn loginBtn">
-                    Войти
-                </button>
-                </div>
-            </div>
+            <Bar />
             <div class="checkBlock">
                 <h3>
                     Введите код
@@ -48,6 +28,7 @@
 
 <script>
 import Header from "@/components/Header.vue"
+import Bar from "@/components/Bar.vue"
 import Footer from "@/components/Footer.vue"
 
 export default {
@@ -89,6 +70,7 @@ export default {
     },
     components: {
         Header,
+        Bar,
         Footer
   }
 }

@@ -4,14 +4,20 @@
         <span class="headerLink headerLinkMain">
             Россия
         </span>
-        <span @click="$router.push({ name: 'Home' })" :class="{ headerLink: true, headerLinkActive: currentPage.includes('Соискателям') }">
+        <span v-if="!auth" @click="$router.push({ name: 'Home' })" :class="{ headerLink: true, headerLinkActive: currentPage.includes('Соискателям') }">
             Соискателям
         </span>
-        <span @click="$router.push({ name: 'Employers' })" :class="{ headerLink: true, headerLinkActive: currentPage.includes('Работадателям') }">
+        <span v-if="!auth" @click="$router.push({ name: 'Employers' })" :class="{ headerLink: true, headerLinkActive: currentPage.includes('Работадателям') }">
             Работадателям
         </span>
     </div>
-    <div class="headerBlock headerBlockEnd">
+    <div :class="{ headerBlock: true, headerBlockAuthEnd: auth, headerBlockEnd: !auth }">
+        <span v-if="auth" @click="$router.push({ name: 'NeedResume' })" :class="{ headerLink: true, headerLinkActive: currentPage.includes('Готовое резюме') }">
+            Поиск работы
+        </span>
+        <span v-if="auth" class="headerLink"  @click="$router.push({ name: 'Consultation' })" :class="{ headerLink: true, headerLinkActive: currentPage.includes('Репетиция собеседования') }">
+            Продвижение резюме
+        </span>
         <span @click="$router.push({ name: 'NeedResume' })" :class="{ headerLink: true, headerLinkActive: currentPage.includes('Готовое резюме') }">
             Готовое резюме
         </span>
@@ -36,6 +42,11 @@ export default {
             default: 'Home',
             type: String,
             required: true
+        },
+        auth: {
+            default: false,
+            type: Boolean,
+            required: true
         }
     }
 }
@@ -59,6 +70,10 @@ export default {
 
     .headerBlockStart {
         width: 20%;
+    }
+
+    .headerBlockAuthEnd {
+        width: 55%;
     }
 
     .headerBlockEnd {

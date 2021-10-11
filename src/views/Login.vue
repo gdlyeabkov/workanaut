@@ -1,31 +1,8 @@
 <template>
   <div>
-    <Header />
+    <Header :currentPage="'Вход'" :auth="false" />
     <div>
-      <div class="bar">
-        <div class="barItem">
-          <div class="logo">
-            hh
-          </div>
-          <span class="help">
-            Помощь
-          </span>
-        </div>
-        <div class="barItem">
-          <span>
-            Поиск
-          </span>
-          <button v-if="loginType.includes('employee')" class="withoutBackgroundBtn createResumeBtn">
-            Создать резюме
-          </button>
-          <button v-else-if="loginType.includes('employer')" class="withoutBackgroundBtn createResumeBtn">
-            Разместить вакансию
-          </button>
-          <button class="withoutBackgroundBtn loginBtn">
-            Войти
-          </button>
-        </div>
-      </div>
+      <Bar />
     </div>
     <div>
       <div v-if="loginType.includes('employee')" class="searchWorkBlock">
@@ -157,6 +134,7 @@
 
 <script>
 import Header from "@/components/Header.vue"
+import Bar from "@/components/Bar.vue"
 import Footer from "@/components/Footer.vue"
 
 import * as jwt from 'jsonwebtoken'
@@ -261,6 +239,7 @@ export default {
   },
   components: {
     Header,
+    Bar,
     Footer
   }
 }

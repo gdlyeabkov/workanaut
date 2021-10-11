@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Header />
+        <Header :currentPage="'Настройки'" :auth="true" />
         <div>
             <h3>
                 Настройки

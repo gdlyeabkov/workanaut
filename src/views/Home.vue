@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header :currentPage="'Соискателям'" />
+    <Header :currentPage="'Соискателям'" :auth="false" />
     <div class="homePoster">
       <div class="homePosterHeader">
         <div class="homePosterHeaderItem">

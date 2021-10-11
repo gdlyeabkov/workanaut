@@ -1,28 +1,8 @@
 <template>
   <div>
-    <Header :currentPage="'Репетиция собеседования'" />
+    <Header :currentPage="'Репетиция собеседования'" :auth="false" />
     <div>
-      <div class="bar">
-        <div class="barItem">
-          <div class="logo">
-            hh
-          </div>
-          <span class="help">
-            Помощь
-          </span>
-        </div>
-        <div class="barItem">
-          <span>
-            Поиск
-          </span>
-          <button class="withoutBackgroundBtn createResumeBtn">
-            Создать резюме
-          </button>
-          <button class="withoutBackgroundBtn loginBtn">
-            Войти
-          </button>
-        </div>
-      </div>
+      <Bar />
       <div>
         <h3>
           Регистрация соискателя
@@ -72,7 +52,9 @@
 
 <script>
 import Header from "@/components/Header.vue"
+import Bar from "@/components/Bar.vue"
 import Footer from "@/components/Footer.vue"
+
 
 import * as jwt from 'jsonwebtoken'
 
@@ -132,6 +114,7 @@ export default {
   },
   components: {
     Header,
+    Bar,
     Footer
   }
 }

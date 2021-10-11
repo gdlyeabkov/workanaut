@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Header />
+        <Header :currentPage="'Отклики'" :auth="true" />
         <div class="main">
             <div class="bar">
                 <div class="barItem">

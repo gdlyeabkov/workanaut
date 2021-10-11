@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Header :currentPage="'Работадателям'" />
+        <Header :currentPage="'Работадателям'" :auth="false" />
         <div>
             <div class="bar">
                 <div class="barItem">

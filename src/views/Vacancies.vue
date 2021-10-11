@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Header/>
+        <Header :currentPage="'Прикреплённые'" :auth="true" />
         <div>
             <div class="bar">
                 <div class="barItem">
