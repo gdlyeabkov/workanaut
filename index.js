@@ -30,10 +30,6 @@ var transporter = nodemailer.createTransport({
 
 const url = `mongodb+srv://glebClusterUser:glebClusterUserPassword@cluster0.fvfru.mongodb.net/employee?retryWrites=true&w=majority`;
 
-var options = {
-    root: path.join(__dirname, 'views'),
-}   
-
 const connectionParams = {
     useNewUrlParser: true,
     useCreateIndex: true,
@@ -434,17 +430,17 @@ app.get('/api/vacancy/block', (req, res) => {
     })
 })
 
-app.get('/api/vacancy/view', (req, res) => {
+app.get('/api/resume/view', (req, res) => {
 
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
     
-    AspirantModel.updateOne({ feedback: req.query.aspirantfeedback },
+    ResumeModel.updateOne({ _id: req.query.resumeid },
         {
             "$inc": { "views": 1 }
-        }, (err, aspirant) => {
+        }, (err, resume) => {
             if(err){
                 return res.json({ "status": "Error" })
             } else {

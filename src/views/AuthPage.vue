@@ -209,10 +209,10 @@
                         </div>
                     </div>
                     <div class="btnsContainer">
-                        <button class="btn btn-primary createResumeBtn withoutBackgroundBtn">
+                        <button @click="$router.push({ name: 'Vacancies', query: { usertype: userType, keywords: resumes[Math.floor(Math.random() * resumes.length)].profession, worktype: 'Постоянная работа' } })" class="btn btn-primary createResumeBtn withoutBackgroundBtn">
                             Показать все
                         </button>
-                        <button class="btn btn-primary createResumeBtn withoutBackgroundBtn">
+                        <button @click="$router.push({ name: 'Map', query: { usertype: userType } })" class="btn btn-primary createResumeBtn withoutBackgroundBtn">
                             На карте
                         </button>
                     </div>
@@ -497,9 +497,9 @@ export default {
 
     .btnsContainer {
         margin-left: 75px;
-        width: 50%;
+        width: 100%;
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
     }
     
     .contextMenu {

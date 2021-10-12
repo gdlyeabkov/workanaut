@@ -24,6 +24,24 @@ import Images from '../views/Images.vue'
 import ConnectedServices from '../views/ConnectedServices.vue'
 import MyApps from '../views/MyApps.vue'
 import AuthPage from '../views/AuthPage.vue'
+import Map from '../views/Map.vue'
+
+import About from '../views/FooterLinks/About.vue'
+import AdsSite from '../views/FooterLinks/AdsSite.vue'
+import Carrier from '../views/FooterLinks/Carrier.vue'
+import Companions from '../views/FooterLinks/Companions.vue'
+import ConditionsOfServices from '../views/FooterLinks/ConditionsOfServices.vue'
+import ConditionUsabilitySite from '../views/FooterLinks/ConditionUsabilitySite.vue'
+import DRM from '../views/FooterLinks/DRM.vue'
+import Etic from '../views/FooterLinks/Etic.vue'
+import Investors from '../views/FooterLinks/Investors.vue'
+import ITProjects from '../views/FooterLinks/ITProjects.vue'
+import LifeInCompany from '../views/FooterLinks/LifeInCompany.vue'
+import NewsTradeHR from '../views/FooterLinks/NewsTradeHR.vue'
+import Ratio from '../views/FooterLinks/Ratio.vue'
+import RequirementsSoftware from '../views/FooterLinks/RequirementsSoftware.vue'
+import Security from '../views/FooterLinks/Security.vue'
+import WorkanautAPI from '../views/FooterLinks/WorkanautAPI.vue'
 
 Vue.use(VueRouter)
 
@@ -147,6 +165,91 @@ const routes = [
     path: '/auth',
     name: 'AuthPage',
     component: AuthPage
+  },
+  {
+    path: '/map',
+    name: 'Map',
+    component: Map
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: About
+  },
+  {
+    path: '/ads',
+    name: 'AdsSite',
+    component: AdsSite
+  },
+  {
+    path: '/carrier',
+    name: 'Carrier',
+    component: Carrier
+  },
+  {
+    path: '/companions',
+    name: 'Companions',
+    component: Companions
+  },
+  {
+    path: '/services/conditions',
+    name: 'ConditionsOfServices',
+    component: ConditionsOfServices
+  },
+  {
+    path: '/usability',
+    name: 'ConditionUsabilitySite',
+    component: ConditionUsabilitySite
+  },
+  {
+    path: '/drm',
+    name: 'DRM',
+    component: DRM
+  },
+  {
+    path: '/etic',
+    name: 'Etic',
+    component: Etic
+  },
+  {
+    path: '/Investors',
+    name: 'Investors',
+    component: Investors
+  },
+  {
+    path: '/it',
+    name: 'ITProjects',
+    component: ITProjects
+  },
+  {
+    path: '/life',
+    name: 'LifeInCompany',
+    component: LifeInCompany
+  },
+  {
+    path: '/hr',
+    name: 'NewsTradeHR',
+    component: NewsTradeHR
+  },
+  {
+    path: '/ratio',
+    name: 'Ratio',
+    component: Ratio
+  },
+  {
+    path: '/soft',
+    name: 'RequirementsSoftware',
+    component: RequirementsSoftware
+  },
+  {
+    path: '/security',
+    name: 'Security',
+    component: Security
+  },
+  {
+    path: '/api',
+    name: 'WorkanautAPI',
+    component: WorkanautAPI
   },
   
 ]

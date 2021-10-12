@@ -964,7 +964,7 @@ export default {
             tempResumes: [],
             resumes: [],
             userType: 'aspirant',
-            keywords: '',
+            keywords: this.$route.query.keywords,
             toggler: 'vacancies',
             offers: [],
             workType: 'Постоянная работа',
@@ -1208,7 +1208,7 @@ export default {
                         return this.profession.every((prof) => {
                             return vacancy.profession.toLowerCase().includes(prof)
                         }) &&
-                        vacancy.experience >= this.experience && vacancy.salary >= this.salary && this.keywords.length >= 1 && (vacancy.company.toLowerCase().includes(this.keywords) || vacancy.profession.toLowerCase().includes(this.keywords))
+                        vacancy.experience >= this.experience && vacancy.salary >= this.salary && this.keywords.length >= 1 && (vacancy.company.toLowerCase().includes(this.keywords) || vacancy.profession.toLowerCase().includes(this.keywords.toLowerCase()))
                     })
                 })
             } else if(this.userType.includes('employer')){

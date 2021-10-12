@@ -10,12 +10,12 @@
           Поиск работы
         </h3>
         <div class="searchWorkBlockInput">
-          <input v-if="loginFormToggler" v-model="feedback" type="phone" placeholder="Email или телефон" class="form-control">
+          <input v-if="loginFormToggler" v-model="feedback" type="phone" placeholder="Email или телефон" class="inputPad form-control">
           <div v-else class="inputContainer">
-            <input v-model="feedback" type="text" placeholder="Email или телефон" class="form-control">
-            <input v-model="password" type="password" placeholder="Пароль" class="form-control">
+            <input v-model="feedback" type="text" placeholder="Email или телефон" class="inputPad form-control">
+            <input v-model="password" type="password" placeholder="Пароль" class="inputPad form-control">
           </div>
-          <img width="75px" src="https://hhcdn.ru/icms/10239278.jpg" alt="">
+          <img width="100px" src="https://hhcdn.ru/icms/10239278.jpg" alt="">
         </div>
         <div class="searchWorkBlockContinue">
           <span class="authErrors">
@@ -49,8 +49,8 @@
         </h3>
         <div class="searchWorkBlockInput">
           <div class="inputContainer">
-            <input v-model="feedback" type="phone" placeholder="Email или телефон" class="form-control">
-            <input v-model="password" type="password" placeholder="Пароль" class="form-control">
+            <input v-model="feedback" type="phone" placeholder="Email или телефон" class="inputPad form-control">
+            <input v-model="password" type="password" placeholder="Пароль" class="inputPad form-control">
           </div>
           <img width="75px" src="https://hhcdn.ru/icms/10239239.jpg" alt="">
         </div>
@@ -305,15 +305,19 @@ export default {
   .searchWorkBlock {
     margin: 175px 0px;
     width: 35%;
-    height: 225px;
+    height: 325px;
     margin: 15px auto;
     background-color: rgb(245, 245, 245);
-    box-shadow: 5px 5px 10px rgb(25, 25, 25);
+    box-shadow: 5px 5px 15px rgb(200, 200, 200);
+    box-sizing: border-box;
+    border-radius: 15px;
+    padding: 15px;
   }
 
   .searchWorkBlockInput {
     display: flex;
     align-items: center;
+    justify-content: space-around;
   }
 
   .searchWorkBlockInput > * {
@@ -371,6 +375,11 @@ export default {
     text-decoration: none !important;
     font-weight: bolder;
     text-align: center;
+  }
+
+  .inputPad {
+    margin: 5px 0px;
+    width: 175px;
   }
 
 </style>

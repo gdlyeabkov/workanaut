@@ -5,40 +5,40 @@
             <span class="footerColumnHeader">
                 HeadHunter
             </span>
-            <span class="footerColumnItem">
+            <span @click="$router.push({ name: 'About' })" class="footerColumnItem">
                 О компании
             </span>
             <span class="footerColumnItem">
                 Наши вакансии
             </span>
-            <span class="footerColumnItem">
+            <span @click="$router.push({ name: 'AdsSite' })" class="footerColumnItem">
                 Реклама на сайте
             </span>
-            <span class="footerColumnItem">
+            <span @click="$router.push({ name: 'RequirementsSoftware' })" class="footerColumnItem">
                 Требования к ПО
             </span>
-            <span class="footerColumnItem">
+            <span @click="$router.push({ name: 'DRM' })" class="footerColumnItem">
                 Защита персональных данных
             </span>
-            <span class="footerColumnItem">
+            <span @click="$router.push({ name: 'Security' })" class="footerColumnItem">
                 Безопасный HeadHunter
             </span>
-            <span class="footerColumnItem">
+            <span @click="$router.push({ name: 'Etic' })" class="footerColumnItem">
                 Этика и комплаенс
             </span>
-            <span class="footerColumnItem">
-                HeadHunter API
+            <span @click="$router.push({ name: 'WorkanautAPI' })" class="footerColumnItem">
+                Workanaut API
             </span>
-            <span class="footerColumnItem">
+            <span @click="$router.push({ name: 'Companions' })" class="footerColumnItem">
                 Партнерам
             </span>
-            <span class="footerColumnItem">
+            <span @click="$router.push({ name: 'Investors' })" class="footerColumnItem">
                 Инвесторам
             </span>
-            <span class="footerColumnItem">
+            <span @click="$router.push({ name: 'ConditionsOfServices' })" class="footerColumnItem">
                 Условия оказания услуг
             </span>
-            <span class="footerColumnItem">
+            <span @click="$router.push({ name: 'ConditionUsabilitySite' })" class="footerColumnItem">
                 Условия использования сайтов
             </span>
         </div>
@@ -46,19 +46,19 @@
             <span class="footerColumnHeader">
                 Сервисы для соискателей
             </span>
-            <span class="footerColumnItem">
+            <span @click="$router.push({ name: 'NeedResume' })" class="footerColumnItem">
                 Готовое резюме
             </span>
-            <span class="footerColumnItem">
+            <span @click="$router.push({ name: 'Services' })" class="footerColumnItem">
                 Все сервисы
             </span>
             <span class="footerColumnItem">
                 Профориентация
             </span>
-            <span class="footerColumnItem">
+            <span @click="$router.push({ name: 'Carrier' })" class="footerColumnItem">
                 Форум карьеристов
             </span>
-            <span class="footerColumnItem">
+            <span @click="$router.push({ name: 'CreateResume' })" class="footerColumnItem">
                 Продвижение резюме
             </span>
             <span class="footerColumnItem">
@@ -70,7 +70,7 @@
             <span class="footerColumnHeader">
                 Молодым специалистам
             </span>
-            <span class="footerColumnItem">
+            <span @click="$router.push({ name: 'Carrier' })" class="footerColumnItem">
                 Карьера для молодых специалистов
             </span>
             <span class="footerColumnItem">
@@ -166,6 +166,7 @@ export default {
     }
 
     .footerColumnItem {
+        cursor: pointer;
         color: rgb(200, 200, 200);
     }
 

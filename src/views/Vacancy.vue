@@ -417,6 +417,36 @@ export default {
                         console.log(`JSON.parse(result).vacancies: ${JSON.parse(result)}`)
                         if(JSON.parse(result).status.includes('OK')){
                             this.resume = JSON.parse(result).resume
+                        
+                            fetch(`http://localhost:4000/api/resume/view/?resumeid=${this.$route.query.vacancyid}`, {
+                                mode: 'cors',
+                                method: 'GET'
+                            }).then(response => response.body).then(rb  => {
+                                const reader = rb.getReader()
+                                return new ReadableStream({
+                                start(controller) {
+                                    function push() {
+                                    reader.read().then( ({done, value}) => {
+                                        if (done) {
+                                        console.log('done', done);
+                                        controller.close();
+                                        return;
+                                        }
+                                        controller.enqueue(value);
+                                        console.log(done, value);
+                                        push();
+                                    })
+                                    }
+                                    push();
+                                }
+                                });
+                            }).then(stream => {
+                                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                            })
+                            .then(result => {
+                                
+                            })
+
                         } else if(JSON.parse(result).status.includes('Error')){
                             alert('Ошибка получения резюме')
                         }
