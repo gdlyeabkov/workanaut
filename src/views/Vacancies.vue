@@ -716,7 +716,7 @@
                                 <img width="125px" :src="`https://hhcdn.ru/employer-logo/3796715.jpeg`" alt="">
                             </div>
                             <div>
-                                <button class="btn btn-primary">
+                                <button @click="click(resume._id)" class="btn btn-primary">
                                     Откликнуться
                                 </button>
                                 <button class="btn btn-light">
@@ -761,7 +761,7 @@
                                 <img width="125px" :src="`https://hhcdn.ru/employer-logo/3796715.jpeg`" alt="">
                             </div>
                             <div>
-                                <button class="btn btn-primary">
+                                <button @click="click(resume._id)" class="btn btn-primary">
                                     Откликнуться
                                 </button>
                                 <button class="btn btn-light">
@@ -960,6 +960,7 @@ export default {
     name: 'Vacancies',
     data(){
         return {
+            aspirant: {},
             tempResumes: [],
             resumes: [],
             userType: 'aspirant',
@@ -992,6 +993,69 @@ export default {
                 this.keywords = this.$route.query.keywords
                 this.workType = this.$route.query.worktype
                 
+                if(this.userType.includes('aspirant')){
+                fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
+                    mode: 'cors',
+                    method: 'GET'
+                }).then(response => response.body).then(rb  => {
+                    const reader = rb.getReader()
+                    return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                        reader.read().then( ({done, value}) => {
+                            if (done) {
+                            console.log('done', done);
+                            controller.close();
+                            return;
+                            }
+                            controller.enqueue(value);
+                            console.log(done, value);
+                            push();
+                        })
+                        }
+                        push();
+                    }
+                    });
+                }).then(stream => {
+                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                })
+                .then(result => {
+                    console.log(`JSON.parse(result).vacancies: ${JSON.parse(result).vacancies.length}`)
+                    this.aspirant = JSON.parse(result).aspirant
+                    
+                })
+            } else if(this.userType.includes('employer')){
+                fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
+                    mode: 'cors',
+                    method: 'GET'
+                }).then(response => response.body).then(rb  => {
+                    const reader = rb.getReader()
+                    return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                        reader.read().then( ({done, value}) => {
+                            if (done) {
+                            console.log('done', done);
+                            controller.close();
+                            return;
+                            }
+                            controller.enqueue(value);
+                            console.log(done, value);
+                            push();
+                        })
+                        }
+                        push();
+                    }
+                    });
+                }).then(stream => {
+                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                })
+                .then(result => {
+                    console.log(`result: ${result}`)
+                    this.aspirant = JSON.parse(result).employer
+                })
+            }
+
                 this.refreshSearch()
 
             }
@@ -999,6 +1063,77 @@ export default {
 
     },
     methods: {
+        click(resumeId){
+            if(this.userType.includes('aspirant')) {
+                fetch(`http://localhost:4000/api/vacancy/response/?aspirantfeedback=${this.aspirant.feedback}&vacancyid=${resumeId}`, {
+                    mode: 'cors',
+                    method: 'GET'
+                }).then(response => response.body).then(rb  => {
+                    const reader = rb.getReader()
+                    return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                        reader.read().then( ({done, value}) => {
+                            if (done) {
+                            console.log('done', done);
+                            controller.close();
+                            return;
+                            }
+                            controller.enqueue(value);
+                            console.log(done, value);
+                            push();
+                        })
+                        }
+                        push();
+                    }
+                    });
+                }).then(stream => {
+                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                })
+                .then(result => {
+                    console.log(`JSON.parse(result).vacancies: ${JSON.parse(result)}`)
+                    if(JSON.parse(result).status.includes('OK')){
+                        this.$router.push({ name: 'Vacancy', query: { usertype: this.userType, vacancyid: resumeId } })
+                    } else if(JSON.parse(result).status.includes('Error')){
+                        alert('Ошибка отклика')
+                    }
+                })
+            } else if(this.userType.includes('employer')) {
+                fetch(`http://localhost:4000/api/resume/response/?employeremail=${this.aspirant.email}&resumeid=${resumeId}`, {
+                    mode: 'cors',
+                    method: 'GET'
+                }).then(response => response.body).then(rb  => {
+                    const reader = rb.getReader()
+                    return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                        reader.read().then( ({done, value}) => {
+                            if (done) {
+                            console.log('done', done);
+                            controller.close();
+                            return;
+                            }
+                            controller.enqueue(value);
+                            console.log(done, value);
+                            push();
+                        })
+                        }
+                        push();
+                    }
+                    });
+                }).then(stream => {
+                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                })
+                .then(result => {
+                    console.log(`JSON.parse(result).vacancies: ${JSON.parse(result)}`)
+                    if(JSON.parse(result).status.includes('OK')){
+                        this.$router.push({ name: 'Vacancy', query: { usertype: this.userType, vacancyid: resumeId } })
+                    } else if(JSON.parse(result).status.includes('Error')){
+                        alert('Ошибка отклика')
+                    }
+                })
+            }
+        },
         computeCompanyIndustry(subject) {
             if(this.userType.includes('aspirant')) {
                 return this.tempResumes.filter(resume => {
@@ -1063,6 +1198,7 @@ export default {
                 })
                 .then(result => {
                     console.log(`JSON.parse(result).vacancies: ${JSON.parse(result).vacancies.length}`)
+                    
                     this.resumes = JSON.parse(result).vacancies
                     
                     this.tempResumes = this.resumes

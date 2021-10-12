@@ -54,9 +54,9 @@
                 <div class="inputData">
                     <div class="aboutMe">
                         <label for="">
-                            Дата рождения
+                            Дата публикации
                         </label>
-                        <input type="date" class="w-50 form-control" required v-model="born">
+                        <input type="text" disabled class="w-50 form-control" required v-model="born">
                     </div>
                     <div class="aboutMe">
                         <label for="">
@@ -314,7 +314,7 @@ export default {
     },
     methods: {
         createVacancy(){
-            fetch(`http://localhost:4000/api/vacancies/add/?employeremail=${this.feedback}&vacancycity=${this.city}&vacancycompany=${this.company}&vacancysalary=${this.salary}&vacancyprofession=${this.profession}&vacancyexperience=${this.experience}&vacancyshedule=${this.shedule}&vacancyworktype=${this.worktype}&vacancycompanyindustry=${this.companyIndustry}`, {
+            fetch(`http://localhost:4000/api/vacancies/add/?employeremail=${this.feedback}&vacancycity=${this.city}&vacancycompany=${this.company}&vacancysalary=${this.salary}&vacancyprofession=${this.profession}&vacancyexperience=${this.experience}&vacancyshedule=${this.shedule}&vacancyworktype=${this.worktype}&vacancycompanyindustry=${this.companyIndustry}&vacancyborn=${this.born}`, {
                 mode: 'cors',
                 method: 'GET'
             }).then(response => response.body).then(rb  => {

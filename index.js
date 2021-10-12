@@ -465,7 +465,8 @@ app.get('/api/vacancy/response', (req, res) => {
             {
                 responses: [
                     {
-                        id: req.query.vacancyid
+                        id: req.query.vacancyid,
+                        type: 'response'
                     }
                 ]
             }
@@ -483,7 +484,8 @@ app.get('/api/vacancy/response', (req, res) => {
                         {
                             invites: [
                                 {
-                                    id: req.query.vacancyid
+                                    id: req.query.vacancyid,
+                                    type: 'invite'
                                 }
                             ]
                         }
@@ -511,7 +513,8 @@ app.get('/api/resume/response', (req, res) => {
             {
                 responses: [
                     {
-                        id: req.query.resumeid
+                        id: req.query.resumeid,
+                        type: 'response'
                     }
                 ]
             }
@@ -529,7 +532,8 @@ app.get('/api/resume/response', (req, res) => {
                         {
                             invites: [
                                 {
-                                    id: req.query.resumeid
+                                    id: req.query.resumeid,
+                                    type: 'invite'
                                 }
                             ]
                         }
@@ -612,7 +616,8 @@ app.get('/api/responses/add', (req, res) => {
             {
                 responses: [
                     {
-                        employer: resume.employerid
+                        employer: resume.employerid,
+                        type: 'response'
                     }
                 ]
                 
@@ -639,31 +644,66 @@ app.get('/api/aspirants/responses', (req, res) => {
         if(err){
             return res.json({ status: 'Error' })
         }
-        console.log(`aspirant: ${aspirant.responses}`)
-        // let queryOfResumes = ResumeModel.find({ _id: { $in: new Map(aspirant.responses).get('id') }  })
-        // queryOfResumes.exec((err, responses) => {
-            
-        //     return res.json({ status: 'OK', responses: responses  })  
-        // })
-        let actualResponses = []
-        let responses = []
-        responses = aspirant.responses.filter(response => {
-            let query = VacancyModel.find({  })
-            query.exec((err, vacancies) => {
-                if (err){
-                    return res.json({ "status": "Error" })
+        let totalResponses = []
+        let query = VacancyModel.find({ _id: { $in: aspirant.responses.flatMap((response) => new Map(response).get('id')) } })
+        query.exec((err, responses) => {
+            if(err){
+                return res.json({ status: 'Error' })
+            }
+            totalResponses = [
+                ...responses
+            ]
+            let query = ResumeModel.find({ _id: { $in: aspirant.invites.flatMap((invite) => new Map(invite).get('id')) } })
+            query.exec((err, invites) => {
+                if(err){
+                    return res.json({ status: 'Error' })
                 }
-                vacancies.map(vacancy => {
-                    if(new Map(response).get('id').includes(vacancy._id)) {
-                        console.log(`response._id: ${new Map(response).get('id')}`)
-                        actualResponses.push(vacancy)
-                    }
-                })
+                totalResponses = [
+                    ...totalResponses,
+                    ...invites
+                ]
+                return res.json({ status: 'OK', responses: totalResponses  })  
             })
+            
         })
-        return res.json({ status: 'OK', responses: actualResponses  })  
     })
     
+})
+
+app.get('/api/employers/responses', (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+
+    let query = EmployerModel.findOne({ email: req.query.employeremail })
+    query.exec((err, employer) => {
+        if(err){
+            return res.json({ status: 'Error' })
+        }
+        let totalResponses = []
+        let query = ResumeModel.find({ _id: { $in: employer.responses.flatMap((response) => new Map(response).get('id')) } })
+        query.exec((err, responses) => {
+            if(err){
+                return res.json({ status: 'Error' })
+            }
+            totalResponses = [
+                ...responses
+            ]
+            let query = VacancyModel.find({ _id: { $in: employer.invites.flatMap((invite) => new Map(invite).get('id')) } })
+            query.exec((err, invites) => {
+                if(err){
+                    return res.json({ status: 'Error' })
+                }
+                totalResponses = [
+                    ...totalResponses,
+                    ...invites
+                ]
+                return res.json({ status: 'OK', responses: totalResponses  })  
+            })      
+        })
+    })  
 })
 
 app.get('/api/aspirants/get', (req, res)=>{

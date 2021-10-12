@@ -7,9 +7,9 @@
                 Отказ
             </h3>
             <span class="vacancyName">
-                Backend-Разработчик на проект (умные дома), удаленка, Kotlin в компанию
+                {{ resume.profession }}
                 <span class="vacancyDesc">
-                    Вайс Сити
+                    {{ resume.city }}
                 </span>
             </span>
             <div>
@@ -17,7 +17,7 @@
                     Резюме 
                 </span>
                 <span class="vacancyDesc">
-                    Программист, 10000 руб.
+                    Программист, {{ resume.salary }} руб.
                 </span>
             </div>
             <div class="messages">
@@ -52,15 +52,100 @@
 import Header from '@/components/Header.vue'
 import BarAuth from '@/components/BarAuth.vue'
 import Footer from '@/components/Footer.vue'
+
+import * as jwt from 'jsonwebtoken'
+
 export default {
     name: 'Response',
     data(){
         return {
-            userType: 'aspirant'
+            userType: 'aspirant',
+            resume: {},
+            token: localStorage.getItem('workanauttoken'),
         }
     },
     mounted(){
+        
         this.userType = this.$route.query.usertype
+
+        jwt.verify(this.token, 'workanautsecret', (err, decoded) => {
+            if (err) {
+                this.$router.push({ name: "Login", query: { logintype: 'employee' } })
+            } else {
+                this.userType = this.$route.query.usertype
+                this.aspirantFeedback = decoded.phone
+                if(this.userType.includes('aspirant')) {
+                    fetch(`http://localhost:4000/api/vacancy/get/?vacancyid=${this.$route.query.responseid}`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                            }
+                            push();
+                        }
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        console.log(`JSON.parse(result).vacancies: ${JSON.parse(result)}`)
+                        if(JSON.parse(result).status.includes('OK')){
+                            this.resume = JSON.parse(result).resume
+                        } else if(JSON.parse(result).status.includes('Error')){
+                            alert('Ошибка получения вакансии')
+                        }
+                    })
+                } else if(this.userType.includes('employer')) {
+                    fetch(`http://localhost:4000/api/resume/get/?resumeid=${this.$route.query.responseid}`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                            }
+                            push();
+                        }
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        console.log(`JSON.parse(result).vacancies: ${JSON.parse(result)}`)
+                        if(JSON.parse(result).status.includes('OK')){
+                            this.resume = JSON.parse(result).resume
+                        } else if(JSON.parse(result).status.includes('Error')){
+                            alert('Ошибка получения резюме')
+                        }
+                    })
+                }
+            }
+        })
+
     },
     components: {
         Header,

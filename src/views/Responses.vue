@@ -46,323 +46,119 @@
                             </span>
                         </div>
                     </div>
-                    <!-- <div class="responsesTableRow">
-                        <div>
-                            <div>
-                                <input type="checkbox">
-                                <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
-                                    {{ responseStatus }}
-                                </span>
-                            </div>
-                            <div class="chart">
-                                <span>
-                                    О
-                                </span>
-                                <span>
-                                    87%
-                                </span>
-                                <span>
-                                    |||
-                                </span>
-                            </div>
-                        </div>
-                        <div class="vacancyColumn">
-                            <span class="vacancyName">
-                                2d Аниматор (Художник-аниматор)
-                            </span>
-                            <span class="vacancyPlace">
-                                в Nexters
-                            </span>
-                            <div class="actions">
-                                <span class="vacancyAction">
-                                    Удалить
-                                </span>
-                                <span class="vacancyAction">
-                                    Оставить отзыв
-                                </span>
-                                <span class="vacancyAction">
-                                    Статистика по вакансии
-                                </span>
-                            </div>
-                        </div>
-                        <div>
-                            <span class="vacancyDate">
-                                26 апреля 2021
-                            </span>
-                        </div>
-                    </div>
-                    <div class="responsesTableRow">
-                        <div>
-                            <div>
-                                <input type="checkbox">
-                                <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
-                                    {{ responseStatus }}
-                                </span>
-                            </div>
-                            <div class="chart">
-                                <span>
-                                    О
-                                </span>
-                                <span>
-                                    87%
-                                </span>
-                                <span>
-                                    |||
-                                </span>
-                            </div>
-                        </div>
-                        <div class="vacancyColumn">
-                            <span class="vacancyName">
-                                2d Аниматор (Художник-аниматор)
-                            </span>
-                            <span class="vacancyPlace">
-                                в Nexters
-                            </span>
-                            <div class="actions">
-                                <span class="vacancyAction">
-                                    Удалить
-                                </span>
-                                <span class="vacancyAction">
-                                    Оставить отзыв
-                                </span>
-                                <span class="vacancyAction">
-                                    Статистика по вакансии
-                                </span>
-                            </div>
-                        </div>
-                        <div>
-                            <span class="vacancyDate">
-                                26 апреля 2021
-                            </span>
-                        </div>
-                    </div>
-                    <div class="responsesTableRow">
-                        <div>
-                            <div>
-                                <input type="checkbox">
-                                <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
-                                    {{ responseStatus }}
-                                </span>
-                            </div>
-                            <div class="chart">
-                                <span>
-                                    О
-                                </span>
-                                <span>
-                                    87%
-                                </span>
-                                <span>
-                                    |||
-                                </span>
-                            </div>
-                        </div>
-                        <div class="vacancyColumn">
-                            <span class="vacancyName">
-                                2d Аниматор (Художник-аниматор)
-                            </span>
-                            <span class="vacancyPlace">
-                                в Nexters
-                            </span>
-                            <div class="actions">
-                                <span class="vacancyAction">
-                                    Удалить
-                                </span>
-                                <span class="vacancyAction">
-                                    Оставить отзыв
-                                </span>
-                                <span class="vacancyAction">
-                                    Статистика по вакансии
-                                </span>
-                            </div>
-                        </div>
-                        <div>
-                            <span class="vacancyDate">
-                                26 апреля 2021
-                            </span>
-                        </div>
-                    </div>
-                    <div class="responsesTableRow">
-                        <div>
-                            <div>
-                                <input type="checkbox">
-                                <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
-                                    {{ responseStatus }}
-                                </span>
-                            </div>
-                            <div class="chart">
-                                <span>
-                                    О
-                                </span>
-                                <span>
-                                    87%
-                                </span>
-                                <span>
-                                    |||
-                                </span>
-                            </div>
-                        </div>
-                        <div class="vacancyColumn">
-                            <span class="vacancyName">
-                                2d Аниматор (Художник-аниматор)
-                            </span>
-                            <span class="vacancyPlace">
-                                в Nexters
-                            </span>
-                            <div class="actions">
-                                <span class="vacancyAction">
-                                    Удалить
-                                </span>
-                                <span class="vacancyAction">
-                                    Оставить отзыв
-                                </span>
-                                <span class="vacancyAction">
-                                    Статистика по вакансии
-                                </span>
-                            </div>
-                        </div>
-                        <div>
-                            <span class="vacancyDate">
-                                26 апреля 2021
-                            </span>
-                        </div>
-                    </div>
-                    <div class="responsesTableRow">
-                        <div>
-                            <div>
-                                <input type="checkbox">
-                                <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
-                                    {{ responseStatus }}
-                                </span>
-                            </div>
-                            <div class="chart">
-                                <span>
-                                    О
-                                </span>
-                                <span>
-                                    87%
-                                </span>
-                                <span>
-                                    |||
-                                </span>
-                            </div>
-                        </div>
-                        <div class="vacancyColumn">
-                            <span class="vacancyName">
-                                2d Аниматор (Художник-аниматор)
-                            </span>
-                            <span class="vacancyPlace">
-                                в Nexters
-                            </span>
-                            <div class="actions">
-                                <span class="vacancyAction">
-                                    Удалить
-                                </span>
-                                <span class="vacancyAction">
-                                    Оставить отзыв
-                                </span>
-                                <span class="vacancyAction">
-                                    Статистика по вакансии
-                                </span>
-                            </div>
-                        </div>
-                        <div>
-                            <span class="vacancyDate">
-                                26 апреля 2021
-                            </span>
-                        </div>
-                    </div> -->
+                    
                     <div v-if="userType.includes('aspirant')">
-                        <div v-for="response in responses" :key="response._id" class="responsesTableRow">
-                            <div>
+                        <div v-if="responses.length >= 1">
+                            <div v-for="response in responses" :key="response._id" class="responsesTableRow">
                                 <div>
-                                    <input type="checkbox">
-                                    <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
-                                        {{ responseStatus }}
-                                    </span>
+                                    <div>
+                                        <input type="checkbox">
+                                        <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
+                                            {{ responseStatus }}
+                                        </span>
+                                    </div>
+                                    <div class="chart">
+                                        <span>
+                                            О
+                                        </span>
+                                        <span>
+                                            87%
+                                        </span>
+                                        <span>
+                                            |||
+                                        </span>
+                                    </div>
                                 </div>
-                                <div class="chart">
-                                    <span>
-                                        О
+                                <div class="vacancyColumn">
+                                    <span @click="$router.push({ name: 'Response', query: { usertype: userType, responseid: response._id } })" class="vacancyName">
+                                        {{ response.profession }}
                                     </span>
-                                    <span>
-                                        87%
+                                    <span class="vacancyPlace">
+                                        в {{ response.company }}
                                     </span>
-                                    <span>
-                                        |||
+                                    <div class="actions">
+                                        <span class="vacancyAction">
+                                            Удалить
+                                        </span>
+                                        <span class="vacancyAction">
+                                            Оставить отзыв
+                                        </span>
+                                        <span class="vacancyAction">
+                                            Статистика по 
+                                            {{
+                                                response.hasOwnProperty('company') ?
+                                                    "вакансии"
+                                                :
+                                                    "резюме"
+                                            }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="vacancyDate">
+                                        {{ `${response.born.split('.')[0]} ${computeMonth(response.born.split('.')[1])} ${response.born.split('.')[2]}` }}
                                     </span>
                                 </div>
                             </div>
-                            <div class="vacancyColumn">
-                                <span class="vacancyName">
-                                    {{ response.profession }}
-                                </span>
-                                <span class="vacancyPlace">
-                                    в {{ response.company }}
-                                </span>
-                                <div class="actions">
-                                    <span class="vacancyAction">
-                                        Удалить
-                                    </span>
-                                    <span class="vacancyAction">
-                                        Оставить отзыв
-                                    </span>
-                                    <span class="vacancyAction">
-                                        Статистика по вакансии
-                                    </span>
-                                </div>
-                            </div>
-                            <div>
-                                <span class="vacancyDate">
-                                    26 апреля 2021
-                                </span>
-                            </div>
+                        </div>
+                        <div v-else>
+                            <p>
+                                Отликов нет
+                            </p>
                         </div>
                     </div>
                     <div v-if="userType.includes('employer')">
-                        <div v-for="resume in resumes" :key="resume._id" class="responsesTableRow">
-                            <div>
+                        <div v-if="responses.length >= 1">
+                            <div v-for="response in responses" :key="response._id" class="responsesTableRow">
                                 <div>
-                                    <input type="checkbox">
-                                    <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
-                                        {{ responseStatus }}
-                                    </span>
+                                    <div>
+                                        <input type="checkbox">
+                                        <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
+                                            {{ responseStatus }}
+                                        </span>
+                                    </div>
+                                    <div class="chart">
+                                        <span>
+                                            О
+                                        </span>
+                                        <span>
+                                            87%
+                                        </span>
+                                        <span>
+                                            |||
+                                        </span>
+                                    </div>
                                 </div>
-                                <div class="chart">
-                                    <span>
-                                        О
+                                <div class="vacancyColumn">
+                                    <span @click="$router.push({ name: 'Response', query: { usertype: userType, responseid: response._id } })" class="vacancyName">
+                                        {{ response.profession }}
                                     </span>
-                                    <span>
-                                        87%
+                                    <span class="vacancyPlace">
+                                        в {{ response.company }}
                                     </span>
-                                    <span>
-                                        |||
+                                    <div class="actions">
+                                        <span class="vacancyAction">
+                                            Удалить
+                                        </span>
+                                        <span class="vacancyAction">
+                                            Оставить отзыв
+                                        </span>
+                                        <span class="vacancyAction">
+                                            Статистика по вакансии
+                                        </span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="vacancyDate">
+                                        {{ `${response.born.split('.')[0]} ${computeMonth(response.born.split('.')[1])} ${response.born.split('.')[2]}` }}
                                     </span>
                                 </div>
                             </div>
-                            <div class="vacancyColumn">
-                                <span class="vacancyName">
-                                    {{ response.profession }}
-                                </span>
-                                <span class="vacancyPlace">
-                                    в {{ response.company }}
-                                </span>
-                                <div class="actions">
-                                    <span class="vacancyAction">
-                                        Удалить
-                                    </span>
-                                    <span class="vacancyAction">
-                                        Оставить отзыв
-                                    </span>
-                                    <span class="vacancyAction">
-                                        Статистика по вакансии
-                                    </span>
-                                </div>
-                            </div>
-                            <div>
-                                <span class="vacancyDate">
-                                    26 апреля 2021
-                                </span>
-                            </div>
+                        </div>
+                        <div v-else>
+                            <p>
+                                Отликов нет
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -782,7 +578,26 @@ export default {
             aspirant: {},
             resumes: [],
             responses: [],
-            token: window.localStorage.getItem('workanauttoken')
+            token: window.localStorage.getItem('workanauttoken'),
+            months: {
+                "1": "января",
+                "2": "февраля",
+                "3": "марта",
+                "4": "апреля",
+                "5": "мая",
+                "6": "июня",
+                "7": "июля",
+                "8": "августа",
+                "9": "сентября",
+                "10": "октября",
+                "11": "ноября",
+                "12": "декабря",
+            }
+        }
+    },
+    methods: {
+        computeMonth(month){
+            return this.months[month]
         }
     },
     mounted(){
@@ -794,7 +609,6 @@ export default {
                 this.$router.push({ name: "Login", query: { logintype: 'employee' } })
             } else {
                 if(this.userType.includes('aspirant')){
-                    // fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
                     fetch(`http://localhost:4000/api/aspirants/responses/?aspirantfeedback=${decoded.phone}`, {
                         mode: 'cors',
                         method: 'GET'
@@ -821,18 +635,11 @@ export default {
                         return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
                     })
                     .then(result => {
-                        console.log(`JSON.parse(result): ${JSON.parse(result).responses.length}`)
-                        // this.aspirant = JSON.parse(result).aspirant
-                        // this.resumes = JSON.parse(result).vacancies
-                        // this.responses = this.resumes.filter(vacancy => {
-                        //     return this.aspirant.responses.filter(response => {
-                        //         return response.id.includes(vacancy._id)
-                        //     })
-                        // })
+                        console.log(`JSON.parse(result): ${JSON.parse(result)}`)
                         this.responses = JSON.parse(result).responses
                     })
                 } else if(this.userType.includes('employer')){
-                    fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
+                    fetch(`http://localhost:4000/api/employers/responses/?employeremail=${decoded.phone}`, {
                         mode: 'cors',
                         method: 'GET'
                     }).then(response => response.body).then(rb  => {
@@ -858,14 +665,8 @@ export default {
                         return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
                     })
                     .then(result => {
-                        console.log(`JSON.parse(result): ${JSON.parse(result)}`)
-                        this.aspirant = JSON.parse(result).employer
-                        this.resumes = JSON.parse(result).resumes
-                        this.responses = this.resumes.filter(resume => {
-                            return this.aspirant.responses.map(response => {
-                                return resume._id.includes(response.id)
-                            })
-                        })
+                        console.log(`JSON.parse(result): ${JSON.parse(result).responses.length}`)
+                        this.responses = JSON.parse(result).responses
                     })
                 }
             }
@@ -1005,6 +806,7 @@ export default {
     }
 
     .vacancyName {
+        cursor: pointer;
         font-weight: bolder;
         font-size: 18px;
         color: rgb(0, 100, 150);
