@@ -20,7 +20,7 @@
                                     </span>
                                 </div>
                                 <span>  
-                                    {{ totalResponses }}
+                                    {{ totalResponsesAndInvites }}
                                 </span>
                             </div>
                             <div v-if="userType.includes('aspirant')" class="authMenuHeaderRow">
@@ -241,7 +241,7 @@ export default {
             vacancies: [],
             aspirant: {},
             token: window.localStorage.getItem('workanauttoken'),
-            totalResponses: 0,
+            totalResponsesAndInvites: 0,
             totalFavorites: 0
         }
     },
@@ -284,7 +284,7 @@ export default {
                         this.resumes = JSON.parse(result).resumes
                         this.vacancies = JSON.parse(result).vacancies
                         this.aspirant = JSON.parse(result).aspirant
-                        this.totalResponses = this.aspirant.responses.length
+                        this.totalResponsesAndInvites = this.aspirant.responses.length + this.aspirant.invites.length
                         this.totalFavorites = this.aspirant.favorites.length
                     })
                 } else if(this.userType.includes('employer')){
@@ -317,7 +317,7 @@ export default {
                         console.log(`JSON.parse(result): ${JSON.parse(result)}`)
                         this.resumes = JSON.parse(result).vacancies
                         this.aspirant = JSON.parse(result).employer
-                        
+                        this.totalResponsesAndInvites = this.aspirant.responses.length + this.aspirant.invites.length
                     })
                 }
             }

@@ -67,6 +67,7 @@ mongoose.connect(url, connectionParams)
         company: String,
         region: String,
         responses: [mongoose.Schema.Types.Map],
+        invites: [mongoose.Schema.Types.Map],
     }, { collection : 'myemployers' });
 
     const EmployerModel = mongoose.model('EmployerModel', EmployerSchema);
@@ -202,10 +203,6 @@ const ResumeSchema = new mongoose.Schema({
     isPublic: {
         type: Boolean,
         default: true
-    },
-    invites: {
-        type: Number,
-        default: 0
     },
     views: {
         type: Number,
@@ -484,7 +481,7 @@ app.get('/api/vacancy/response', (req, res) => {
                 EmployerModel.updateOne({ email: vacancy.employerEmail },
                     { $push: 
                         {
-                            responses: [
+                            invites: [
                                 {
                                     id: req.query.vacancyid
                                 }

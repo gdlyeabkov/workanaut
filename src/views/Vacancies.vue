@@ -23,7 +23,7 @@
                 </div>
             </div>
             <hr />
-            <div v-if="toggler.includes('vacancies') && userType.includes('aspirant')">
+            <div v-if="toggler.includes('vacancies')">
                 <span class="countOfResults">
                     {{ resumes.length }} вакансия «{{ keywords }}»
                 </span>
@@ -365,9 +365,7 @@
                                     Розничная торговля
                                     <span class="countResultsException">
                                         {{ 
-                                            tempResumes.filter(resume => {
-                                                return resume.companyIndustry.toLowerCase().includes('розничная торговля')
-                                            }).length
+                                            computeCompanyIndustry('розничная торговля')
                                         }}
                                     </span>
                                 </span>
@@ -378,9 +376,7 @@
                                     Продукты питания 
                                     <span class="countResultsException">
                                         {{ 
-                                            tempResumes.filter(resume => {
-                                                return resume.companyIndustry.toLowerCase().includes('продукты питания')
-                                            }).length
+                                            computeCompanyIndustry('продукты питания')
                                         }}
                                     </span>
                                 </span>
@@ -391,9 +387,7 @@
                                     Перевозки, логистика, склад, ВЭД
                                     <span class="countResultsException">
                                         {{ 
-                                            tempResumes.filter(resume => {
-                                                return resume.companyIndustry.toLowerCase().includes('Перевозки, логистика, склад, вэд')
-                                            }).length
+                                            computeCompanyIndustry('Перевозки, логистика, склад, вэд')
                                         }}
                                     </span>
                                 </span>
@@ -404,9 +398,7 @@
                                     Товары народного потребления (непищевые) 
                                     <span class="countResultsException">
                                         {{ 
-                                            tempResumes.filter(resume => {
-                                                return resume.companyIndustry.toLowerCase().includes('товары народного потребления (непищевые)')
-                                            }).length
+                                            computeCompanyIndustry('товары народного потребления (непищевые)')
                                         }}
                                     </span>
                                 </span>
@@ -417,9 +409,7 @@
                                     Услуги для бизнеса
                                     <span class="countResultsException">
                                         {{ 
-                                            tempResumes.filter(resume => {
-                                                return resume.companyIndustry.toLowerCase().includes('услуги для бизнеса')
-                                            }).length
+                                            computeCompanyIndustry('услуги для бизнеса')
                                         }}
                                     </span>
                                 </span>
@@ -449,9 +439,7 @@
                                     Нет опыта
                                     <span class="countResultsException">
                                         {{
-                                            tempResumes.filter(resume => {
-                                                return resume.experience === 0
-                                            }).length
+                                            computeExperience(0, 0)
                                         }}
                                     </span>
                                 </span>
@@ -462,7 +450,7 @@
                                     От 1 года до 3 лет 
                                     <span class="countResultsException">
                                         {{
-                                            tempResumes.filter(resume => resume.experience >= 1 && 3 >= resume.experience).length
+                                            computeExperience(1, 3)
                                         }}
                                     </span>
                                 </span>
@@ -473,7 +461,7 @@
                                     От 3 до 6 лет 
                                     <span class="countResultsException">
                                         {{
-                                            tempResumes.filter(resume => resume.experience >= 3 && 6 >= resume.experience).length
+                                            computeExperience(3, 6)
                                         }}
                                     </span>
                                 </span>
@@ -484,7 +472,7 @@
                                     Более 6 лет 
                                     <span class="countResultsException">
                                         {{
-                                            tempResumes.filter(resume => resume.experience >= 6).length
+                                            computeExperience(6)
                                         }}
                                     </span>
                                 </span>
@@ -502,9 +490,7 @@
                                     Полная занятость
                                     <span class="countResultsException">
                                         {{ 
-                                            tempResumes.filter(resume => {
-                                                return resume.worktype.toLowerCase().includes('полная занятость')
-                                            }).length
+                                            computeWorktype('полная занятость')
                                         }}
                                     </span>
                                 </span>
@@ -515,9 +501,7 @@
                                     Частичная занятость
                                     <span class="countResultsException">
                                         {{ 
-                                            tempResumes.filter(resume => {
-                                                return resume.worktype.toLowerCase().includes('частичная занятость')
-                                            }).length
+                                            computeWorktype('частичная занятость')
                                         }}
                                     </span>
                                 </span>
@@ -528,9 +512,7 @@
                                     Проектная работа
                                     <span class="countResultsException">
                                         {{ 
-                                            tempResumes.filter(resume => {
-                                                return resume.worktype.toLowerCase().includes('проектная работа')
-                                            }).length
+                                            computeWorktype('проектная работа')
                                         }}
                                     </span>
                                 </span>
@@ -541,9 +523,7 @@
                                     Стажировка
                                     <span class="countResultsException">
                                         {{ 
-                                            tempResumes.filter(resume => {
-                                                return resume.worktype.toLowerCase().includes('стажировка')
-                                            }).length
+                                            computeWorktype('стажировка')
                                         }}
                                     </span>
                                 </span>
@@ -554,9 +534,7 @@
                                     Волонтерство
                                     <span class="countResultsException">
                                         {{ 
-                                            tempResumes.filter(resume => {
-                                                return resume.worktype.toLowerCase().includes('волонтерство')
-                                            }).length
+                                            computeWorktype('волонтерство')
                                         }}
                                     </span>
                                 </span>
@@ -574,9 +552,7 @@
                                     Полный день
                                     <span class="countResultsException">
                                         {{ 
-                                            tempResumes.filter(resume => {
-                                                return resume.shedule.toLowerCase().includes('полный день')
-                                            }).length
+                                            computeShedule('полный день')
                                         }}
                                     </span>
                                 </span>
@@ -587,9 +563,7 @@
                                     Сменный график
                                     <span class="countResultsException">
                                         {{ 
-                                            tempResumes.filter(resume => {
-                                                return resume.shedule.toLowerCase().includes('сменный график')
-                                            }).length
+                                            computeShedule('сменный график')
                                         }}
                                     </span>
                                 </span>
@@ -600,9 +574,7 @@
                                     Вахтовый метод
                                     <span class="countResultsException">
                                         {{ 
-                                            tempResumes.filter(resume => {
-                                                return resume.shedule.toLowerCase().includes('вахтовый метод')
-                                            }).length
+                                            computeShedule('вахтовый метод')
                                         }}
                                     </span>
                                 </span>
@@ -613,9 +585,7 @@
                                     Гибкий график 
                                     <span class="countResultsException">
                                         {{ 
-                                            tempResumes.filter(resume => {
-                                                return resume.shedule.toLowerCase().includes('гибкий график ')
-                                            }).length
+                                            computeShedule('гибкий график')
                                         }}
                                     </span>
                                 </span>
@@ -626,9 +596,7 @@
                                     Удаленная работа
                                     <span class="countResultsException">
                                         {{ 
-                                            tempResumes.filter(resume => {
-                                                return resume.shedule.toLowerCase().includes('удаленная работа')
-                                            }).length
+                                            computeShedule('удаленная работа')
                                         }}
                                     </span>
                                 </span>
@@ -712,7 +680,7 @@
                     </span>
                 </div>
                 <div class="vacancies">
-                    <div v-if="userType.includes('aspirant')">
+                    <div v-if="userType.includes('employer')">
                         <div v-for="resume in resumes" :key="resume._id" class="vacancyItem">
                             <div class="vacancyItemBenefits">
                                 <div class="vacancyItemBenefit vacancyItemBenefitFirst">
@@ -723,7 +691,7 @@
                                 </div>
                             </div>
                             <div class="vacancyItemHeader">
-                                <span @click="$router.push({ name: 'Vacancy', query: { usertype: userType, vacancyid: resume._id } })" class="vacancyItemName">
+                                <span  @click="$router.push({ name: 'Vacancy', query: { usertype: userType, vacancyid: resume._id } })" class="vacancyItemName">
                                     {{ resume.profession }}
                                 </span>
                                 <span class="vacancyItemSalary">
@@ -732,7 +700,7 @@
                             </div>
                             <div class="vacancyItemAux vacancyItemAuxRow">
                                 <span>
-                                    {{ resume.company }}
+                                    {{ `${resume.name} ${resume.secondName}`}}
                                 </span>
                                 <span class="material-icons">
                                     done
@@ -757,7 +725,7 @@
                             </div>
                         </div>
                     </div>
-                    <div v-else-if="userType.includes('employer')">
+                    <div v-else-if="userType.includes('aspirant')">
                         <div v-for="resume in resumes" :key="resume._id" class="vacancyItem">
                             <div class="vacancyItemBenefits">
                                 <div class="vacancyItemBenefit vacancyItemBenefitFirst">
@@ -768,7 +736,7 @@
                                 </div>
                             </div>
                             <div class="vacancyItemHeader">
-                                <span class="vacancyItemName">
+                                <span @click="$router.push({ name: 'Vacancy', query: { usertype: userType, vacancyid: resume._id } })" class="vacancyItemName">
                                     {{ resume.profession }}
                                 </span>
                                 <span class="vacancyItemSalary">
@@ -777,7 +745,7 @@
                             </div>
                             <div class="vacancyItemAux vacancyItemAuxRow">
                                 <span>
-                                    {{ resume.salary }}
+                                    {{ resume.company }}
                                 </span>
                                 <span class="material-icons">
                                     done
@@ -1031,6 +999,41 @@ export default {
 
     },
     methods: {
+        computeCompanyIndustry(subject) {
+            if(this.userType.includes('aspirant')) {
+                return this.tempResumes.filter(resume => {
+                    return resume.companyIndustry.toLowerCase().includes(subject)
+                }).length
+            } else {
+                return ''
+            }
+        },
+        computeExperience(min = 0, max = 6){
+            if(this.userType.includes('aspirant')) {
+                // return this.tempResumes.filter(resume => resume.experience >= min).length
+                return this.tempResumes.filter(resume => resume.experience >= min && max >= resume.experience).length
+            } else {
+                return ''
+            }
+        },
+        computeWorktype(subject){
+            if(this.userType.includes('aspirant')) {
+                return this.tempResumes.filter(resume => {
+                    return resume.worktype.toLowerCase().includes(subject)
+                }).length
+            } else {
+                return ''
+            }
+        },
+        computeShedule(subject){
+            if(this.userType.includes('aspirant')) {
+                return this.tempResumes.filter(resume => {
+                    return resume.shedule.toLowerCase().includes(subject)
+                }).length
+            } else {
+                return ''
+            }
+        },
         refreshSearch(){
             if(this.userType.includes('aspirant')){
                 fetch(`http://localhost:4000/api/vacancies/get/`, {
@@ -1100,6 +1103,7 @@ export default {
                 })
                 .then(result => {
                     console.log(`JSON.parse(result): ${JSON.parse(result).resumes.length}`)
+                    console.log(`result: ${result}`)
                     this.resumes = JSON.parse(result).resumes
                     this.tempResumes = this.resumes
                     this.resumes = JSON.parse(result).resumes.filter(resume => {
@@ -1125,61 +1129,6 @@ export default {
 </script>
 
 <style scoped>
-    .bar {
-        height: 75px;
-        background-color: rgb(0, 0, 0);
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-    }
-
-    .barItem {
-        height: 75px;
-        background-color: rgb(0, 0, 0);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .barItem > * {
-        margin: 10px;
-    }
-
-    .help {
-        color: rgb(255, 255, 255);
-        text-decoration: underline;
-        text-decoration-style: dotted;
-    }
-
-    .logo {
-        color: rgb(255, 255, 255);
-        font-weight: bolder;
-        font-size: 24px;
-        display: flex; 
-        justify-content: center;
-        align-items: center;
-        border-radius: 100%;
-        background-color: rgb(200, 0, 0);
-        width: 45px;
-        height: 45px
-    }
-
-    .withoutBackgroundBtn {
-        background-color: transparent;
-        border-radius: 25px;
-        width: 175px;
-    }
-
-    .createResumeBtn {
-        color: rgb(0, 125, 0);
-        border: 1px solid rgb(0, 125, 0);
-    }
-
-    .loginBtn {
-        color: rgb(235, 235, 235);
-        border: 1px solid rgb(235, 235, 235);
-    }
-
     .togglerContainer {
         
     }
@@ -1321,7 +1270,8 @@ export default {
 
     .vacancies {
         margin-left: 75px;
-        float: left;
+        /* float: left; */
+        /* height: 1000px; */
         width: 65%;
     }
 
@@ -1331,7 +1281,7 @@ export default {
         padding: 25px;
         display: flex;
         flex-direction: column;
-
+        /* height: 350px; */
     }
 
     .vacancyItemName {

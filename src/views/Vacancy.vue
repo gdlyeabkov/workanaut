@@ -26,10 +26,10 @@
                     <button @click="showContacts()" class="btn btn-primary">
                         Показать контакты
                     </button>
-                    <span @click="favorite()" class="material-icons btn btn-primary">
+                    <span v-if="userType.includes('aspirant')" @click="favorite()" class="material-icons btn btn-primary">
                         star
                     </span>
-                    <span @click="block()" class="btn btn-primary material-icons">
+                    <span v-if="userType.includes('aspirant')" @click="block()" class="btn btn-primary material-icons">
                         block
                     </span>
                 </div>
@@ -317,39 +317,75 @@ export default {
             } else {
                 this.userType = this.$route.query.usertype
                 this.aspirantFeedback = decoded.phone
-                fetch(`http://localhost:4000/api/vacancy/get/?vacancyid=${this.$route.query.vacancyid}`, {
-                    mode: 'cors',
-                    method: 'GET'
-                }).then(response => response.body).then(rb  => {
-                    const reader = rb.getReader()
-                    return new ReadableStream({
-                    start(controller) {
-                        function push() {
-                        reader.read().then( ({done, value}) => {
-                            if (done) {
-                            console.log('done', done);
-                            controller.close();
-                            return;
+                if(this.userType.includes('aspirant')) {
+                    fetch(`http://localhost:4000/api/vacancy/get/?vacancyid=${this.$route.query.vacancyid}`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
                             }
-                            controller.enqueue(value);
-                            console.log(done, value);
                             push();
-                        })
                         }
-                        push();
-                    }
-                    });
-                }).then(stream => {
-                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
-                })
-                .then(result => {
-                    console.log(`JSON.parse(result).vacancies: ${JSON.parse(result)}`)
-                    if(JSON.parse(result).status.includes('OK')){
-                        this.resume = JSON.parse(result).resume
-                    } else if(JSON.parse(result).status.includes('Error')){
-                        alert('Ошибка получения резюме')
-                    }
-                })
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        console.log(`JSON.parse(result).vacancies: ${JSON.parse(result)}`)
+                        if(JSON.parse(result).status.includes('OK')){
+                            this.resume = JSON.parse(result).resume
+                        } else if(JSON.parse(result).status.includes('Error')){
+                            alert('Ошибка получения вакансии')
+                        }
+                    })
+                } else if(this.userType.includes('employer')) {
+                    fetch(`http://localhost:4000/api/resume/get/?resumeid=${this.$route.query.vacancyid}`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                            }
+                            push();
+                        }
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        console.log(`JSON.parse(result).vacancies: ${JSON.parse(result)}`)
+                        if(JSON.parse(result).status.includes('OK')){
+                            this.resume = JSON.parse(result).resume
+                        } else if(JSON.parse(result).status.includes('Error')){
+                            alert('Ошибка получения резюме')
+                        }
+                    })
+                }
             }
         })
     },
