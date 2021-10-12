@@ -46,7 +46,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="responsesTableRow">
+                    <!-- <div class="responsesTableRow">
                         <div>
                             <div>
                                 <input type="checkbox">
@@ -269,6 +269,100 @@
                             <span class="vacancyDate">
                                 26 апреля 2021
                             </span>
+                        </div>
+                    </div> -->
+                    <div v-if="userType.includes('aspirant')">
+                        <div v-for="response in responses" :key="response._id" class="responsesTableRow">
+                            <div>
+                                <div>
+                                    <input type="checkbox">
+                                    <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
+                                        {{ responseStatus }}
+                                    </span>
+                                </div>
+                                <div class="chart">
+                                    <span>
+                                        О
+                                    </span>
+                                    <span>
+                                        87%
+                                    </span>
+                                    <span>
+                                        |||
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="vacancyColumn">
+                                <span class="vacancyName">
+                                    {{ response.profession }}
+                                </span>
+                                <span class="vacancyPlace">
+                                    в {{ response.company }}
+                                </span>
+                                <div class="actions">
+                                    <span class="vacancyAction">
+                                        Удалить
+                                    </span>
+                                    <span class="vacancyAction">
+                                        Оставить отзыв
+                                    </span>
+                                    <span class="vacancyAction">
+                                        Статистика по вакансии
+                                    </span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="vacancyDate">
+                                    26 апреля 2021
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="userType.includes('employer')">
+                        <div v-for="resume in resumes" :key="resume._id" class="responsesTableRow">
+                            <div>
+                                <div>
+                                    <input type="checkbox">
+                                    <span :class="{ status: true, refusal: responseStatus.includes('Отказ'), offer: responseStatus.includes('Приглашение'), }">
+                                        {{ responseStatus }}
+                                    </span>
+                                </div>
+                                <div class="chart">
+                                    <span>
+                                        О
+                                    </span>
+                                    <span>
+                                        87%
+                                    </span>
+                                    <span>
+                                        |||
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="vacancyColumn">
+                                <span class="vacancyName">
+                                    {{ response.profession }}
+                                </span>
+                                <span class="vacancyPlace">
+                                    в {{ response.company }}
+                                </span>
+                                <div class="actions">
+                                    <span class="vacancyAction">
+                                        Удалить
+                                    </span>
+                                    <span class="vacancyAction">
+                                        Оставить отзыв
+                                    </span>
+                                    <span class="vacancyAction">
+                                        Статистика по вакансии
+                                    </span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="vacancyDate">
+                                    26 апреля 2021
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -676,18 +770,107 @@ import Header from '@/components/Header.vue'
 import BarAuth from '@/components/BarAuth.vue'
 import Footer from '@/components/Footer.vue'
 
+import * as jwt from 'jsonwebtoken'
+
 export default {
     name: 'Responses',
     data(){
         return {
             userType: 'aspirant',
             responseType: 'Все отклики',
-            responseStatus: 'Отказ'
+            responseStatus: 'Отказ',
+            aspirant: {},
+            resumes: [],
+            responses: [],
+            token: window.localStorage.getItem('workanauttoken')
         }
     },
     mounted(){
         this.userType = this.$route.query.usertype
         this.responseType = this.$route.query.responsetype
+
+        jwt.verify(this.token, 'workanautsecret', (err, decoded) => {
+            if (err) {
+                this.$router.push({ name: "Login", query: { logintype: 'employee' } })
+            } else {
+                if(this.userType.includes('aspirant')){
+                    // fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
+                    fetch(`http://localhost:4000/api/aspirants/responses/?aspirantfeedback=${decoded.phone}`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                            }
+                            push();
+                        }
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        console.log(`JSON.parse(result): ${JSON.parse(result).responses.length}`)
+                        // this.aspirant = JSON.parse(result).aspirant
+                        // this.resumes = JSON.parse(result).vacancies
+                        // this.responses = this.resumes.filter(vacancy => {
+                        //     return this.aspirant.responses.filter(response => {
+                        //         return response.id.includes(vacancy._id)
+                        //     })
+                        // })
+                        this.responses = JSON.parse(result).responses
+                    })
+                } else if(this.userType.includes('employer')){
+                    fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                            }
+                            push();
+                        }
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+                        this.aspirant = JSON.parse(result).employer
+                        this.resumes = JSON.parse(result).resumes
+                        this.responses = this.resumes.filter(resume => {
+                            return this.aspirant.responses.map(response => {
+                                return resume._id.includes(response.id)
+                            })
+                        })
+                    })
+                }
+            }
+        })
+
     },
     components: {
         Header,

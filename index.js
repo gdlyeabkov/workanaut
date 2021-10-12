@@ -499,6 +499,52 @@ app.get('/api/vacancy/response', (req, res) => {
     })
 })
 
+app.get('/api/resume/response', (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    
+    EmployerModel.updateOne({ email: req.query.employeremail },
+        { $push: 
+            {
+                responses: [
+                    {
+                        id: req.query.resumeid
+                    }
+                ]
+            }
+    }, (err, aspirant) => {
+        if(err){
+            return res.json({ "status": "Error" })
+        } else {
+            let query = ResumeModel.findOne({ _id: req.query.resumeid })
+            query.exec((err, resume) => {
+                if(err) {
+                    return res.json({ "status": "Error" })
+                }
+                AspirantModel.updateOne({ feedback: resume.aspirantEmail },
+                    { $push: 
+                        {
+                            invites: [
+                                {
+                                    id: req.query.resumeid
+                                }
+                            ]
+                        }
+                }, (err, aspirant) => {
+                    if(err){
+                        return res.json({ "status": "Error" })
+                    } else {
+                        return res.json({ "status": "OK" })
+                    }
+                })
+            })
+        }
+    })
+})
+
 app.get('/api/vacancies/add', (req, res) => {
     
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -579,6 +625,45 @@ app.get('/api/responses/add', (req, res) => {
             return res.json({ "status": "OK" })
         }
     })
+})
+
+app.get('/api/aspirants/responses', (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+
+    let query = AspirantModel.findOne({ feedback: req.query.aspirantfeedback })
+    query.exec((err, aspirant) => {
+        if(err){
+            return res.json({ status: 'Error' })
+        }
+        console.log(`aspirant: ${aspirant.responses}`)
+        // let queryOfResumes = ResumeModel.find({ _id: { $in: new Map(aspirant.responses).get('id') }  })
+        // queryOfResumes.exec((err, responses) => {
+            
+        //     return res.json({ status: 'OK', responses: responses  })  
+        // })
+        let actualResponses = []
+        let responses = []
+        responses = aspirant.responses.filter(response => {
+            let query = VacancyModel.find({  })
+            query.exec((err, vacancies) => {
+                if (err){
+                    return res.json({ "status": "Error" })
+                }
+                vacancies.map(vacancy => {
+                    if(new Map(response).get('id').includes(vacancy._id)) {
+                        console.log(`response._id: ${new Map(response).get('id')}`)
+                        actualResponses.push(vacancy)
+                    }
+                })
+            })
+        })
+        return res.json({ status: 'OK', responses: actualResponses  })  
+    })
+    
 })
 
 app.get('/api/aspirants/get', (req, res)=>{

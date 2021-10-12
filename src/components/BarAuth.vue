@@ -59,7 +59,7 @@
                             "Создать резюме"
                     }}
                 </button>
-                <span @click="$router.push({ name: 'FavoriteVacancies' })" class="areaShortcuts material-icons-outlined">
+                <span v-if="userType.includes('aspirant')" @click="$router.push({ name: 'FavoriteVacancies', usertype: userType })" class="areaShortcuts material-icons-outlined">
                     star_outline
                 </span>
                 <span @click="messageWindow = true" class="areaShortcuts material-icons-outlined">

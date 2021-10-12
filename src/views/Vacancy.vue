@@ -205,39 +205,75 @@ export default {
     },
     methods: {
         click(){
-            fetch(`http://localhost:4000/api/vacancy/response/?aspirantfeedback=${this.aspirantFeedback}&vacancyid=${this.$route.query.vacancyid}`, {
-                mode: 'cors',
-                method: 'GET'
-            }).then(response => response.body).then(rb  => {
-                const reader = rb.getReader()
-                return new ReadableStream({
-                start(controller) {
-                    function push() {
-                    reader.read().then( ({done, value}) => {
-                        if (done) {
-                        console.log('done', done);
-                        controller.close();
-                        return;
+            if(this.userType.includes('aspirant')) {
+                fetch(`http://localhost:4000/api/vacancy/response/?aspirantfeedback=${this.aspirantFeedback}&vacancyid=${this.$route.query.vacancyid}`, {
+                    mode: 'cors',
+                    method: 'GET'
+                }).then(response => response.body).then(rb  => {
+                    const reader = rb.getReader()
+                    return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                        reader.read().then( ({done, value}) => {
+                            if (done) {
+                            console.log('done', done);
+                            controller.close();
+                            return;
+                            }
+                            controller.enqueue(value);
+                            console.log(done, value);
+                            push();
+                        })
                         }
-                        controller.enqueue(value);
-                        console.log(done, value);
                         push();
-                    })
                     }
-                    push();
-                }
-                });
-            }).then(stream => {
-                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
-            })
-            .then(result => {
-                console.log(`JSON.parse(result).vacancies: ${JSON.parse(result)}`)
-                if(JSON.parse(result).status.includes('OK')){
-                    this.$router.push({ name: 'Vacancies', query: { usertype: this.userType } })
-                } else if(JSON.parse(result).status.includes('Error')){
-                    alert('Ошибка отклика')
-                }
-            })
+                    });
+                }).then(stream => {
+                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                })
+                .then(result => {
+                    console.log(`JSON.parse(result).vacancies: ${JSON.parse(result)}`)
+                    if(JSON.parse(result).status.includes('OK')){
+                        this.$router.push({ name: 'Vacancies', query: { usertype: this.userType } })
+                    } else if(JSON.parse(result).status.includes('Error')){
+                        alert('Ошибка отклика')
+                    }
+                })
+            } else if(this.userType.includes('employer')) {
+                fetch(`http://localhost:4000/api/resume/response/?employeremail=${this.aspirantFeedback}&resumeid=${this.$route.query.vacancyid}`, {
+                    mode: 'cors',
+                    method: 'GET'
+                }).then(response => response.body).then(rb  => {
+                    const reader = rb.getReader()
+                    return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                        reader.read().then( ({done, value}) => {
+                            if (done) {
+                            console.log('done', done);
+                            controller.close();
+                            return;
+                            }
+                            controller.enqueue(value);
+                            console.log(done, value);
+                            push();
+                        })
+                        }
+                        push();
+                    }
+                    });
+                }).then(stream => {
+                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                })
+                .then(result => {
+                    console.log(`JSON.parse(result).vacancies: ${JSON.parse(result)}`)
+                    if(JSON.parse(result).status.includes('OK')){
+                        this.$router.push({ name: 'Vacancies', query: { usertype: this.userType } })
+                    } else if(JSON.parse(result).status.includes('Error')){
+                        alert('Ошибка отклика')
+                    }
+                })
+            }
         },
         block(){
             fetch(`http://localhost:4000/api/vacancy/block/?aspirantfeedback=${this.aspirantFeedback}&vacancyid=${this.$route.query.vacancyid}`, {
