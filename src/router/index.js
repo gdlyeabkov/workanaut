@@ -42,6 +42,8 @@ import Ratio from '../views/FooterLinks/Ratio.vue'
 import RequirementsSoftware from '../views/FooterLinks/RequirementsSoftware.vue'
 import Security from '../views/FooterLinks/Security.vue'
 import WorkanautAPI from '../views/FooterLinks/WorkanautAPI.vue'
+import OurVacancies from '../views/FooterLinks/OurVacancies.vue'
+import Proforientation from '../views/FooterLinks/Proforientation.vue'
 
 Vue.use(VueRouter)
 
@@ -250,6 +252,16 @@ const routes = [
     path: '/api',
     name: 'WorkanautAPI',
     component: WorkanautAPI
+  },
+  {
+    path: '/orientation',
+    name: 'Proforientation',
+    component: Proforientation
+  },
+  {
+    path: '/our',
+    name: 'OurVacancies',
+    component: OurVacancies
   },
   
 ]
