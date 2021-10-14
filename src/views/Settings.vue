@@ -1,6 +1,7 @@
 <template>
     <div>
         <Header :currentPage="'Настройки'" :auth="true" />
+        <BarAuth />
         <div>
             <h3>
                 Настройки
@@ -366,7 +367,7 @@
                         Компании
                     </span>
                     <div class="unwantedRows">
-                        <div class="unwantedRow">
+                        <!-- <div class="unwantedRow">
                             <div class="unwantedRowColumnHeader">
                                 <span class="unwantedRowHeader">
                                     Продавец консультант магазина Магнит Косметик
@@ -475,7 +476,36 @@
                                 Восстановить
                             </span>
                         </div>
-                        <hr />
+                        <hr /> -->
+                        <div v-if="blocked.length >= 1">
+                            <div v-for="blockedVacancy in blocked" :key="blockedVacancy._id" class="unwantedRow">
+                                <div class="unwantedRowColumnHeader">
+                                    <span class="unwantedRowHeader">
+                                        {{ blockedVacancy.profession }}
+                                    </span>
+                                    <span>
+                                        {{ blockedVacancy.city }}
+                                    </span>
+                                </div>
+                                <div class="unwantedRowColumnHeader">
+                                    <span>
+                                        {{ blockedVacancy.salary }} руб.
+                                    </span>
+                                    <span>
+                                        Щелково
+                                    </span>
+                                </div>
+                                <span @click="repairUnwanted(blockedVacancy._id)" class="repairUnwanted">
+                                    Восстановить
+                                </span>
+                            </div>
+                            <hr />
+                        </div>
+                        <div v-else>
+                            <p>
+                                Нежелательных вакансий нет
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -516,7 +546,7 @@
                             СМС-уведомления
                         </span>
                         <div class="pushNotification">
-                            <input @change="setSMSNotificationSetting('viewsResume')" type="checkbox" v-model="viewsResume"/>
+                            <input type="checkbox" v-model="smsAdvices"/>
                             <div class="optionContent">
                                 <label>
                                     Оповещения и советы
@@ -528,26 +558,27 @@
                         </div>
                     </div>
                     <div class="pushNotification">
-                        <input @change="setSMSNotificationSetting('siteNewsAndAds')" type="checkbox" v-model="siteNewsAndAds"/>
+                        <input type="checkbox" v-model="smsAds"/>
                         <label>
                             Новости сайта и рекламная информация
                         </label>
                     </div>
                 </div>
+                <hr />
                 <div class="pushNotificationsContainer">
                     <div class="">
                         <span>
                             Почтовые рассылки
                         </span>
                         <div class="pushNotification">
-                            <input @change="setMailNotificationSetting('notificationsAndAdvices')" type="checkbox" v-model="notificationsAndAdvices"/>
+                            <input type="checkbox" v-model="mailAdvices"/>
                             <label>
                                 Оповещения и советы
                             </label>
                         </div>
                     </div>
                     <div class="pushNotification">
-                        <input @change="setMailNotificationSetting('newRelevantedVacancies')" type="checkbox" v-model="newRelevantedVacancies"/>
+                        <input type="checkbox" v-model="mailNewVacancies"/>
                         <div class="optionContent">
                             <label>
                                 Новые вакансии, соответствующие вашему резюме
@@ -558,25 +589,25 @@
                         </div>
                     </div>
                     <div class="pushNotification">
-                        <input @change="setMailNotificationSetting('happyBirthday')" type="checkbox" v-model="happyBithday"/>
+                        <input  type="checkbox" v-model="mailBirthday"/>
                         <label>
                             Поздравления в день рождения
                         </label>
                     </div>
                     <div class="pushNotification">
-                        <input @change="setMailNotificationSetting('viewsResume')" type="checkbox" v-model="viewsResume"/>
+                        <input type="checkbox" v-model="mailViews"/>
                         <label>
                             Просмотры вашего резюме
                         </label>
                     </div>
                     <div class="pushNotification">
-                        <input @change="setMailNotificationSetting('news')" type="checkbox" v-model="news"/>
+                        <input type="checkbox" v-model="mailTrade"/>
                         <label>
                             Новости рынка труда, сайта и реклама, кроме еженедельного дайджеста
                         </label>
                     </div>
                     <div class="pushNotification">
-                        <input @change="setMailNotificationSetting('weekDijest')" type="checkbox" v-model="weekDijest"/>
+                        <input type="checkbox" v-model="mailWeekDijest"/>
                         <div class="optionContent">
                             <label>
                                 Еженедельный дайджест
@@ -587,67 +618,68 @@
                         </div>
                     </div>
                     <div class="pushNotification">
-                        <input @change="setMailNotificationSetting('practic')" type="checkbox" v-model="practic"/>
+                        <input type="checkbox" v-model="mailInternship"/>
                         <label>
                             Стажировки и практики
                         </label>
                     </div>
                     <div class="pushNotification">
-                        <input @change="setPushNotificationSetting('autoSearchOfVacancies')" type="checkbox" v-model="autoSearchOfVacancies"/>
+                        <input type="checkbox" v-model="mailAutosearch"/>
                         <label>
                             Автопоиски вакансий
                         </label>
                     </div>
                 </div>
+                <hr />
                 <div class="pushNotificationsContainer">
                     <div class="">
                         <span>
                             PUSH-уведомления
                         </span>
                         <div class="pushNotification">
-                            <input @change="setPushNotificationSetting('viewsResume')" type="checkbox" v-model="viewsResume"/>
+                            <input type="checkbox" v-model="pushViews"/>
                             <label>
                                 Просмотры вашего резюме
                             </label>
                         </div>
                     </div>
                     <div class="pushNotification">
-                        <input @change="setPushNotificationSetting('inviteOnVacancion')" type="checkbox" v-model="inviteOnVacancion"/>
+                        <input type="checkbox" v-model="pushInvites"/>
                         <label>
                             Приглашения на вакансию
                         </label>
                     </div>
                     <div class="pushNotification">
-                        <input @change="setPushNotificationSetting('interchangeWithEmployer')" type="checkbox" v-model="interchangeWithEmployer"/>
+                        <input type="checkbox" v-model="pushEmployer"/>
                         <label>
                             Переписка с работодателем
                         </label>
                     </div>
                     <div class="pushNotification">
-                        <input @change="setPushNotificationSetting('autoSearchOfVacancies')" type="checkbox" v-model="autoSearchOfVacancies"/>
+                        <input type="checkbox" v-model="pushAutosearch"/>
                         <label>
                             Автопоиски вакансий
                         </label>
                     </div>
                     <div class="pushNotification">
-                        <input @change="setPushNotificationSetting('newRelevantedVacancies')" type="checkbox" v-model="newRelevantedVacancies"/>
+                        <input type="checkbox" v-model="pushNewVacancies"/>
                         <label>
                             Новые вакансии, соответствующие вашему резюме
                         </label>
                     </div>
                     <div class="pushNotification">
-                        <input @change="setPushNotificationSetting('notificationsAndAdvices')" type="checkbox" v-model="notificationsAndAdvices"/>
+                        <input type="checkbox" v-model="pushAdvices"/>
                         <label>
                             Оповещения и советы
                         </label>
                     </div>
                     <div class="pushNotification">
-                        <input @change="setPushNotificationSetting('siteNewsAndAds')" type="checkbox" v-model="siteNewsAndAds"/>
+                        <input type="checkbox" v-model="pushAds"/>
                         <label>
                             Новости сайта и рекламная информация
                         </label>
                     </div>
-                    <button class="btn btn-primary">
+                    <button @click="saveSettings()" class="saveSettingsBtn btn btn-primary">
                         Сохранить
                     </button>
                 </div>
@@ -658,13 +690,25 @@
                         Data Exchange
                     </span>
                     <button class="btn btn-light appBtn">
-                        Закрыть доступ
+                        {{
+                            dataExchange ?
+                                "Закрыть"
+                            :
+                                "Восстановить"
+                        }}
+                         доступ
                     </button>
                     <span class="myAppHeader">
                         Официальное приложение HeadHunter для поиска работы (Android)
                     </span>
                     <button class="btn btn-light appBtn">
-                        Закрыть доступ
+                        {{
+                            mobileApp ?
+                                "Закрыть"
+                            :
+                                "Восстановить"
+                        }}
+                         доступ
                     </button>
                 </div>
             </div>
@@ -675,6 +719,7 @@
 
 <script>
 import Header from '@/components/Header.vue'
+import BarAuth from '@/components/BarAuth.vue'
 import Footer from '@/components/Footer.vue'
 
 import * as jwt from 'jsonwebtoken'
@@ -683,7 +728,7 @@ export default {
     name: 'Settings',
     data(){
         return {
-            usertype: "aspirant", 
+            userType: "aspirant", 
             currentSetting: 'Личные данные',
             unwatedTab: 'Вакансии',
             nameDialog: false,
@@ -711,7 +756,26 @@ export default {
             socialNetVK: false,
             socialNetGoogle: false,
             socialNetDROnWork: false,
-
+            blocked: [],
+            smsAdvices: true,
+            smsAds: true,
+            mailAdvices: true,
+            mailNewVacancies: true,
+            mailBirthday: true,
+            mailViews: true,
+            mailTrade: true,
+            mailWeekDijest: true,
+            mailInternship: true,
+            mailAutosearch: true,
+            pushViews: false,
+            pushInvites: false,
+            pushEmployer: false,
+            pushAutosearch: false,
+            pushNewVacancies: false,
+            pushAdvices: false,
+            pushAds: false,
+            dataExchange: true,
+            mobileApp: true,
         }
     },
     mounted(){
@@ -719,40 +783,162 @@ export default {
             if (err) {
                 this.$router.push({ name: "Login", query: { logintype: 'employee' } })
             } else {
+                if(this.$route.query.currentsetting !== null && this.$route.query.currentsetting !== undefined){
+                    this.currentSetting = this.$route.query.currentsetting
+                }
                 this.usertype = this.$route.query.usertype
                 // console.log(`decoded.phone: ${decoded.phone}`)
-                fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
-                    mode: 'cors',
-                    method: 'GET'
-                }).then(response => response.body).then(rb  => {
-                    const reader = rb.getReader()
-                    return new ReadableStream({
-                    start(controller) {
-                        function push() {
-                        reader.read().then( ({done, value}) => {
-                            if (done) {
-                            console.log('done', done);
-                            controller.close();
-                            return;
+                if(this.userType.includes('aspirant')){
+                    fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
                             }
-                            controller.enqueue(value);
-                            console.log(done, value);
                             push();
-                        })
                         }
-                        push();
-                    }
-                    });
-                }).then(stream => {
-                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
-                })
-                .then(result => {
-                    this.aspirant = JSON.parse(result).aspirant
-                })
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        this.aspirant = JSON.parse(result).aspirant
+                        this.smsAdvices = this.aspirant.smsAdvices
+                        this.smsAds = this.aspirant.smsAds
+                        this.mailAdvices = this.aspirant.mailAdvices
+                        this.mailNewVacancies = this.aspirant.mailNewVacancies
+                        this.mailBirthday = this.aspirant.mailBirthday
+                        this.mailViews = this.aspirant.mailViews
+                        this.mailTrade = this.aspirant.mailTrade
+                        this.mailWeekDijest = this.aspirant.mailWeekDijest
+                        this.mailInternship = this.aspirant.mailInternship
+                        this.mailAutosearch = this.aspirant.mailAutosearch
+                        this.pushViews = this.aspirant.pushViews
+                        this.pushInvites = this.aspirant.pushInvites
+                        this.pushEmployer = this.aspirant.pushEmployer
+                        this.pushAutosearch = this.aspirant.pushAutosearch
+                        this.pushNewVacancies = this.aspirant.pushNewVacancies
+                        this.pushAdvices = this.aspirant.pushAdvices
+                        this.pushAds = this.aspirant.pushAds
+
+                        fetch(`http://localhost:4000/api/aspirants/blocked/?aspirantfeedback=${decoded.phone}`, {
+                            mode: 'cors',
+                            method: 'GET'
+                        }).then(response => response.body).then(rb  => {
+                            const reader = rb.getReader()
+                            return new ReadableStream({
+                            start(controller) {
+                                function push() {
+                                reader.read().then( ({done, value}) => {
+                                    if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                    }
+                                    controller.enqueue(value);
+                                    console.log(done, value);
+                                    push();
+                                })
+                                }
+                                push();
+                            }
+                            });
+                        }).then(stream => {
+                            return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                        })
+                        .then(result => {
+                            console.log(`JSON.parse(result): ${JSON.parse(result).blocked.length}`)
+                            this.blocked = JSON.parse(result).blocked
+                        })
+                    })
+                }
             }
         })
     },
     methods: {
+        saveSettings(){
+            fetch(`http://localhost:4000/api/aspirants/mailings/save/?aspirantfeedback=${this.aspirant.feedback}&options=${this.smsAdvices}|${this.smsAds}|${this.mailAdvices}|${this.mailNewVacancies}|${this.mailBirthday}|${this.mailViews}|${this.mailTrade}|${this.mailWeekDijest}|${this.mailInternship}|${this.mailAutosearch}|${this.pushViews}|${this.pushInvites}|${this.pushEmployer}|${this.pushAutosearch}|${this.pushNewVacancies}|${this.pushAdvices}|${this.pushAds}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                start(controller) {
+                    function push() {
+                    reader.read().then( ({done, value}) => {
+                        if (done) {
+                        console.log('done', done);
+                        controller.close();
+                        return;
+                        }
+                        controller.enqueue(value);
+                        console.log(done, value);
+                        push();
+                    })
+                    }
+                    push();
+                }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+                if(JSON.parse(result).status.includes('OK')){
+                    this.$router.push({ name: 'AuthPage', query: { usertype: 'aspirant' } })
+                } else if(JSON.parse(result).status.includes('Error')){
+                    alert('Ошибка сохранения опции')  
+                }
+            })
+        },
+        repairUnwanted(vacancyId){
+            fetch(`http://localhost:4000/api/aspirants/blocked/repair/?aspirantfeedback=${this.aspirant.feedback}&vacancyid=${vacancyId}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                start(controller) {
+                    function push() {
+                    reader.read().then( ({done, value}) => {
+                        if (done) {
+                        console.log('done', done);
+                        controller.close();
+                        return;
+                        }
+                        controller.enqueue(value);
+                        console.log(done, value);
+                        push();
+                    })
+                    }
+                    push();
+                }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+                if(JSON.parse(result).status.includes('OK')){
+                    this.$router.push({ name: 'Vacancy', query: { usertype: this.userType, vacancyid: vacancyId }  })
+                } else if(JSON.parse(result).status.includes('Error')){
+                    alert('Ошибка восставновления')  
+                }
+            })        
+        },
         save(field){
             if(field.includes('password')){
                 fetch(`http://localhost:4000/api/aspirants/password/set/?aspirantfeedback=${this.aspirant.feedback}&newpassword=${this.newPassword}`, {
@@ -794,6 +980,7 @@ export default {
     },
     components: {
         Header,
+        BarAuth,
         Footer
     }
 }
@@ -1010,6 +1197,10 @@ export default {
     .regionLabel {
         width: 45%;
         margin: 5px;
+    }
+
+    .saveSettingsBtn {
+        margin-top: 35px;
     }
 
 </style>

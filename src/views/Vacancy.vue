@@ -418,7 +418,7 @@ export default {
                         if(JSON.parse(result).status.includes('OK')){
                             this.resume = JSON.parse(result).resume
                         
-                            fetch(`http://localhost:4000/api/resume/view/?resumeid=${this.$route.query.vacancyid}`, {
+                            fetch(`http://localhost:4000/api/resume/view/?resumeid=${this.$route.query.vacancyid}&employeremail=${this.aspirantFeedback}`, {
                                 mode: 'cors',
                                 method: 'GET'
                             }).then(response => response.body).then(rb  => {

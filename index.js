@@ -84,7 +84,85 @@ const AspirantSchema = new mongoose.Schema({
     invites: [mongoose.Schema.Types.Map],
     resumes: [mongoose.Schema.Types.Map],
     favorites: [mongoose.Schema.Types.Map],
-    blocked: [mongoose.Schema.Types.Map]
+    blocked: [mongoose.Schema.Types.Map],
+    photos: [mongoose.Schema.Types.Map],
+    examples: [mongoose.Schema.Types.Map],
+    dataExchange: {
+        type: Boolean,
+        default: true
+    },
+    mobileApp: {
+        type: Boolean,
+        default: true
+    },
+    smsAdvices: {
+        type: Boolean,
+        default: true
+    },
+    smsAds: {
+        type: Boolean,
+        default: true
+    },
+    mailAdvices: {
+        type: Boolean,
+        default: true
+    },
+    mailNewVacancies: {
+        type: Boolean,
+        default: true
+    },
+    mailBirthday: {
+        type: Boolean,
+        default: true
+    },
+    mailViews: {
+        type: Boolean,
+        default: true
+    },
+    mailTrade: {
+        type: Boolean,
+        default: true
+    },
+    mailWeekDijest: {
+        type: Boolean,
+        default: true
+    },
+    mailInternship: {
+        type: Boolean,
+        default: true
+    },
+    mailAutosearch: {
+        type: Boolean,
+        default: true
+    },
+    pushViews: {
+        type: Boolean,
+        default: true
+    },
+    pushInvites: {
+        type: Boolean,
+        default: true
+    },
+    pushEmployer: {
+        type: Boolean,
+        default: true
+    },
+    pushAutosearch: {
+        type: Boolean,
+        default: true
+    },
+    pushNewVacancies: {
+        type: Boolean,
+        default: true
+    },
+    pushAdvices: {
+        type: Boolean,
+        default: true
+    },
+    pushAds: {
+        type: Boolean,
+        default: true
+    },
 }, { collection : 'myaspirants' });
 
 const AspirantModel = mongoose.model('AspirantModel', AspirantSchema);
@@ -444,7 +522,33 @@ app.get('/api/resume/view', (req, res) => {
             if(err){
                 return res.json({ "status": "Error" })
             } else {
-                return res.json({ "status": "OK" })
+                let resume = ResumeModel.findOne({ _id: req.query.resumeid })
+                resume.exec((err, resume) => {
+                    let query = AspirantModel.findOne({ feedback: resume.aspirantEmail })
+                    query.exec((err, aspirant) => {
+                        if(aspirant.mailViews){
+                            if(err){
+                                return res.json({ status: 'Error' })
+                            }
+                            let query = EmployerModel.findOne({ email: req.query.employeremail })
+                            query.exec((err, employer) => {
+                                if(err){
+                                    return res.json({ status: 'Error' })
+                                }
+                                let mailOptions = {
+                                    from: `"${'gdlyeabkov'}" <${"gdlyeabkov"}>`,
+                                    to: `${aspirant.feedback}`,
+                                    subject: `Просмотр вашего резюме`,
+                                    html: `<h3>Компания ${employer.company}:</h3><p>просмотрела ваше резюме ${resume.profession}</p>`,
+                                }
+                                transporter.sendMail(mailOptions, function (err, info) {
+                                    console.log('Добавлен просмотр и отправлено сообщение')
+                                    return res.json({ "status": "OK" })
+                                })
+                            })
+                        }
+                    })
+                })
             }
     })
 })
@@ -666,6 +770,47 @@ app.get('/api/aspirants/responses', (req, res) => {
     
 })
 
+app.get('/api/aspirants/blocked', (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+
+    let query = AspirantModel.findOne({ feedback: req.query.aspirantfeedback })
+    query.exec((err, aspirant) => {
+        if(err){
+            return res.json({ status: 'Error' })
+        }
+        let totalBlocked = []
+        let query = VacancyModel.find({ _id: { $in: aspirant.blocked.flatMap((block) => new Map(block).get('id')) } })
+        query.exec((err, blocked) => {
+            if(err){
+                return res.json({ status: 'Error' })
+            }
+            totalBlocked = [
+                ...blocked
+            ]
+            return res.json({ status: 'OK', blocked: totalBlocked  })        
+        })
+    })  
+})
+
+app.get('/api/aspirants/blocked/repair', (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+
+    mongoose.connection.collection("myaspirants").updateOne(
+        { feedback: req.query.aspirantfeedback },
+        { $pull: { 'blocked': { id: req.query.vacancyid } } }
+    )
+    return res.json({ status: "OK" })
+
+})
+
 app.get('/api/employers/responses', (req, res) => {
 
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -823,6 +968,42 @@ app.get('/api/employers/get', (req, res)=>{
             return res.json({ "status": "OK", employer: employer, vacancies: vacancies })
         })
     })
+})
+
+app.get('/api/aspirants/mailings/save', (req, res)=>{
+        
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    
+    let options = req.query.options.split('|')
+    AspirantModel.updateOne({ feedback: req.query.aspirantfeedback  },
+        {
+            smsAdvices: options[0],
+            smsAds: options[1],
+            mailAdvices: options[2],
+            mailNewVacancies: options[3],
+            mailBirthday: options[4],
+            mailViews: options[5],
+            mailTrade: options[6],
+            mailWeekDijest: options[7],
+            mailInternship: options[8],
+            mailAutosearch: options[9],
+            pushViews: options[10],
+            pushInvites: options[11],
+            pushEmployer: options[12],
+            pushAutosearch: options[13],
+            pushNewVacancies: options[14],
+            pushAdvices: options[15],
+            pushAds: options[16],
+        }, (err, aspirant) => {
+        if(err){
+            return res.json({ status: 'Error' })        
+        }
+        return res.json({ "status": "OK" })
+    })
+
 })
 
 app.get('/api/employers/create', (req, res)=>{

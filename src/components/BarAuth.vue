@@ -59,7 +59,7 @@
                             "Создать резюме"
                     }}
                 </button>
-                <span v-if="userType.includes('aspirant')" @click="$router.push({ name: 'FavoriteVacancies', usertype: userType })" class="areaShortcuts material-icons-outlined">
+                <span v-if="userType.includes('aspirant')" @click="$router.push({ name: 'FavoriteVacancies', query: { usertype: userType } })" class="areaShortcuts material-icons-outlined">
                     star_outline
                 </span>
                 <span @click="messageWindow = true" class="areaShortcuts material-icons-outlined">
@@ -417,22 +417,22 @@
                         {{ nickname }}
                     </span>
                     <hr />
-                    <span @click="$router.push({ name: 'Settings', query: { usertype: userType } })" class="contextMenuLink">
+                    <span @click="$router.push({ name: 'Settings', query: { usertype: userType, currentsetting: 'Личные данные' } })" class="contextMenuLink">
                         Настройки
                     </span>
-                    <span @click="$router.push({ name: 'Mailings' })" class="contextMenuLink">
+                    <span @click="$router.push({ name: 'Settings', query: { usertype: userType, currentsetting: 'Рассылки' } })" class="contextMenuLink">
                         Рассылки
                     </span>
-                    <span @click="$router.push({ name: 'HiddenMyselfVacanciesAndCompanies' })" class="contextMenuLink">
+                    <span @click="$router.push({ name: 'Settings', query: { usertype: userType, currentsetting: 'Нежелательное' }  })" class="contextMenuLink">
                         Скрытые мной вакансии и компании
                     </span>
-                    <span @click="$router.push({ name: 'Settings' })" class="contextMenuLink">
+                    <span @click="$router.push({ name: 'Settings', query: { usertype: userType, currentsetting: 'Изображения' } })" class="contextMenuLink">
                         Изображения
                     </span>
                     <span @click="$router.push({ name: 'ConnectedServices' })" class="contextMenuLink">
                         Подключённые услуги
                     </span>
-                    <span @click="$router.push({ name: 'MyApps' })" class="contextMenuLink">
+                    <span @click="$router.push({ name: 'Settings', query: { usertype: userType, currentsetting: 'Мои приложения' } })" class="contextMenuLink">
                         Мои приложения
                     </span>
                     <hr />
