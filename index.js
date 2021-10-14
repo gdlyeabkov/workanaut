@@ -796,6 +796,32 @@ app.get('/api/aspirants/blocked', (req, res) => {
     })  
 })
 
+app.get('/api/aspirants/favorites', (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+
+    let query = AspirantModel.findOne({ feedback: req.query.aspirantfeedback })
+    query.exec((err, aspirant) => {
+        if(err){
+            return res.json({ status: 'Error' })
+        }
+        let totalFavorites = []
+        let query = VacancyModel.find({ _id: { $in: aspirant.favorites.flatMap((favorite) => new Map(favorite).get('id')) } })
+        query.exec((err, favorites) => {
+            if(err){
+                return res.json({ status: 'Error' })
+            }
+            totalFavorites = [
+                ...favorites
+            ]
+            return res.json({ status: 'OK', favorites: totalFavorites  })        
+        })
+    })  
+})
+
 app.get('/api/aspirants/blocked/repair', (req, res) => {
 
     res.setHeader('Access-Control-Allow-Origin', '*');

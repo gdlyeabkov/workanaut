@@ -8,7 +8,7 @@
                     Избранные вакансии
                 </h3>    
                 <div class="vacancies">
-                    <div class="vacancyItem">
+                    <!-- <div class="vacancyItem">
                         <div class="vacancyItemHeader">
                             <span class="vacancyItemName">
                                 Грузчик на склад
@@ -182,6 +182,48 @@
                                 В избранном
                             </button>
                         </div>
+                    </div> -->
+                    <div v-if="favorites.length >= 1">
+                        <div v-for="favorite in favorites" :key="favorite._id" class="vacancyItem">
+                            <div class="vacancyItemHeader">
+                                <span class="vacancyItemName">
+                                    {{ favorite.profession }}
+                                </span>
+                                <span class="vacancyItemSalary">
+                                    до {{ favorite.salary }} руб.
+                                </span>
+                            </div>
+                            <div class="vacancyItemAux vacancyItemAuxRow">
+                                <span>
+                                    {{ favorite.company }}
+                                </span>
+                                <span class="material-icons">
+                                    done
+                                </span>
+                            </div>
+                            <span class="vacancyItemAux">
+                                {{ favorite.city }}
+                            </span>
+                            <div class="vacancyItemDesc">
+                                <span >
+                                    Погрузка-разгрузка входных металлических дверей. Перемещение дверей по территории склада.
+                                </span>
+                                <img width="125px" :src="`https://hhcdn.ru/employer-logo/3796715.jpeg`" alt="">
+                            </div>
+                            <div>
+                                <button class="btn btn-primary">
+                                    Откликнуться
+                                </button>
+                                <button class="btn btn-light">
+                                    В избранном
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <p>
+                            Избранных вакансий нет
+                        </p>
                     </div>
                 </div>
                 <div class="pagination">
@@ -214,16 +256,88 @@ import Header from '@/components/Header.vue'
 import BarAuth from '@/components/BarAuth.vue'
 import Footer from '@/components/Footer.vue'
 
+import * as jwt from 'jsonwebtoken'
+
 export default {
     name: 'FavoriteVacancies',
     data(){
         return {
             userType: 'aspirant',
-            currentPage: '1'
+            currentPage: '1',
+            aspirant: {},
+            favorites: [],
+            token: window.localStorage.getItem('workanauttoken'),
         }
     },
     mounted(){
-        this.userType = this.$route.query.usertype
+        // this.userType = this.$route.query.usertype
+        jwt.verify(this.token, 'workanautsecret', (err, decoded) => {
+            if (err) {
+                this.$router.push({ name: "Login", query: { logintype: 'employee' } })
+            } else {
+                this.usertype = this.$route.query.usertype
+                if(this.userType.includes('aspirant')){
+                    fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                            }
+                            push();
+                        }
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        this.aspirant = JSON.parse(result).aspirant
+                        
+                        fetch(`http://localhost:4000/api/aspirants/favorites/?aspirantfeedback=${decoded.phone}`, {
+                            mode: 'cors',
+                            method: 'GET'
+                        }).then(response => response.body).then(rb  => {
+                            const reader = rb.getReader()
+                            return new ReadableStream({
+                            start(controller) {
+                                function push() {
+                                reader.read().then( ({done, value}) => {
+                                    if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                    }
+                                    controller.enqueue(value);
+                                    console.log(done, value);
+                                    push();
+                                })
+                                }
+                                push();
+                            }
+                            });
+                        }).then(stream => {
+                            return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                        })
+                        .then(result => {
+                            console.log(`JSON.parse(result): ${JSON.parse(result).favorites.length}`)
+                            this.favorites = JSON.parse(result).favorites
+                        })
+                    })
+                }
+            }
+        })
     },
     components: {
         Header,
