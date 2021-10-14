@@ -72,7 +72,7 @@
                         <span>
                             Разовые задания, неполный рабочий день, временная работа и другая подработка
                         </span>
-                        <button class="btn btn-light withoutBackgroundBtn createResumeBtn">
+                        <button :disabled="resumes.length <= 0" @click="$router.push({ name: 'Vacancies', query: { usertype: userType, keywords: resumes[Math.floor(Math.random() * resumes.length)].profession, worktype: 'Подработка' } })" class="btn btn-light withoutBackgroundBtn createResumeBtn">
                             Найти
                         </button>
                     </div>
@@ -176,7 +176,7 @@
                         </div>
                     </div> -->
                     <div v-for="vacancy in vacancies.filter((vacancy, vacancyIdx) => {
-                            return vacancyIdx <= 2
+                            return (vacancyIdx <= 2 && resumes.some(resume => vacancy.profession.includes(resume.profession)))
                         })" :key="vacancy._id" class="vacancyBlock">
                         <div class="vacancyColumn">
                             <div class="vacancyItem">
@@ -193,7 +193,7 @@
                         </div>
                         <div class="vacancyColumn">
                             <div v-for="vacancy in vacancies.filter((vacancy, vacancyIdx) => {
-                                return vacancyIdx <= 5 && vacancyIdx >= 3
+                                return (vacancyIdx >= 3 && vacancyIdx <= 5 && resumes.some(resume => vacancy.profession.includes(resume.profession)))
                             })" :key="vacancy._id" class="vacancyItem">
                                 <span>
                                     {{ vacancy.profession }}
@@ -209,10 +209,10 @@
                         </div>
                     </div>
                     <div class="btnsContainer">
-                        <button @click="$router.push({ name: 'Vacancies', query: { usertype: userType, keywords: resumes[Math.floor(Math.random() * resumes.length)].profession, worktype: 'Постоянная работа' } })" class="btn btn-primary createResumeBtn withoutBackgroundBtn">
+                        <button :disabled="resumes.length <= 0" @click="$router.push({ name: 'Vacancies', query: { usertype: userType, keywords: resumes[Math.floor(Math.random() * resumes.length)].profession, worktype: 'Постоянная работа' } })" class="btn btn-primary createResumeBtn withoutBackgroundBtn">
                             Показать все
                         </button>
-                        <button @click="$router.push({ name: 'Map', query: { usertype: userType } })" class="btn btn-primary createResumeBtn withoutBackgroundBtn">
+                        <button :disabled="resumes.length <= 0" @click="$router.push({ name: 'Map', query: { usertype: userType } })" class="btn btn-primary createResumeBtn withoutBackgroundBtn">
                             На карте
                         </button>
                     </div>
@@ -286,6 +286,10 @@ export default {
                         this.aspirant = JSON.parse(result).aspirant
                         this.totalResponsesAndInvites = this.aspirant.responses.length + this.aspirant.invites.length
                         this.totalFavorites = this.aspirant.favorites.length
+         
+                        // console.log(`vacancy.profession in resumes.flatMap((resume) => resume.profession): ${"Грузчик" in this.resumes.flatMap((resume) => resume.profession)}`)
+                        // console.log(`vacancy.profession in resumes.flatMap((resume) => resume.profession): ${this.vacancies.flatMap((vacancy) => vacancy.profession)}; ${this.resumes.flatMap((resume) => resume.profession)}`)
+
                     })
                 } else if(this.userType.includes('employer')){
                     fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {

@@ -72,7 +72,7 @@ const AspirantSchema = new mongoose.Schema({
     feedback: String,
     name: String,
     secondName: String,
-    thirdName: String,
+    gender: String,
     password: String,
     email: String,
     phone: String,
@@ -270,9 +270,9 @@ const ResumeSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    date: {
+    birthday: {
         type: String,
-        default: `${Date.now}`
+        default: ``
     },
     isPublic: {
         type: Boolean,
@@ -360,6 +360,28 @@ app.get('/api/aspirants/check', (req,res)=>{
                 } else {
                     const passwordCheck = bcrypt.compareSync(req.query.aspirantpassword, aspirant.password) && req.query.aspirantpassword !== ''
                     if(aspirant != null && aspirant != undefined && passwordCheck){
+                        if(aspirant.resumes.length) {
+                            let resume = ResumeModel.findOne({ _id: new Map(aspirant.resumes[0]).get('id') })
+                            resume.exec((err, resume) => {
+                                if(err) {
+                                    return res.json({ "status": "Error" })
+                                }
+                                if(`${resume.birthday.split('.')[0]}.${resume.birthday.split('.')[1]}`.includes(`${new Date().toLocaleDateString().split('-')[2]}.${new Date().toLocaleDateString().split('-')[1]}`)){
+                                    //поздравляем с днём рождения
+                                    let you = "Вас"
+                                    you = aspirant.name
+                                    let mailOptions = {
+                                        from: `"${'gdlyeabkov'}" <${"gdlyeabkov"}>`,
+                                        to: `${aspirant.feedback}`,
+                                        subject: `Поздравляем с днём рождения`,
+                                        html: `<h3>Workanaut поздравляет работника ${you} с днём рождения</h3><p>Счастливых вам лет жизни!!!</p>`,
+                                    }
+                                    transporter.sendMail(mailOptions, function (err, info) {
+                                        console.log('Поздравили с днём рожения и отправлено сообщение')
+                                    })
+                                }
+                            })
+                        }
                         return res.json({ "status": "OK", "aspirant": aspirant })
                     } else {
                         return res.json({ "status": "Error" })
@@ -429,8 +451,22 @@ app.get('/api/resumes/create', (req, res)=>{
         if (err){
             return res.json({ "status": "Error" })
         }
-        
-        let newResume = new ResumeModel({ aspirantEmail: req.query.aspirantemail, name: req.query.resumename, city: req.query.resumecity, secondName: req.query.resumesecondname, city: req.query.resumecity, born: req.query.resumeborn, gender: req.query.resumegender, citizenship: req.query.resumecitizenship, experience: req.query.resumeexperience, profession: req.query.resumeprofession, salary: req.query.resumesalary, specializations: req.query.resumespecializations, level: req.query.resumelevel, language: req.query.resumelanguage, skills: req.query.resumeskills, about: req.query.resumeabout, workPlaces: req.query.resumeworkplaces });
+
+        if(aspirant.resumes.length <= 0) {
+            AspirantModel.updateOne({ feedback: req.query.aspirantemail },
+            {
+                name: req.query.resumename,
+                secondName: req.query.resumesecondname,
+                address: req.query.resumecity,
+                gender: req.query.resumegender,
+            }, (err) => {
+                if(err) {
+                    return res.json({ "status": "Error" })        
+                }
+            })
+        }
+
+        let newResume = new ResumeModel({ aspirantEmail: req.query.aspirantemail, name: req.query.resumename, city: req.query.resumecity, secondName: req.query.resumesecondname, city: req.query.resumecity, born: req.query.resumeborn, gender: req.query.resumegender, citizenship: req.query.resumecitizenship, experience: req.query.resumeexperience, profession: req.query.resumeprofession, salary: req.query.resumesalary, specializations: req.query.resumespecializations, level: req.query.resumelevel, language: req.query.resumelanguage, skills: req.query.resumeskills, about: req.query.resumeabout, workPlaces: req.query.resumeworkplaces, birthday: req.query.resumebirthday });
         newResume.save(function (err, resume) {
             if(err){
                 return res.json({ "status": "Error" })
@@ -675,6 +711,30 @@ app.get('/api/vacancies/add', (req, res) => {
                 if(err){
                     return res.json({ "status": "Error" })
                 } else {
+
+                    let queryOfAspirants = AspirantModel.find({  })
+                    queryOfAspirants.exec((err, aspirants) => {
+                        if(err) {
+                            return res.json({ "status": "Error" })
+                        }
+                        aspirants.map(aspirant => {
+                            if(aspirant.mailNewVacancies){
+                                if(err){
+                                    return res.json({ status: 'Error' })
+                                }
+                                let mailOptions = {
+                                    from: `"${'gdlyeabkov'}" <${"gdlyeabkov"}>`,
+                                    to: `${aspirant.feedback}`,
+                                    subject: `Новая вакансия: ${req.query.vacancyprofession}`,
+                                    html: `<h3>Компания ${req.query.vacancycompany}:</h3><p>Опубиликована новая вакансия ${req.query.vacancyprofession}</p>`,
+                                }
+                                transporter.sendMail(mailOptions, function (err, info) {
+                                    console.log('отправлено сообщение')
+                                    return res.json({ "status": "OK" })
+                                })
+                            }
+                        })
+                    })
 
                     return res.json({ "status": "OK" })
                 }

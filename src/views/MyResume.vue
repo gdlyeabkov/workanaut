@@ -54,9 +54,9 @@
                 <div class="inputData">
                     <div class="aboutMe">
                         <label for="">
-                            Дата публикации
+                            Дата рождения
                         </label>
-                        <input type="text" disabled class="w-50 form-control" required v-model="born">
+                        <input type="text" class="w-50 form-control" required v-model="birthday">
                     </div>
                     <div class="aboutMe">
                         <label for="">
@@ -176,7 +176,7 @@
             </div>
             <div v-else-if="userType.includes('employer')">
                 <h2>
-                    Контактные данные
+                    Данные вакансии
                 </h2>
                 <div class="inputData">
                     <div class="aboutMe">
@@ -195,7 +195,7 @@
                         <label for="">
                             Компания
                         </label>
-                        <input type="text" class="w-50 form-control" required v-model="company">
+                        <input disabled type="text" class="w-50 form-control" required v-model="company">
                     </div>
                     <div class="aboutMe">
                         <label for="">
@@ -205,7 +205,7 @@
                     </div>
                     <div class="aboutMe">
                         <label for="">
-                            У меня есть опыт работы
+                            Должен быть опыт работы
                         </label>
                         <input type="checkbox" v-model="haveExperience">
                     </div>    
@@ -278,6 +278,7 @@ export default {
     data(){
         return {
             userType: 'aspirant',
+            aspirant: {},
             company: '',
             name: '',
             secondName: '',
@@ -287,9 +288,9 @@ export default {
             citizenship: '',
             haveExperience: false,
             experience: 0,
-            profession: '',
+            profession: 'Любая работа',
             salary: '',
-            specializations: '',
+            specializations: 'Любая работа',
             level: '',
             lanuage: '',
             skills: '',
@@ -299,7 +300,8 @@ export default {
             shedule: 'Полный день',
             worktype: 'Полная занятость',
             companyIndustry: 'Услуги для бизнеса',
-            token: window.localStorage.getItem('workanauttoken')
+            token: window.localStorage.getItem('workanauttoken'),
+            birthday: new Date().toLocaleDateString()
         }
     },
     mounted(){
@@ -309,6 +311,89 @@ export default {
             } else {
                 this.feedback = decoded.phone
                 this.userType = this.$route.query.usertype
+                
+                if(this.userType.includes('aspirant')){
+                    fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${this.feedback}`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                            }
+                            push();
+                        }
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+                        this.aspirant = JSON.parse(result).aspirant
+                        this.resumes = JSON.parse(result).resumes
+                        if(this.resumes.length >= 1){
+                            this.name = this.resumes[0].name
+                            this.secondName = this.resumes[0].secondName
+                            this.city = this.resumes[0].city
+                            this.gender = this.resumes[0].gender
+                            this.citizenship = this.resumes[0].citizenship
+                            this.experience = this.resumes[0].experience
+                            if(this.experience.includes('Есть опыт работы')) {
+                                this.auxBlock = true
+                            }
+                            this.workPlaces = this.resumes[0].workPlaces
+                            this.about = this.resumes[0].about
+                            this.skills = this.resumes[0].skills
+                            this.level = this.resumes[0].level
+                            this.lanuage = this.resumes[0].language
+                            
+                        }
+                    })
+                } else if(this.userType.includes('employer')){
+                    fetch(`http://localhost:4000/api/employers/get/?employeremail=${this.feedback}`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                            }
+                            push();
+                        }
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+                        this.aspirant = JSON.parse(result).employer
+                        this.company = this.aspirant.company
+                    })
+                }
+
+            
             }
         })
     },
@@ -349,7 +434,7 @@ export default {
             })
         },
         createResume(){
-            fetch(`http://localhost:4000/api/resumes/create/?aspirantemail=${this.feedback}&resumename=${this.name}&resumesecondname=${this.secondName}&resumecity=${this.city}&resumeborn=${this.born}&resumegender=${this.gender}&resumecitizenship=${this.citizenship}&resumeexperience=${this.experience}&resumeprofession=${this.profession}&resumesalary=${this.salary}&resumespecializations=${this.specializations}&resumelevel=${this.level}&resumelanuage=${this.lanuage}&resumeskills=${this.skills}&resumeabout=${this.about}&resumeworkplaces=${this.workPlaces}`, {
+            fetch(`http://localhost:4000/api/resumes/create/?aspirantemail=${this.feedback}&resumename=${this.name}&resumesecondname=${this.secondName}&resumecity=${this.city}&resumeborn=${this.born}&resumegender=${this.gender}&resumecitizenship=${this.citizenship}&resumeexperience=${this.experience}&resumeprofession=${this.profession}&resumesalary=${this.salary}&resumespecializations=${this.specializations}&resumelevel=${this.level}&resumelanuage=${this.lanuage}&resumeskills=${this.skills}&resumeabout=${this.about}&resumeworkplaces=${this.workPlaces}&resumebirthday=${this.birthday}`, {
                 mode: 'cors',
                 method: 'GET'
             }).then(response => response.body).then(rb  => {
