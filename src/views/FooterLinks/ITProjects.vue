@@ -26,7 +26,7 @@
                     <div class="project">
                         <img width="225px" src="https://hhcdn.ru/icms/10209789.jpeg" alt="">
                         <span class="link">
-                            HeadHunter ищет разработчиков
+                            Workanaut ищет разработчиков
                         </span>
                     </div>
                     <div class="project">

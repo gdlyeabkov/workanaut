@@ -5,7 +5,7 @@
       <div class="homePosterHeader">
         <div class="homePosterHeaderItem">
           <div class="logo">
-            hh
+            wa
           </div>
           <span @click="drawContextMenu(true)" id="help" class="helpBtn">
             Помощь
@@ -727,7 +727,7 @@ export default {
     justify-content: center;
     align-items: center;
     border-radius: 100%;
-    background-color: rgb(200, 0, 0);
+    background-color: rgb(0, 0, 200);
     width: 45px;
     height: 45px
   }

@@ -751,7 +751,7 @@
                          доступ
                     </button>
                     <span class="myAppHeader">
-                        Официальное приложение HeadHunter для поиска работы (Android)
+                        Официальное приложение Workanaut для поиска работы (Android)
                     </span>
                     <button class="btn btn-light appBtn">
                         {{

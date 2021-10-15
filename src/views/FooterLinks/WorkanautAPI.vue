@@ -47,7 +47,7 @@
             </div>
             <div class="apiYet">
                 <h3>
-                    Уже используют HeadHunter API
+                    Уже используют Workanaut API
                 </h3>
                 <div class="apiYetWho">
                     <span>              

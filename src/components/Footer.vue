@@ -21,7 +21,7 @@
                 Защита персональных данных
             </span>
             <span @click="$router.push({ name: 'Security' })" class="footerColumnItem">
-                Безопасный HeadHunter
+                Безопасный Workanaut
             </span>
             <span @click="$router.push({ name: 'Etic' })" class="footerColumnItem">
                 Этика и комплаенс
@@ -125,7 +125,7 @@
     </div>
     <div>
         <p class="footerColumnItem">
-            © 2021 Группа компаний HeadHunter
+            © 2021 Группа компаний Workanaut
         </p>
         <p class="footerColumnItem">
             Сегодня на сайте 1 136 313 вакансий, 54 022 143 резюме, 1 615 759 компании и за неделю 2 411 252 приглашения

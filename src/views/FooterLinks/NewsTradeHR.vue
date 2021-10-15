@@ -26,7 +26,7 @@
                     <div class="project">
                         <img width="225px" src="https://hhcdn.ru/icms/10193647.jpeg" alt="">
                         <span class="link">
-                            HeadHunter переносит награждение победителей Премии HR-бренд 2019
+                            Workanaut переносит награждение победителей Премии HR-бренд 2019
                         </span>
                     </div>
                     <div class="project">
@@ -84,7 +84,7 @@
                     <div class="project">
                         <img width="225px" src="https://hhcdn.ru/icms/10166643.jpeg" alt="">
                         <span class="link">
-                            Компания HeadHunter успешно интегрировала API СПАРК в корпоративную информационную систему
+                            Компания Workanaut успешно интегрировала API СПАРК в корпоративную информационную систему
                         </span>
                     </div>
                 </div>
@@ -104,7 +104,7 @@
                     <div class="project">
                         <img width="225px" src="https://hhcdn.ru/icms/10181102.jpeg" alt="">
                         <span class="link">
-                            7 директоров HeadHunter признаны лучшими в отрасли «Онлайн-платформы»
+                            7 директоров Workanaut признаны лучшими в отрасли «Онлайн-платформы»
                         </span>
                     </div>
                     <div class="project">

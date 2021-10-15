@@ -3,7 +3,7 @@
         <div class="bar">
             <div class="barItem">
                 <div @click="$router.push({ name: 'AuthPage', query: { usertype: userType } })" class="logo">
-                    hh
+                    wa
                 </div>
                 <span @click="$router.push({ name: 'PersonalArea', query: { usertype: userType } })" class="help">
                     {{
@@ -628,7 +628,7 @@ export default {
     justify-content: center;
     align-items: center;
     border-radius: 100%;
-    background-color: rgb(200, 0, 0);
+    background-color: rgb(0, 0, 200);
     width: 45px;
     height: 45px
   }

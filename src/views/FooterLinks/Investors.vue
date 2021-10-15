@@ -117,25 +117,25 @@
                         9/30/2021
                     </span>
                     <span class="statisticsContent">
-                        HeadHunter Group PLC Announces Share Buyback Program
+                        Workanaut Group PLC Announces Share Buyback Program
                     </span>
                     <span>
                         8/16/2021
                     </span>
                     <span class="statisticsContent">
-                        HeadHunter Group PLC Announces Second Quarter 2021 Financial Results
+                        Workanaut Group PLC Announces Second Quarter 2021 Financial Results
                     </span>
                     <span>
                         8/12/2021
                     </span>
                     <span class="statisticsContent">
-                        HeadHunter Group PLC Announces Results of 2021 Annual General Meeting
+                        Workanaut Group PLC Announces Results of 2021 Annual General Meeting
                     </span>
                     <span>
                         8/4/2021
                     </span>
                     <span class="statisticsContent">
-                        HeadHunter Group PLC to Announce Second Quarter 2021 Financial Results on August 16, 2021
+                        Workanaut Group PLC to Announce Second Quarter 2021 Financial Results on August 16, 2021
                     </span>
                     <button class="btn btn-danger">
                         READ MORE

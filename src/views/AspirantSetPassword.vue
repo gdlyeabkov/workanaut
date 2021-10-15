@@ -13,7 +13,7 @@
                 </div>
             </div>
             <span class="drm">
-                © 2021 Группа компаний HeadHunter
+                © 2021 Группа компаний Workanaut
             </span>
         </div>
     </div>

@@ -88,7 +88,7 @@
                     <div class="benefit">
                         <div class="benefitLogo app"></div>
                         <span class="header">
-                            HeadHunter —<br/>
+                            Workanaut —<br/>
                         </span>
                         <span>
                             лучшее мобильное приложение<br/>
@@ -111,7 +111,7 @@
                 hh
             </div>
             <p>
-                © Группа компаний «HeadHunter», 2008 — 2021
+                © Группа компаний Workanaut, 2008 — 2021
             </p>
         </div>
     </div>

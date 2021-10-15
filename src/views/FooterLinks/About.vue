@@ -121,7 +121,7 @@
                     звонок из регионов России бесплатный
                 </span>
                 <span class="help">
-                    Региональные офисы HeadHunter
+                    Региональные офисы Workanaut
                 </span>
             </div>
             <div class="indipendentBlock">
@@ -137,7 +137,7 @@
             </div>
             <div class="indipendentBlock">
                 <h5>
-                    Группа компаний HeadHunter состоит в сообществах
+                    Группа компаний Workanaut состоит в сообществах
                 </h5>
                 
                 <div class="companies">
