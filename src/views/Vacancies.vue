@@ -994,67 +994,69 @@ export default {
                 this.workType = this.$route.query.worktype
                 
                 if(this.userType.includes('aspirant')){
-                fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
-                    mode: 'cors',
-                    method: 'GET'
-                }).then(response => response.body).then(rb  => {
-                    const reader = rb.getReader()
-                    return new ReadableStream({
-                    start(controller) {
-                        function push() {
-                        reader.read().then( ({done, value}) => {
-                            if (done) {
-                            console.log('done', done);
-                            controller.close();
-                            return;
+                    fetch(`https://workanaut.herokuapp.com/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
+                    // fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
                             }
-                            controller.enqueue(value);
-                            console.log(done, value);
                             push();
-                        })
                         }
-                        push();
-                    }
-                    });
-                }).then(stream => {
-                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
-                })
-                .then(result => {
-                    console.log(`JSON.parse(result).vacancies: ${JSON.parse(result).vacancies.length}`)
-                    this.aspirant = JSON.parse(result).aspirant
-                    
-                })
-            } else if(this.userType.includes('employer')){
-                fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
-                    mode: 'cors',
-                    method: 'GET'
-                }).then(response => response.body).then(rb  => {
-                    const reader = rb.getReader()
-                    return new ReadableStream({
-                    start(controller) {
-                        function push() {
-                        reader.read().then( ({done, value}) => {
-                            if (done) {
-                            console.log('done', done);
-                            controller.close();
-                            return;
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        console.log(`JSON.parse(result).vacancies: ${JSON.parse(result).vacancies.length}`)
+                        this.aspirant = JSON.parse(result).aspirant
+                        
+                    })
+                } else if(this.userType.includes('employer')){
+                    fetch(`https://workanaut.herokuapp.com/api/employers/get/?employeremail=${decoded.phone}`, {
+                    // fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
                             }
-                            controller.enqueue(value);
-                            console.log(done, value);
                             push();
-                        })
                         }
-                        push();
-                    }
-                    });
-                }).then(stream => {
-                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
-                })
-                .then(result => {
-                    console.log(`result: ${result}`)
-                    this.aspirant = JSON.parse(result).employer
-                })
-            }
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        console.log(`result: ${result}`)
+                        this.aspirant = JSON.parse(result).employer
+                    })
+                }
 
                 this.refreshSearch()
 
@@ -1065,7 +1067,8 @@ export default {
     methods: {
         click(resumeId){
             if(this.userType.includes('aspirant')) {
-                fetch(`http://localhost:4000/api/vacancy/response/?aspirantfeedback=${this.aspirant.feedback}&vacancyid=${resumeId}`, {
+                fetch(`https://workanaut.herokuapp.com/api/vacancy/response/?aspirantfeedback=${this.aspirant.feedback}&vacancyid=${resumeId}`, {
+                // fetch(`http://localhost:4000/api/vacancy/response/?aspirantfeedback=${this.aspirant.feedback}&vacancyid=${resumeId}`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {
@@ -1099,7 +1102,8 @@ export default {
                     }
                 })
             } else if(this.userType.includes('employer')) {
-                fetch(`http://localhost:4000/api/resume/response/?employeremail=${this.aspirant.email}&resumeid=${resumeId}`, {
+                fetch(`https://workanaut.herokuapp.com/api/resume/response/?employeremail=${this.aspirant.email}&resumeid=${resumeId}`, {
+                // fetch(`http://localhost:4000/api/resume/response/?employeremail=${this.aspirant.email}&resumeid=${resumeId}`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {
@@ -1171,7 +1175,8 @@ export default {
         },
         refreshSearch(){
             if(this.userType.includes('aspirant')){
-                fetch(`http://localhost:4000/api/vacancies/get/`, {
+                fetch(`https://workanaut.herokuapp.com/api/vacancies/get/`, {
+                // fetch(`http://localhost:4000/api/vacancies/get/`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {
@@ -1212,7 +1217,8 @@ export default {
                     })
                 })
             } else if(this.userType.includes('employer')){
-                fetch(`http://localhost:4000/api/resumes/get/`, {
+                fetch(`https://workanaut.herokuapp.com/api/resumes/get/`, {
+                // fetch(`http://localhost:4000/api/resumes/get/`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {

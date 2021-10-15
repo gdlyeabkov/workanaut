@@ -157,7 +157,8 @@ export default {
   methods: {
     login(){
       if(this.loginType.includes('employer')){
-        fetch(`http://localhost:4000/api/employers/check/?employeremail=${this.feedback}&employerpassword=${this.password}`, {
+        fetch(`https://workanaut.herokuapp.com/api/employers/check/?employeremail=${this.feedback}&employerpassword=${this.password}`, {
+        // fetch(`http://localhost:4000/api/employers/check/?employeremail=${this.feedback}&employerpassword=${this.password}`, {
           mode: 'cors',
           method: 'GET'
         }).then(response => response.body).then(rb  => {
@@ -196,7 +197,8 @@ export default {
             }
         })
       } else if(this.loginType.includes('employee')){
-        fetch(`http://localhost:4000/api/aspirants/check/?aspirantfeedback=${this.feedback}&aspirantpassword=${this.password}`, {
+        fetch(`https://workanaut.herokuapp.com/api/aspirants/check/?aspirantfeedback=${this.feedback}&aspirantpassword=${this.password}`, {
+        // fetch(`http://localhost:4000/api/aspirants/check/?aspirantfeedback=${this.feedback}&aspirantpassword=${this.password}`, {
           mode: 'cors',
           method: 'GET'
         }).then(response => response.body).then(rb  => {

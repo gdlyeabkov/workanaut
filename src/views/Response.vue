@@ -75,7 +75,8 @@ export default {
                 this.userType = this.$route.query.usertype
                 this.aspirantFeedback = decoded.phone
                 if(this.userType.includes('aspirant')) {
-                    fetch(`http://localhost:4000/api/vacancy/get/?vacancyid=${this.$route.query.responseid}`, {
+                    fetch(`https://workanaut.herokuapp.com/api/vacancy/get/?vacancyid=${this.$route.query.responseid}`, {
+                    // fetch(`http://localhost:4000/api/vacancy/get/?vacancyid=${this.$route.query.responseid}`, {
                         mode: 'cors',
                         method: 'GET'
                     }).then(response => response.body).then(rb  => {
@@ -109,7 +110,8 @@ export default {
                         }
                     })
                 } else if(this.userType.includes('employer')) {
-                    fetch(`http://localhost:4000/api/resume/get/?resumeid=${this.$route.query.responseid}`, {
+                    fetch(`https://workanaut.herokuapp.com/api/resume/get/?resumeid=${this.$route.query.responseid}`, {
+                    // fetch(`http://localhost:4000/api/resume/get/?resumeid=${this.$route.query.responseid}`, {
                         mode: 'cors',
                         method: 'GET'
                     }).then(response => response.body).then(rb  => {

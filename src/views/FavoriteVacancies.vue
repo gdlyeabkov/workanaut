@@ -277,7 +277,8 @@ export default {
             } else {
                 this.usertype = this.$route.query.usertype
                 if(this.userType.includes('aspirant')){
-                    fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
+                    fetch(`https://workanaut.herokuapp.com/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
+                    // fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
                         mode: 'cors',
                         method: 'GET'
                     }).then(response => response.body).then(rb  => {
@@ -305,7 +306,8 @@ export default {
                     .then(result => {
                         this.aspirant = JSON.parse(result).aspirant
                         
-                        fetch(`http://localhost:4000/api/aspirants/favorites/?aspirantfeedback=${decoded.phone}`, {
+                        fetch(`https://workanaut.herokuapp.com/api/aspirants/favorites/?aspirantfeedback=${decoded.phone}`, {
+                        // fetch(`http://localhost:4000/api/aspirants/favorites/?aspirantfeedback=${decoded.phone}`, {
                             mode: 'cors',
                             method: 'GET'
                         }).then(response => response.body).then(rb  => {

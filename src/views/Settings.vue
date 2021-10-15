@@ -842,7 +842,8 @@ export default {
                 this.usertype = this.$route.query.usertype
                 // console.log(`decoded.phone: ${decoded.phone}`)
                 if(this.userType.includes('aspirant')){
-                    fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
+                    fetch(`https://workanaut.herokuapp.com/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
+                    // fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
                         mode: 'cors',
                         method: 'GET'
                     }).then(response => response.body).then(rb  => {
@@ -893,7 +894,8 @@ export default {
                         this.secondName = this.aspirant.name.split(' ')[1]
                         this.thirdName = this.aspirant.name.split(' ')[2]
 
-                        fetch(`http://localhost:4000/api/aspirants/blocked/?aspirantfeedback=${decoded.phone}`, {
+                        fetch(`https://workanaut.herokuapp.com/api/aspirants/blocked/?aspirantfeedback=${decoded.phone}`, {
+                        // fetch(`http://localhost:4000/api/aspirants/blocked/?aspirantfeedback=${decoded.phone}`, {
                             mode: 'cors',
                             method: 'GET'
                         }).then(response => response.body).then(rb  => {
@@ -924,7 +926,8 @@ export default {
                         })
                     })
                 } else if(this.userType.includes('employer')){
-                    fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
+                    fetch(`https://workanaut.herokuapp.com/api/employers/get/?employeremail=${decoded.phone}`, {
+                    // fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
                         mode: 'cors',
                         method: 'GET'
                     }).then(response => response.body).then(rb  => {
@@ -959,7 +962,8 @@ export default {
     methods: {
         deleteAccount(){
             if(this.userType.includes('aspirant')){
-                fetch(`http://localhost:4000/api/account/delete/?usertype=${this.userType}&aspirantfeedback=${this.aspirant.feedback}`, {
+                fetch(`https://workanaut.herokuapp.com/api/account/delete/?usertype=${this.userType}&aspirantfeedback=${this.aspirant.feedback}`, {
+                // fetch(`http://localhost:4000/api/account/delete/?usertype=${this.userType}&aspirantfeedback=${this.aspirant.feedback}`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {
@@ -993,7 +997,8 @@ export default {
                     }
                 })
             } else if(this.userType.includes('employer')){
-                fetch(`http://localhost:4000/api/account/delete/?usertype=${this.userType}&employeremail=${this.aspirant.email}`, {
+                fetch(`https://workanaut.herokuapp.com/api/account/delete/?usertype=${this.userType}&employeremail=${this.aspirant.email}`, {
+                // fetch(`http://localhost:4000/api/account/delete/?usertype=${this.userType}&employeremail=${this.aspirant.email}`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {
@@ -1029,7 +1034,8 @@ export default {
             }
         },
         saveSettings(){
-            fetch(`http://localhost:4000/api/aspirants/mailings/save/?aspirantfeedback=${this.aspirant.feedback}&options=${this.smsAdvices}|${this.smsAds}|${this.mailAdvices}|${this.mailNewVacancies}|${this.mailBirthday}|${this.mailViews}|${this.mailTrade}|${this.mailWeekDijest}|${this.mailInternship}|${this.mailAutosearch}|${this.pushViews}|${this.pushInvites}|${this.pushEmployer}|${this.pushAutosearch}|${this.pushNewVacancies}|${this.pushAdvices}|${this.pushAds}`, {
+            fetch(`https://workanaut.herokuapp.com/api/aspirants/mailings/save/?aspirantfeedback=${this.aspirant.feedback}&options=${this.smsAdvices}|${this.smsAds}|${this.mailAdvices}|${this.mailNewVacancies}|${this.mailBirthday}|${this.mailViews}|${this.mailTrade}|${this.mailWeekDijest}|${this.mailInternship}|${this.mailAutosearch}|${this.pushViews}|${this.pushInvites}|${this.pushEmployer}|${this.pushAutosearch}|${this.pushNewVacancies}|${this.pushAdvices}|${this.pushAds}`, {
+            // fetch(`http://localhost:4000/api/aspirants/mailings/save/?aspirantfeedback=${this.aspirant.feedback}&options=${this.smsAdvices}|${this.smsAds}|${this.mailAdvices}|${this.mailNewVacancies}|${this.mailBirthday}|${this.mailViews}|${this.mailTrade}|${this.mailWeekDijest}|${this.mailInternship}|${this.mailAutosearch}|${this.pushViews}|${this.pushInvites}|${this.pushEmployer}|${this.pushAutosearch}|${this.pushNewVacancies}|${this.pushAdvices}|${this.pushAds}`, {
                 mode: 'cors',
                 method: 'GET'
             }).then(response => response.body).then(rb  => {
@@ -1064,7 +1070,8 @@ export default {
             })
         },
         repairUnwanted(vacancyId){
-            fetch(`http://localhost:4000/api/aspirants/blocked/repair/?aspirantfeedback=${this.aspirant.feedback}&vacancyid=${vacancyId}`, {
+            fetch(`https://workanaut.herokuapp.com/api/aspirants/blocked/repair/?aspirantfeedback=${this.aspirant.feedback}&vacancyid=${vacancyId}`, {
+            // fetch(`http://localhost:4000/api/aspirants/blocked/repair/?aspirantfeedback=${this.aspirant.feedback}&vacancyid=${vacancyId}`, {
                 mode: 'cors',
                 method: 'GET'
             }).then(response => response.body).then(rb  => {
@@ -1100,7 +1107,8 @@ export default {
         },
         save(field){
             if(field.includes('password')){
-                fetch(`http://localhost:4000/api/aspirants/password/set/?aspirantfeedback=${this.aspirant.feedback}&newpassword=${this.newPassword}`, {
+                fetch(`https://workanaut.herokuapp.com/api/aspirants/password/set/?aspirantfeedback=${this.aspirant.feedback}&newpassword=${this.newPassword}`, {
+                // fetch(`http://localhost:4000/api/aspirants/password/set/?aspirantfeedback=${this.aspirant.feedback}&newpassword=${this.newPassword}`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {
@@ -1134,7 +1142,8 @@ export default {
                     }
                 })        
             } else if(field.includes('name')){
-                fetch(`http://localhost:4000/api/aspirants/name/set/?aspirantfeedback=${this.aspirant.feedback}&newname=${this.name} ${this.secondName} ${this.thirdName}`, {
+                fetch(`https://workanaut.herokuapp.com/api/aspirants/name/set/?aspirantfeedback=${this.aspirant.feedback}&newname=${this.name} ${this.secondName} ${this.thirdName}`, {
+                // fetch(`http://localhost:4000/api/aspirants/name/set/?aspirantfeedback=${this.aspirant.feedback}&newname=${this.name} ${this.secondName} ${this.thirdName}`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {
@@ -1168,7 +1177,8 @@ export default {
                     }
                 })        
             } else if(field.includes('email')){
-                fetch(`http://localhost:4000/api/aspirants/email/set/?aspirantfeedback=${this.aspirant.feedback}&newemail=${this.newEmail}`, {
+                fetch(`https://workanaut.herokuapp.com/api/aspirants/email/set/?aspirantfeedback=${this.aspirant.feedback}&newemail=${this.newEmail}`, {
+                // fetch(`http://localhost:4000/api/aspirants/email/set/?aspirantfeedback=${this.aspirant.feedback}&newemail=${this.newEmail}`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {
@@ -1202,7 +1212,8 @@ export default {
                     }
                 })        
             } else if(field.includes('phone')){
-                fetch(`http://localhost:4000/api/aspirants/phone/set/?aspirantfeedback=${this.aspirant.feedback}&newphone=${this.newPhone}`, {
+                fetch(`https://workanaut.herokuapp.com/api/aspirants/phone/set/?aspirantfeedback=${this.aspirant.feedback}&newphone=${this.newPhone}`, {
+                // fetch(`http://localhost:4000/api/aspirants/phone/set/?aspirantfeedback=${this.aspirant.feedback}&newphone=${this.newPhone}`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {
@@ -1236,7 +1247,8 @@ export default {
                     }
                 })        
             } else if(field.includes('region')){
-                fetch(`http://localhost:4000/api/aspirants/region/set/?aspirantfeedback=${this.aspirant.feedback}&newregion=${this.address}`, {
+                fetch(`https://workanaut.herokuapp.com/api/aspirants/region/set/?aspirantfeedback=${this.aspirant.feedback}&newregion=${this.address}`, {
+                // fetch(`http://localhost:4000/api/aspirants/region/set/?aspirantfeedback=${this.aspirant.feedback}&newregion=${this.address}`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {
@@ -1270,7 +1282,8 @@ export default {
                     }
                 })        
             } else if(field.includes('socials')){
-                fetch(`http://localhost:4000/api/aspirants/socials/set/?aspirantfeedback=${this.aspirant.feedback}&newsocials=${this.status}`, {
+                fetch(`https://workanaut.herokuapp.com/api/aspirants/socials/set/?aspirantfeedback=${this.aspirant.feedback}&newsocials=${this.status}`, {
+                // fetch(`http://localhost:4000/api/aspirants/socials/set/?aspirantfeedback=${this.aspirant.feedback}&newsocials=${this.status}`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {
@@ -1304,7 +1317,8 @@ export default {
                     }
                 })        
             } else if(field.includes('status')){
-                fetch(`http://localhost:4000/api/aspirants/status/set/?aspirantfeedback=${this.aspirant.feedback}&newstatus=${this.status}`, {
+                fetch(`https://workanaut.herokuapp.com/api/aspirants/status/set/?aspirantfeedback=${this.aspirant.feedback}&newstatus=${this.status}`, {
+                // fetch(`http://localhost:4000/api/aspirants/status/set/?aspirantfeedback=${this.aspirant.feedback}&newstatus=${this.status}`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {

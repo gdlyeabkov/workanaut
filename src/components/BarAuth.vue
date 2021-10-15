@@ -502,7 +502,8 @@ export default {
                 this.$router.push({ name: "Login", query: { logintype: 'employee' } })
             } else {
                 if(this.userType.includes('aspirant')){
-                    fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
+                    fetch(`https://workanaut.herokuapp.com/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
+                    // fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
                         mode: 'cors',
                         method: 'GET'
                     }).then(response => response.body).then(rb  => {
@@ -533,7 +534,8 @@ export default {
                         this.nickname = this.aspirant.feedback
                     })
                 } else if(this.userType.includes('employer')){
-                    fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
+                    fetch(`https://workanaut.herokuapp.com/api/employers/get/?employeremail=${decoded.phone}`, {
+                    // fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
                         mode: 'cors',
                         method: 'GET'
                     }).then(response => response.body).then(rb  => {

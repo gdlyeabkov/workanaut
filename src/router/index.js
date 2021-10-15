@@ -27,6 +27,7 @@ import AuthPage from '../views/AuthPage.vue'
 import Map from '../views/Map.vue'
 
 import About from '../views/FooterLinks/About.vue'
+import Agreement from '../views/FooterLinks/Agreement.vue'
 import AdsSite from '../views/FooterLinks/AdsSite.vue'
 import Carrier from '../views/FooterLinks/Carrier.vue'
 import Companions from '../views/FooterLinks/Companions.vue'
@@ -177,6 +178,11 @@ const routes = [
     path: '/about',
     name: 'About',
     component: About
+  },
+  {
+    path: '/agreement',
+    name: 'Agreement',
+    component: Agreement
   },
   {
     path: '/ads',

@@ -63,7 +63,8 @@ export default {
     },
     methods: {
         createEmployer(){
-            fetch(`http://localhost:4000/api/employers/create/?employername=${this.employerName}&employersecondname=${this.employerSecondName}&employeremail=${this.employerEmail}&employerphone=${this.employerPhone}&employercompany=${this.employerCompany}&employerregion=${this.employerRegion}`, {
+            fetch(`https://workanaut.herokuapp.com/api/employers/create/?employername=${this.employerName}&employersecondname=${this.employerSecondName}&employeremail=${this.employerEmail}&employerphone=${this.employerPhone}&employercompany=${this.employerCompany}&employerregion=${this.employerRegion}`, {
+            // fetch(`http://localhost:4000/api/employers/create/?employername=${this.employerName}&employersecondname=${this.employerSecondName}&employeremail=${this.employerEmail}&employerphone=${this.employerPhone}&employercompany=${this.employerCompany}&employerregion=${this.employerRegion}`, {
                 mode: 'cors',
                 method: 'GET'
             }).then(response => response.body).then(rb  => {

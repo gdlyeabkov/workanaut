@@ -34,8 +34,7 @@ export default {
     },
     methods: {
         setPassword(){
-            fetch(`https://workanaut.herokuapp.com/api/employers/password/set/?employerphone=${this.employerPhone}`, {
-            // fetch(`http://localhost:4000/api/employers/password/set/?employerphone=${this.employerPhone}`, {
+            fetch(`http://localhost:4000/api/employers/password/set/?employerphone=${this.employerPhone}`, {
                 mode: 'cors',
                 method: 'GET'
             }).then(response => response.body).then(rb  => {

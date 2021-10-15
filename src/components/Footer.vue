@@ -3,7 +3,7 @@
     <div class="footerColumns">
         <div class="footerColumn">
             <span class="footerColumnHeader">
-                HeadHunter
+                Workanaut
             </span>
             <span @click="$router.push({ name: 'About' })" class="footerColumnItem">
                 О компании

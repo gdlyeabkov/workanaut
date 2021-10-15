@@ -72,7 +72,8 @@ export default {
   },
   methods: {
     createAspirant() {
-      fetch(`http://localhost:4000/api/aspirants/create/?aspirantfeedback=${this.feedback}`, {
+      fetch(`https://workanaut.herokuapp.com/api/aspirants/create/?aspirantfeedback=${this.feedback}`, {
+      // fetch(`http://localhost:4000/api/aspirants/create/?aspirantfeedback=${this.feedback}`, {
         mode: 'cors',
         method: 'GET'
       }).then(response => response.body).then(rb  => {
