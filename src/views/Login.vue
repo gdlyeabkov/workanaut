@@ -228,6 +228,7 @@ export default {
                 phone: this.feedback
               }, 'workanautsecret', { expiresIn: '30m' })
               localStorage.setItem('workanauttoken', this.token)
+              // this.$router.push({ name: 'Settings', query: { usertype: 'aspirant' } })
               this.$router.push({ name: 'AuthPage', query: { usertype: 'aspirant' } })
               // $router.push({ name: 'Check', query: { feedback: feedback } })
             } else if(JSON.parse(result).status.includes('Error')){

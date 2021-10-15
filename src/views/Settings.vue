@@ -33,7 +33,12 @@
                                     Имя
                                 </span>
                                 <span>
-                                    Дьяков Глеб Сергеевич
+                                    {{
+                                        aspirant.resumes.length >= 1 ?
+                                            aspirant.name
+                                        :
+                                            'Не указано'
+                                    }}
                                 </span>
                                 <span class="unwantedTab"  v-if="!nameDialog" @click="nameDialog = !nameDialog">
                                     Изменить
@@ -41,20 +46,26 @@
                             </div>
                             <div v-else-if="nameDialog" class="dialog">
                                 <div class="dialogColumn">
-                                    <span>
-                                        Фамилия
-                                    </span>
-                                    <span>
-                                        Новый пароль
-                                    </span>
-                                    <span>
-                                        Повторите новый пароль
-                                    </span>
+                                    <div class="dialogRow">
+                                        <span>
+                                            Фамилия
+                                        </span>
+                                        <input type="text" v-model="name" class="w-25 socialBtn form-control"/>
+                                    </div>
+                                    <div class="dialogRow">
+                                        <span>
+                                            Имя
+                                        </span>
+                                        <input type="text" v-model="secondName" class="w-25 socialBtn form-control"/>
+                                    </div>
+                                    <div class="dialogRow">
+                                        <span>
+                                            Отчество
+                                        </span>
+                                        <input type="text" v-model="thirdName" class="w-25 socialBtn form-control"/>
+                                    </div>
                                 </div>
-                                <div class="dialogColumn">
-                                    <input type="text" v-model="name" class="socialBtn form-control"/>
-                                    <input type="text" v-model="secondName" class="socialBtn form-control"/>
-                                    <input type="text" v-model="thirdName" class="socialBtn form-control"/>
+                                
                                     <div class="rowOfButtons">
                                         <button @click="save('name')" class="socialBtn btn btn-primary">
                                             Сохранить
@@ -63,7 +74,7 @@
                                             Отменить
                                         </button>
                                     </div> 
-                                </div>
+                                
                                 <div class="dialogColumn">
                                     
                                 </div>
@@ -74,7 +85,17 @@
                                     Пароль
                                 </span>
                                 <span>
-                                    Обновлен 2 года назад
+                                    Обновлен 
+                                    {{
+                                        aspirant.passwordTimestamp
+                                    }}
+                                    {{
+                                        true ?
+                                            "года"
+                                        :
+                                            "месяцев"
+                                    }}
+                                     назад
                                 </span>
                                 <span  class="unwantedTab" v-if="!passwordDialog" @click="passwordDialog = !passwordDialog">
                                     Изменить
@@ -82,29 +103,33 @@
                             </div>
                             <div v-else-if="passwordDialog" class="dialog">
                                 <div class="dialogColumn">
-                                    <span>
-                                        Старый пароль
-                                    </span>
-                                    <span>
-                                        Новый пароль
-                                    </span>
-                                    <span>
-                                        Повторите новый пароль
-                                    </span>
+                                    <div class="dialogRow">
+                                        <span>
+                                            Старый пароль
+                                        </span>
+                                        <input type="password" v-model="oldPassword" class="w-25 socialBtn form-control"/>
+                                    </div>
+                                    <div class="dialogRow">
+                                        <span>
+                                            Новый пароль
+                                        </span>
+                                        <input type="password" v-model="newPassword" class="w-25 socialBtn form-control"/>
+                                    </div>
+                                    <div class="dialogRow">
+                                        <span>
+                                            Повторите новый пароль
+                                        </span>
+                                        <input type="password" v-model="repeatNewPassword" class="w-25 socialBtn form-control"/>
+                                    </div>
                                 </div>
-                                <div class="dialogColumn">
-                                    <input type="password" v-model="oldPassword" class="socialBtn form-control"/>
-                                    <input type="password" v-model="newPassword" class="socialBtn form-control"/>
-                                    <input type="password" v-model="repeatNewPassword" class="socialBtn form-control"/>
-                                    <div class="rowOfButtons">
-                                        <button @click="save('password')" class="socialBtn btn btn-primary">
-                                            Сохранить
-                                        </button>
-                                        <button @click="passwordDialog = false" class="socialBtn btn btn-primary">
-                                            Отменить
-                                        </button>
-                                    </div> 
-                                </div>
+                                <div class="rowOfButtons">
+                                    <button @click="save('password')" class="socialBtn btn btn-primary">
+                                        Сохранить
+                                    </button>
+                                    <button @click="passwordDialog = false" class="socialBtn btn btn-primary">
+                                        Отменить
+                                    </button>
+                                </div> 
                                 <div class="dialogColumn">
                                     <span>
                                         Забыли пароль?
@@ -117,7 +142,12 @@
                                     Email
                                 </span>
                                 <span>
-                                    gdlyeabkov@gmail.com
+                                    {{
+                                        aspirant.resumes.length >= 1 ?
+                                            aspirant.email
+                                        :
+                                            'Не указано'
+                                    }}
                                 </span>
                                 <span  v-if="!emailDialog" @click="emailDialog = !emailDialog" class="unwantedTab">
                                     Изменить
@@ -125,36 +155,38 @@
                             </div>
                             <div v-else-if="emailDialog" class="dialog">
                                 <div class="dialogColumn">
-                                    <span>
-                                        Email
-                                    </span>
-                                    <span>
-                                        Новый Email
-                                    </span>
-                                    <span>
-                                        Ваш текущий пароль
-                                    </span>
+                                    <div class="dialogRow">
+                                        <span>
+                                            Email
+                                        </span>
+                                        <span>
+                                            gdlyeabkov@gmail.com
+                                        </span>
+                                    </div>
+                                    <div class="dialogRow">
+                                        <span>
+                                            Новый Email
+                                        </span>
+                                        <input type="email" v-model="newEmail" class="w-25 socialBtn form-control"/>
+                                    </div>
+                                    <div class="dialogRow">
+                                        <span>
+                                            Ваш текущий пароль
+                                        </span>
+                                        <input type="password" v-model="oldPassword" class="w-25 socialBtn form-control"/>
+                                        <span>
+                                            Забыли пароль?
+                                        </span>
+                                    </div>
                                 </div>
-                                <div class="dialogColumn">
-                                    <span>
-                                        gdlyeabkov@gmail.com
-                                    </span>
-                                    <input type="password" v-model="newPassword" class="socialBtn form-control"/>
-                                    <input type="password" v-model="repeatNewPassword" class="socialBtn form-control"/>
-                                    <div class="rowOfButtons">
-                                        <button @click="save('email')" class="socialBtn btn btn-primary">
-                                            Сохранить
-                                        </button>
-                                        <button @click="emailDialog = false" class="socialBtn btn btn-primary">
-                                            Отменить
-                                        </button>
-                                    </div> 
-                                </div>
-                                <div class="dialogColumn">
-                                    <span>
-                                        Забыли пароль?
-                                    </span>
-                                </div>
+                                <div class="rowOfButtons">
+                                    <button @click="save('email')" class="socialBtn btn btn-primary">
+                                        Сохранить
+                                    </button>
+                                    <button @click="emailDialog = false" class="socialBtn btn btn-primary">
+                                        Отменить
+                                    </button>
+                                </div> 
                             </div>
                             <hr />
                             <div v-if="!phoneDialog" class="privateDataRow">
@@ -162,7 +194,12 @@
                                     Мобильный телефон
                                 </span>
                                 <span>
-                                    +7 (925) 645-33-12
+                                    {{
+                                        aspirant.resumes.length >= 1 ?
+                                            aspirant.phone
+                                        :
+                                            'Не указано'
+                                    }}
                                 </span>
                                 <span  v-if="!phoneDialog" @click="phoneDialog = !phoneDialog" class="unwantedTab">
                                     Изменить
@@ -170,44 +207,56 @@
                             </div>
                             <div v-else-if="phoneDialog" class="dialog">
                                 <div class="dialogColumn">
-                                    <span>
-                                        Мобильный телефон
-                                    </span>
-                                    <span>
-                                        Новый мобильный телефон
-                                    </span>
-                                    <span>
-                                        Ваш текущий пароль
-                                    </span>
+                                    <div class="dialogRow">
+                                        <span>
+                                            Мобильный телефон
+                                        </span>
+                                        <span>
+                                            {{
+                                                aspirant.resumes.length >= 1 ?
+                                                    aspirant.name
+                                                :
+                                                    'Не указано'
+                                            }}
+                                        </span>
+                                    </div>
+                                    <div class="dialogRow">
+                                        <span>
+                                            Новый мобильный телефон
+                                        </span>
+                                        <input type="password" v-model="newPhone" class="w-25 socialBtn form-control"/>
+                                    </div>
+                                    <div class="dialogRow">
+                                        <span>
+                                            Ваш текущий пароль
+                                        </span>
+                                        <input type="password" v-model="oldPassword" class="w-25 socialBtn form-control"/>
+                                        <span>
+                                            Забыли пароль?
+                                        </span>
+                                    </div>
                                 </div>
-                                <div class="dialogColumn">
-                                    <span>
-                                        +79254683410
-                                    </span>
-                                    <input type="password" v-model="newPassword" class="socialBtn form-control"/>
-                                    <input type="password" v-model="repeatNewPassword" class="socialBtn form-control"/>
-                                    <div class="rowOfButtons">
-                                        <button @click="save('phone')" class="socialBtn btn btn-primary">
-                                            Сохранить
-                                        </button>
-                                        <button @click="phoneDialog = false" class="socialBtn btn btn-primary">
-                                            Отменить
-                                        </button>
-                                    </div> 
-                                </div>
-                                <div class="dialogColumn">
-                                    <span>
-                                        Забыли пароль?
-                                    </span>
-                                </div>
+                                <div class="rowOfButtons">
+                                    <button @click="save('phone')" class="socialBtn btn btn-primary">
+                                        Сохранить
+                                    </button>
+                                    <button @click="phoneDialog = false" class="socialBtn btn btn-primary">
+                                        Отменить
+                                    </button>
+                                </div> 
                             </div>
                             <hr />
                             <div v-if="!regionDialog" class="privateDataRow">
                                 <span>
-                                    Район поиска работы
+                                    Район поиска рабо ты
                                 </span>
                                 <span>
-                                    Не указан
+                                    {{
+                                        aspirant.resumes.length >= 1 ?
+                                            aspirant.region
+                                        :
+                                            'Не указано'
+                                    }}
                                 </span>
                                 <span  v-if="!regionDialog" @click="regionDialog = !regionDialog" class="unwantedTab">
                                     Указать
@@ -215,24 +264,24 @@
                             </div>
                             <div v-else-if="regionDialog" class="dialog">
                                 <div class="dialogColumn regionLabel">
-                                    <span>
-                                        Район поиска работы
-                                    </span>
+                                    <div class="dialogRow">
+                                        <span>
+                                            Район поиска работы
+                                        </span>
+                                        <input placeholder="Выберите адресс" type="text" v-model="address" class="w-100 socialBtn form-control"/>
+                                    </div>
                                 </div>
-                                <div class="dialogColumn">
-                                    <input placeholder="Выберите адресс" type="text" v-model="address" class="socialBtn form-control"/>
-                                    <span>
-                                        Можно указать адрес дома, улицу или удобную станцию метро. Информация будет использована, чтобы показать работодателям примерное расстояние до места работы и помочь повысить ваши шансы получить приглашение
-                                    </span>
-                                    <div class="rowOfButtons">
-                                        <button @click="save('region')" class="socialBtn btn btn-primary">
-                                            Сохранить
-                                        </button>
-                                        <button @click="regionDialog = false" class="socialBtn btn btn-primary">
-                                            Отменить
-                                        </button>
-                                    </div> 
-                                </div>
+                                <span>
+                                    Можно указать адрес дома, улицу или удобную станцию метро. Информация будет использована, чтобы показать работодателям примерное расстояние до места работы и помочь повысить ваши шансы получить приглашение
+                                </span>
+                                <div class="rowOfButtons">
+                                    <button @click="save('region')" class="socialBtn btn btn-primary">
+                                        Сохранить
+                                    </button>
+                                    <button @click="regionDialog = false" class="socialBtn btn btn-primary">
+                                        Отменить
+                                    </button>
+                                </div> 
                             </div>
                             <hr />
                             <div v-if="!socialNetworksDialog" class="privateDataRow">
@@ -250,67 +299,70 @@
                                 </span>
                             </div>
                             <div v-else-if="socialNetworksDialog" class="dialog">
-                                <div class="socialColumn">
-                                    <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/vk-blue.svg" width="35px" alt="">
-                                    <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/ok-orange.svg" width="35px" alt="">
-                                    <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/facebook-blue.svg" width="35px" alt="">
-                                    <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/telegram_hover.svg" width="35px" alt="">
-                                    <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/facebook-blue.svg" width="35px" alt="">
-                                    <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/telegram_hover.svg" width="35px" alt="">
-                                </div>    
-                                <div class="dialogColumn">
-                                    <button :class="{ socialBtn: true, btn: true, 'btn-primary': socialNetMailru }" @click="socialNetMailru = !socialNetMailru">
-                                        {{
-                                            socialNetMailru ?
-                                                "Привязано"
-                                            :
-                                                "Привязать"
-                                        }}
-                                    </button>
-                                    <button :class="{ socialBtn: true, btn: true, 'btn-primary': socialNetOdnoklasniki }" @click="socialNetOdnoklasniki = !socialNetOdnoklasniki">
-                                        {{
-                                            socialNetOdnoklasniki ?
-                                                "Привязано"
-                                            :
-                                                "Привязать"
-                                        }}
-                                    </button>
-                                    <button :class="{ socialBtn: true, btn: true, 'btn-primary': socialNetFacebook }" @click="socialNetFacebook = !socialNetFacebook">
-                                        {{
-                                            socialNetFacebook ?
-                                                "Привязано"
-                                            :
-                                                "Привязать"
-                                        }}
-                                    </button>
-                                    <button :class="{ socialBtn: true, btn: true, 'btn-primary': socialNetVK }" @click="socialNetVK = !socialNetVK">
-                                        {{
-                                            socialNetVK ?
-                                                "Привязано"
-                                            :
-                                                "Привязать"
-                                        }}
-                                    </button>
-                                    <button :class="{ socialBtn: true, btn: true, 'btn-primary': socialNetGoogle }" @click="socialNetGoogle = !socialNetGoogle">
-                                        {{
-                                            socialNetGoogle ?
-                                                "Привязано"
-                                            :
-                                                "Привязать"
-                                        }}
-                                    </button>
-                                    <button :class="{ socialBtn: true, btn: true, 'btn-primary': socialNetDROnWork }" @click="socialNetDROnWork = !socialNetDROnWork">
-                                        {{
-                                            socialNetDROnWork ?
-                                                "Привязано"
-                                            :
-                                                "Привязать"
-                                        }}
-                                    </button>
-                                </div> 
-                                <span class="toggleSocial" @click="socialNetworksDialog = false">
+                                <div class="dialogRow">
+                                    <div class="socialColumn">
+                                        <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/vk-blue.svg" width="35px" alt="">
+                                        <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/ok-orange.svg" width="35px" alt="">
+                                        <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/facebook-blue.svg" width="35px" alt="">
+                                        <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/telegram_hover.svg" width="35px" alt="">
+                                        <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/facebook-blue.svg" width="35px" alt="">
+                                        <img class="socialBtn" style="margin-left: 15px;" src="https://gu-st.ru/lk-st/lib-assets/svg/social-icons/telegram_hover.svg" width="35px" alt="">
+                                    </div>    
+                                    <div class="dialogColumn">
+                                        <button :class="{ socialBtn: true, btn: true, 'btn-primary': socialNetMailru }" @click="socialNetMailru = !socialNetMailru">
+                                            {{
+                                                socialNetMailru ?
+                                                    "Привязано"
+                                                :
+                                                    "Привязать"
+                                            }}
+                                        </button>
+                                        <button :class="{ socialBtn: true, btn: true, 'btn-primary': socialNetOdnoklasniki }" @click="socialNetOdnoklasniki = !socialNetOdnoklasniki">
+                                            {{
+                                                socialNetOdnoklasniki ?
+                                                    "Привязано"
+                                                :
+                                                    "Привязать"
+                                            }}
+                                        </button>
+                                        <button :class="{ socialBtn: true, btn: true, 'btn-primary': socialNetFacebook }" @click="socialNetFacebook = !socialNetFacebook">
+                                            {{
+                                                socialNetFacebook ?
+                                                    "Привязано"
+                                                :
+                                                    "Привязать"
+                                            }}
+                                        </button>
+                                        <button :class="{ socialBtn: true, btn: true, 'btn-primary': socialNetVK }" @click="socialNetVK = !socialNetVK">
+                                            {{
+                                                socialNetVK ?
+                                                    "Привязано"
+                                                :
+                                                    "Привязать"
+                                            }}
+                                        </button>
+                                        <button :class="{ socialBtn: true, btn: true, 'btn-primary': socialNetGoogle }" @click="socialNetGoogle = !socialNetGoogle">
+                                            {{
+                                                socialNetGoogle ?
+                                                    "Привязано"
+                                                :
+                                                    "Привязать"
+                                            }}
+                                        </button>
+                                        <button :class="{ socialBtn: true, btn: true, 'btn-primary': socialNetDROnWork }" @click="socialNetDROnWork = !socialNetDROnWork">
+                                            {{
+                                                socialNetDROnWork ?
+                                                    "Привязано"
+                                                :
+                                                    "Привязать"
+                                            }}
+                                        </button>
+                                    </div> 
+                                    <span class="toggleSocial" @click="socialNetworksDialog = false">
                                     Свернуть
                                 </span>
+                                    
+                                </div>
                             </div>
                         </div>
                         
@@ -319,7 +371,7 @@
                                 Мой статус на сайте
                             </h5>
                             <div class="inputContent">
-                                <input type="radio" name="status">
+                                <input v-model="status" :value="'Я ищу работу'" type="radio" name="status">
                                 <div class="labelContent">
                                     <span>
                                         Я ищу работу
@@ -337,7 +389,7 @@
                                 </div>
                             </div>
                             <div class="inputContent">
-                                <input type="radio" name="status">
+                                <input v-model="status" :value="'Я не ищу работу'" type="radio" name="status">
                                 <div class="labelContent">
                                     <span>
                                         Я не ищу работу
@@ -347,13 +399,13 @@
                                     </span>
                                 </div>
                             </div>
-                            <button class="btn btn-light appBtn">
+                            <button @click="save('status')" class="btn btn-light appBtn">
                                 Сохранить
                             </button>
                         </div>
                     </div>
                     <br class="endOfFloat" />
-                    <span class="deleteAccount">
+                    <span @click="deleteAccount()" class="deleteAccount">
                         Удаление аккаунта
                     </span>
                 </div>
@@ -776,6 +828,7 @@ export default {
             pushAds: false,
             dataExchange: true,
             mobileApp: true,
+            status: 'Я ищу работу'
         }
     },
     mounted(){
@@ -815,6 +868,7 @@ export default {
                         return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
                     })
                     .then(result => {
+                        console.log(`aspirant: ${JSON.parse(result).aspirant.feedback}`)
                         this.aspirant = JSON.parse(result).aspirant
                         this.smsAdvices = this.aspirant.smsAdvices
                         this.smsAds = this.aspirant.smsAds
@@ -833,6 +887,11 @@ export default {
                         this.pushNewVacancies = this.aspirant.pushNewVacancies
                         this.pushAdvices = this.aspirant.pushAdvices
                         this.pushAds = this.aspirant.pushAds
+                        
+                        this.status = this.aspirant.status
+                        this.name = this.aspirant.name.split(' ')[0]
+                        this.secondName = this.aspirant.name.split(' ')[1]
+                        this.thirdName = this.aspirant.name.split(' ')[2]
 
                         fetch(`http://localhost:4000/api/aspirants/blocked/?aspirantfeedback=${decoded.phone}`, {
                             mode: 'cors',
@@ -864,11 +923,111 @@ export default {
                             this.blocked = JSON.parse(result).blocked
                         })
                     })
+                } else if(this.userType.includes('employer')){
+                    fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                            }
+                            push();
+                        }
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        this.aspirant = JSON.parse(result).employer
+                    })
                 }
             }
         })
     },
     methods: {
+        deleteAccount(){
+            if(this.userType.includes('aspirant')){
+                fetch(`http://localhost:4000/api/account/delete/?usertype=${this.userType}&aspirantfeedback=${this.aspirant.feedback}`, {
+                    mode: 'cors',
+                    method: 'GET'
+                }).then(response => response.body).then(rb  => {
+                    const reader = rb.getReader()
+                    return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                        reader.read().then( ({done, value}) => {
+                            if (done) {
+                            console.log('done', done);
+                            controller.close();
+                            return;
+                            }
+                            controller.enqueue(value);
+                            console.log(done, value);
+                            push();
+                        })
+                        }
+                        push();
+                    }
+                    });
+                }).then(stream => {
+                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                })
+                .then(result => {
+                    console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+                    if(JSON.parse(result).status.includes('OK')){
+                        this.$router.push({ name: 'Home' })
+                    } else if(JSON.parse(result).status.includes('Error')){
+                        alert('Ошибка удаления аккаунта')  
+                    }
+                })
+            } else if(this.userType.includes('employer')){
+                fetch(`http://localhost:4000/api/account/delete/?usertype=${this.userType}&employeremail=${this.aspirant.email}`, {
+                    mode: 'cors',
+                    method: 'GET'
+                }).then(response => response.body).then(rb  => {
+                    const reader = rb.getReader()
+                    return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                        reader.read().then( ({done, value}) => {
+                            if (done) {
+                            console.log('done', done);
+                            controller.close();
+                            return;
+                            }
+                            controller.enqueue(value);
+                            console.log(done, value);
+                            push();
+                        })
+                        }
+                        push();
+                    }
+                    });
+                }).then(stream => {
+                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                })
+                .then(result => {
+                    console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+                    if(JSON.parse(result).status.includes('OK')){
+                        this.$router.push({ name: 'Home' })
+                    } else if(JSON.parse(result).status.includes('Error')){
+                        alert('Ошибка удаления аккаунта')  
+                    }
+                })
+            }
+        },
         saveSettings(){
             fetch(`http://localhost:4000/api/aspirants/mailings/save/?aspirantfeedback=${this.aspirant.feedback}&options=${this.smsAdvices}|${this.smsAds}|${this.mailAdvices}|${this.mailNewVacancies}|${this.mailBirthday}|${this.mailViews}|${this.mailTrade}|${this.mailWeekDijest}|${this.mailInternship}|${this.mailAutosearch}|${this.pushViews}|${this.pushInvites}|${this.pushEmployer}|${this.pushAutosearch}|${this.pushNewVacancies}|${this.pushAdvices}|${this.pushAds}`, {
                 mode: 'cors',
@@ -972,6 +1131,210 @@ export default {
                         this.$router.push({ name: 'PersonalArea', query: { usertype: this.userType }  })
                     } else if(JSON.parse(result).status.includes('Error')){
                        alert('Ошибка сохранения поля')  
+                    }
+                })        
+            } else if(field.includes('name')){
+                fetch(`http://localhost:4000/api/aspirants/name/set/?aspirantfeedback=${this.aspirant.feedback}&newname=${this.name} ${this.secondName} ${this.thirdName}`, {
+                    mode: 'cors',
+                    method: 'GET'
+                }).then(response => response.body).then(rb  => {
+                    const reader = rb.getReader()
+                    return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                        reader.read().then( ({done, value}) => {
+                            if (done) {
+                            console.log('done', done);
+                            controller.close();
+                            return;
+                            }
+                            controller.enqueue(value);
+                            console.log(done, value);
+                            push();
+                        })
+                        }
+                        push();
+                    }
+                    });
+                }).then(stream => {
+                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                })
+                .then(result => {
+                    console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+                    if(JSON.parse(result).status.includes('OK')){
+                        this.$router.push({ name: 'PersonalArea', query: { usertype: this.userType }  })
+                    } else if(JSON.parse(result).status.includes('Error')){
+                       alert('Ошибка сохранения статуса')  
+                    }
+                })        
+            } else if(field.includes('email')){
+                fetch(`http://localhost:4000/api/aspirants/email/set/?aspirantfeedback=${this.aspirant.feedback}&newemail=${this.newEmail}`, {
+                    mode: 'cors',
+                    method: 'GET'
+                }).then(response => response.body).then(rb  => {
+                    const reader = rb.getReader()
+                    return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                        reader.read().then( ({done, value}) => {
+                            if (done) {
+                            console.log('done', done);
+                            controller.close();
+                            return;
+                            }
+                            controller.enqueue(value);
+                            console.log(done, value);
+                            push();
+                        })
+                        }
+                        push();
+                    }
+                    });
+                }).then(stream => {
+                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                })
+                .then(result => {
+                    console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+                    if(JSON.parse(result).status.includes('OK')){
+                        this.$router.push({ name: 'PersonalArea', query: { usertype: this.userType }  })
+                    } else if(JSON.parse(result).status.includes('Error')){
+                       alert('Ошибка сохранения статуса')  
+                    }
+                })        
+            } else if(field.includes('phone')){
+                fetch(`http://localhost:4000/api/aspirants/phone/set/?aspirantfeedback=${this.aspirant.feedback}&newphone=${this.newPhone}`, {
+                    mode: 'cors',
+                    method: 'GET'
+                }).then(response => response.body).then(rb  => {
+                    const reader = rb.getReader()
+                    return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                        reader.read().then( ({done, value}) => {
+                            if (done) {
+                            console.log('done', done);
+                            controller.close();
+                            return;
+                            }
+                            controller.enqueue(value);
+                            console.log(done, value);
+                            push();
+                        })
+                        }
+                        push();
+                    }
+                    });
+                }).then(stream => {
+                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                })
+                .then(result => {
+                    console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+                    if(JSON.parse(result).status.includes('OK')){
+                        this.$router.push({ name: 'PersonalArea', query: { usertype: this.userType }  })
+                    } else if(JSON.parse(result).status.includes('Error')){
+                       alert('Ошибка сохранения статуса')  
+                    }
+                })        
+            } else if(field.includes('region')){
+                fetch(`http://localhost:4000/api/aspirants/region/set/?aspirantfeedback=${this.aspirant.feedback}&newregion=${this.address}`, {
+                    mode: 'cors',
+                    method: 'GET'
+                }).then(response => response.body).then(rb  => {
+                    const reader = rb.getReader()
+                    return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                        reader.read().then( ({done, value}) => {
+                            if (done) {
+                            console.log('done', done);
+                            controller.close();
+                            return;
+                            }
+                            controller.enqueue(value);
+                            console.log(done, value);
+                            push();
+                        })
+                        }
+                        push();
+                    }
+                    });
+                }).then(stream => {
+                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                })
+                .then(result => {
+                    console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+                    if(JSON.parse(result).status.includes('OK')){
+                        this.$router.push({ name: 'PersonalArea', query: { usertype: this.userType }  })
+                    } else if(JSON.parse(result).status.includes('Error')){
+                       alert('Ошибка сохранения статуса')  
+                    }
+                })        
+            } else if(field.includes('socials')){
+                fetch(`http://localhost:4000/api/aspirants/socials/set/?aspirantfeedback=${this.aspirant.feedback}&newsocials=${this.status}`, {
+                    mode: 'cors',
+                    method: 'GET'
+                }).then(response => response.body).then(rb  => {
+                    const reader = rb.getReader()
+                    return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                        reader.read().then( ({done, value}) => {
+                            if (done) {
+                            console.log('done', done);
+                            controller.close();
+                            return;
+                            }
+                            controller.enqueue(value);
+                            console.log(done, value);
+                            push();
+                        })
+                        }
+                        push();
+                    }
+                    });
+                }).then(stream => {
+                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                })
+                .then(result => {
+                    console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+                    if(JSON.parse(result).status.includes('OK')){
+                        this.$router.push({ name: 'PersonalArea', query: { usertype: this.userType }  })
+                    } else if(JSON.parse(result).status.includes('Error')){
+                       alert('Ошибка сохранения статуса')  
+                    }
+                })        
+            } else if(field.includes('status')){
+                fetch(`http://localhost:4000/api/aspirants/status/set/?aspirantfeedback=${this.aspirant.feedback}&newstatus=${this.status}`, {
+                    mode: 'cors',
+                    method: 'GET'
+                }).then(response => response.body).then(rb  => {
+                    const reader = rb.getReader()
+                    return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                        reader.read().then( ({done, value}) => {
+                            if (done) {
+                            console.log('done', done);
+                            controller.close();
+                            return;
+                            }
+                            controller.enqueue(value);
+                            console.log(done, value);
+                            push();
+                        })
+                        }
+                        push();
+                    }
+                    });
+                }).then(stream => {
+                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                })
+                .then(result => {
+                    console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+                    if(JSON.parse(result).status.includes('OK')){
+                        this.$router.push({ name: 'PersonalArea', query: { usertype: this.userType }  })
+                    } else if(JSON.parse(result).status.includes('Error')){
+                       alert('Ошибка сохранения статуса')  
                     }
                 })        
             }
@@ -1165,18 +1528,27 @@ export default {
         width: 100%;
         height: 350px;
         background-color: rgb(245, 245, 245);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        /* display: flex; */
+        /* justify-content: space-between; */
+        /* align-items: center; */
     }
 
     .dialogColumn {
+        width: 100%;
         display: flex;
         flex-direction: column;
     }
 
+    .dialogRow {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+
     .rowOfButtons {
         display: flex;
+        justify-content: center;
     }
 
     .socialColumn {

@@ -163,6 +163,22 @@ const AspirantSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
+    birthdayTimestamp: {
+        type: Number,
+        default: 0
+    },
+    passwordTimestamp: {
+        type: String,
+        default: ``
+    },
+    status: {
+        type: String,
+        default: `Я ищу работу`
+    },
+    region: {
+        type: String,
+        default: `Россия`
+    },
 }, { collection : 'myaspirants' });
 
 const AspirantModel = mongoose.model('AspirantModel', AspirantSchema);
@@ -341,6 +357,22 @@ app.get('/api/employers/check', (req,res)=>{
     })
 })
 
+app.get('/api/account/delete', async (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    
+    if(req.query.usertype.includes('employer')){
+        await EmployerModel.deleteOne({ email: req.query.employeremail })
+    } else if(req.query.usertype.includes('aspirant')){
+        await AspirantModel.deleteOne({ feedback: req.query.aspirantfeedback  })
+    }
+    return res.json({ status: 'OK' })
+
+})
+
 app.get('/api/aspirants/check', (req,res)=>{
     
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -366,18 +398,27 @@ app.get('/api/aspirants/check', (req,res)=>{
                                 if(err) {
                                     return res.json({ "status": "Error" })
                                 }
-                                if(`${resume.birthday.split('.')[0]}.${resume.birthday.split('.')[1]}`.includes(`${new Date().toLocaleDateString().split('-')[2]}.${new Date().toLocaleDateString().split('-')[1]}`)){
+                                if(`${resume.birthday.split('.')[0]}.${resume.birthday.split('.')[1]}`.includes(`${new Date().toLocaleDateString().split('-')[2]}.${new Date().toLocaleDateString().split('-')[1]}`) && new Date().getTime() - aspirant.birthdayTimestamp > 111111){
                                     //поздравляем с днём рождения
-                                    let you = "Вас"
-                                    you = aspirant.name
-                                    let mailOptions = {
-                                        from: `"${'gdlyeabkov'}" <${"gdlyeabkov"}>`,
-                                        to: `${aspirant.feedback}`,
-                                        subject: `Поздравляем с днём рождения`,
-                                        html: `<h3>Workanaut поздравляет работника ${you} с днём рождения</h3><p>Счастливых вам лет жизни!!!</p>`,
-                                    }
-                                    transporter.sendMail(mailOptions, function (err, info) {
-                                        console.log('Поздравили с днём рожения и отправлено сообщение')
+                                    AspirantModel.updateOne({ 'feedback': req.query.aspirantfeedback },
+                                    {
+                                        birthdayTimestamp: new Date().getTime()
+                                    }, (err) => {
+                                        if(err) {
+                                            return res.json({ "status": "Error" })
+                                        } else {
+                                            let you = "Вас"
+                                            you = aspirant.name
+                                            let mailOptions = {
+                                                from: `"${'gdlyeabkov'}" <${"gdlyeabkov"}>`,
+                                                to: `${aspirant.feedback}`,
+                                                subject: `Поздравляем с днём рождения`,
+                                                html: `<h3>Workanaut поздравляет работника ${you} с днём рождения</h3><p>Счастливых вам лет жизни!!!</p>`,
+                                            }
+                                            transporter.sendMail(mailOptions, function (err, info) {
+                                                //Поздравили с днём рожения и отправлено сообщение
+                                            })
+                                        }
                                     })
                                 }
                             })
@@ -425,7 +466,7 @@ app.get('/api/aspirants/create', (req, res)=>{
             } else if(req.query.aspirantfeedback.includes('+7') && req.query.aspirantfeedback.length === 12){
                 possiblePhone = req.query.aspirantfeedback
             }
-            let newAspirant = new AspirantModel({ feedback: req.query.aspirantfeedback, name: "", secondName: "", thirdName: "", password: "",  email: possibleEmail,  phone: possiblePhone, address: ""  });
+            let newAspirant = new AspirantModel({ feedback: req.query.aspirantfeedback, name: "", secondName: "", password: "",  email: possibleEmail,  phone: possiblePhone, address: "", passwordTimestamp: new Date().toLocaleDateString() });
             newAspirant.save(function (err) {
                 if(err){
                     return res.json({ "status": "Error" })
@@ -459,6 +500,7 @@ app.get('/api/resumes/create', (req, res)=>{
                 secondName: req.query.resumesecondname,
                 address: req.query.resumecity,
                 gender: req.query.resumegender,
+                region: req.query.resumecity,
             }, (err) => {
                 if(err) {
                     return res.json({ "status": "Error" })        
@@ -578,7 +620,7 @@ app.get('/api/resume/view', (req, res) => {
                                     html: `<h3>Компания ${employer.company}:</h3><p>просмотрела ваше резюме ${resume.profession}</p>`,
                                 }
                                 transporter.sendMail(mailOptions, function (err, info) {
-                                    console.log('Добавлен просмотр и отправлено сообщение')
+                                    // Добавлен просмотр и отправлено сообщение
                                     return res.json({ "status": "OK" })
                                 })
                             })
@@ -729,7 +771,7 @@ app.get('/api/vacancies/add', (req, res) => {
                                     html: `<h3>Компания ${req.query.vacancycompany}:</h3><p>Опубиликована новая вакансия ${req.query.vacancyprofession}</p>`,
                                 }
                                 transporter.sendMail(mailOptions, function (err, info) {
-                                    console.log('отправлено сообщение')
+                                    //отправлено сообщение поступившей вакансии
                                     return res.json({ "status": "OK" })
                                 })
                             }
@@ -1188,6 +1230,114 @@ app.get('/api/aspirants/password/set', (req, res) => {
     let salt = bcrypt.genSalt(saltRounds)
     encodedPassword = bcrypt.hashSync(req.query.newpassword, saltRounds)
     AspirantModel.updateOne({ feedback: req.query.aspirantfeedback }, { password: encodedPassword }, (err, citizen) => {
+        if(err){
+            return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+    })
+})
+
+app.get('/api/aspirants/name/set', (req, res) => {
+    
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    
+    AspirantModel.updateOne({ feedback: req.query.aspirantfeedback },
+    {
+        name: req.query.newname
+    }, (err, aspirant) => {
+        if(err){
+            return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+    })
+})
+
+app.get('/api/aspirants/email/set', (req, res) => {
+    
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    
+    AspirantModel.updateOne({ feedback: req.query.aspirantfeedback },
+    {
+        email: req.query.newemail
+    }, (err, aspirant) => {
+        if(err){
+            return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+    })
+})
+
+app.get('/api/aspirants/phone/set', (req, res) => {
+    
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    
+    AspirantModel.updateOne({ feedback: req.query.aspirantfeedback },
+    {
+        phone: req.query.newphone
+    }, (err, aspirant) => {
+        if(err){
+            return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+    })
+})
+
+app.get('/api/aspirants/region/set', (req, res) => {
+    
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    
+    AspirantModel.updateOne({ feedback: req.query.aspirantfeedback },
+    {
+        region: req.query.newregion
+    }, (err, aspirant) => {
+        if(err){
+            return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+    })
+})
+
+app.get('/api/aspirants/status/set', (req, res) => {
+    
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    
+    AspirantModel.updateOne({ feedback: req.query.aspirantfeedback },
+    {
+        status: req.query.newstatus
+    }, (err, aspirant) => {
+        if(err){
+            return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+    })
+})
+
+app.get('/api/aspirants/socials/set', (req, res) => {
+    
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    
+    AspirantModel.updateOne({ feedback: req.query.aspirantfeedback },
+    {
+        socials: req.query.newsocials
+    }, (err, aspirant) => {
         if(err){
             return res.json({ status: 'Error' })        
         }
