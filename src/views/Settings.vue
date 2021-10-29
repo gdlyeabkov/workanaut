@@ -160,7 +160,7 @@
                                             Email
                                         </span>
                                         <span>
-                                            gdlyeabkov@gmail.com
+                                            {{ aspirant.email }}
                                         </span>
                                     </div>
                                     <div class="dialogRow">
@@ -1107,40 +1107,77 @@ export default {
         },
         save(field){
             if(field.includes('password')){
-                fetch(`https://workanaut.herokuapp.com/api/aspirants/password/set/?aspirantfeedback=${this.aspirant.feedback}&newpassword=${this.newPassword}`, {
-                // fetch(`http://localhost:4000/api/aspirants/password/set/?aspirantfeedback=${this.aspirant.feedback}&newpassword=${this.newPassword}`, {
-                    mode: 'cors',
-                    method: 'GET'
-                }).then(response => response.body).then(rb  => {
-                    const reader = rb.getReader()
-                    return new ReadableStream({
-                    start(controller) {
-                        function push() {
-                        reader.read().then( ({done, value}) => {
-                            if (done) {
-                            console.log('done', done);
-                            controller.close();
-                            return;
+                if(this.aspirant.password.length <= 0){
+                    fetch(`https://workanaut.herokuapp.com/api/aspirants/password/set/?aspirantfeedback=${this.aspirant.feedback}&oldpassword=${this.newPassword}&newpassword=${this.newPassword}&setmethod=create`, {
+                    // fetch(`http://localhost:4000/api/aspirants/password/set/?aspirantfeedback=${this.aspirant.feedback}&oldpassword=${this.newPassword}&newpassword=${this.newPassword}&setmethod=create`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
                             }
-                            controller.enqueue(value);
-                            console.log(done, value);
                             push();
-                        })
                         }
-                        push();
-                    }
-                    });
-                }).then(stream => {
-                    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
-                })
-                .then(result => {
-                    console.log(`JSON.parse(result): ${JSON.parse(result)}`)
-                    if(JSON.parse(result).status.includes('OK')){
-                        this.$router.push({ name: 'PersonalArea', query: { usertype: this.userType }  })
-                    } else if(JSON.parse(result).status.includes('Error')){
-                       alert('Ошибка сохранения поля')  
-                    }
-                })        
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+                        if(JSON.parse(result).status.includes('OK')){
+                            this.$router.push({ name: 'PersonalArea', query: { usertype: this.userType }  })
+                        } else if(JSON.parse(result).status.includes('Error')){
+                            alert('Ошибка сохранения поля')  
+                        }
+                    })
+                } else if(this.aspirant.password.length >= 1 && this.newPassword === this.repeatNewPassword) {
+                    fetch(`https://workanaut.herokuapp.com/api/aspirants/password/set/?aspirantfeedback=${this.aspirant.feedback}&oldpassword=${this.oldPassword}&newpassword=${this.newPassword}&setmethod=update`, {
+                    // fetch(`http://localhost:4000/api/aspirants/password/set/?aspirantfeedback=${this.aspirant.feedback}&oldpassword=${this.oldPassword}&newpassword=${this.newPassword}&setmethod=update`, {
+                        mode: 'cors',
+                        method: 'GET'
+                    }).then(response => response.body).then(rb  => {
+                        const reader = rb.getReader()
+                        return new ReadableStream({
+                        start(controller) {
+                            function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                console.log('done', done);
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                            }
+                            push();
+                        }
+                        });
+                    }).then(stream => {
+                        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+                    })
+                    .then(result => {
+                        console.log(`JSON.parse(result): ${JSON.parse(result)}`)
+                        if(JSON.parse(result).status.includes('OK')){
+                            this.$router.push({ name: 'PersonalArea', query: { usertype: this.userType }  })
+                        } else if(JSON.parse(result).status.includes('Error')){
+                            alert('Ошибка сохранения поля')  
+                        }
+                    })
+                }        
             } else if(field.includes('name')){
                 fetch(`https://workanaut.herokuapp.com/api/aspirants/name/set/?aspirantfeedback=${this.aspirant.feedback}&newname=${this.name} ${this.secondName} ${this.thirdName}`, {
                 // fetch(`http://localhost:4000/api/aspirants/name/set/?aspirantfeedback=${this.aspirant.feedback}&newname=${this.name} ${this.secondName} ${this.thirdName}`, {
@@ -1177,8 +1214,8 @@ export default {
                     }
                 })        
             } else if(field.includes('email')){
-                fetch(`https://workanaut.herokuapp.com/api/aspirants/email/set/?aspirantfeedback=${this.aspirant.feedback}&newemail=${this.newEmail}`, {
-                // fetch(`http://localhost:4000/api/aspirants/email/set/?aspirantfeedback=${this.aspirant.feedback}&newemail=${this.newEmail}`, {
+                fetch(`https://workanaut.herokuapp.com/api/aspirants/email/set/?aspirantfeedback=${this.aspirant.feedback}&newemail=${this.newEmail}&oldpassword=${this.oldPassword}`, {
+                // fetch(`http://localhost:4000/api/aspirants/email/set/?aspirantfeedback=${this.aspirant.feedback}&newemail=${this.newEmail}&oldpassword=${this.oldPassword}`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {
@@ -1208,12 +1245,12 @@ export default {
                     if(JSON.parse(result).status.includes('OK')){
                         this.$router.push({ name: 'PersonalArea', query: { usertype: this.userType }  })
                     } else if(JSON.parse(result).status.includes('Error')){
-                       alert('Ошибка сохранения статуса')  
+                       alert('Ошибка сохранения E-mail')  
                     }
                 })        
             } else if(field.includes('phone')){
-                fetch(`https://workanaut.herokuapp.com/api/aspirants/phone/set/?aspirantfeedback=${this.aspirant.feedback}&newphone=${this.newPhone}`, {
-                // fetch(`http://localhost:4000/api/aspirants/phone/set/?aspirantfeedback=${this.aspirant.feedback}&newphone=${this.newPhone}`, {
+                fetch(`https://workanaut.herokuapp.com/api/aspirants/phone/set/?aspirantfeedback=${this.aspirant.feedback}&newphone=${this.newPhone}&oldpassword=${this.oldPassword}`, {
+                // fetch(`http://localhost:4000/api/aspirants/phone/set/?aspirantfeedback=${this.aspirant.feedback}&newphone=${this.newPhone}&oldpassword=${this.oldPassword}`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {

@@ -487,7 +487,7 @@ app.get('/api/resumes/create', (req, res)=>{
     res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
     
-    let query = AspirantModel.findOne({ email: req.query.aspirantemail })
+    let query = AspirantModel.findOne({ feedback: req.query.aspirantemail })
     query.exec((err, aspirant) => {
         if (err){
             return res.json({ "status": "Error" })
@@ -1225,15 +1225,25 @@ app.get('/api/aspirants/password/set', (req, res) => {
     res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
     
-    let encodedPassword = "#"
-    let saltRounds = 10
-    let salt = bcrypt.genSalt(saltRounds)
-    encodedPassword = bcrypt.hashSync(req.query.newpassword, saltRounds)
-    AspirantModel.updateOne({ feedback: req.query.aspirantfeedback }, { password: encodedPassword }, (err, citizen) => {
-        if(err){
-            return res.json({ status: 'Error' })        
+    let query =  AspirantModel.findOne({ 'feedback': req.query.aspirantfeedback }, function(err, aspirant){
+        if (err){
+            return res.json({ "status": "Error" })
+        } else {
+            if(req.query.setmethod.includes('create') || (req.query.setmethod.includes('update') && bcrypt.compareSync(req.query.oldpassword, aspirant.password))){
+                let encodedPassword = "#"
+                let saltRounds = 10
+                let salt = bcrypt.genSalt(saltRounds)
+                encodedPassword = bcrypt.hashSync(req.query.newpassword, saltRounds)
+                AspirantModel.updateOne({ feedback: req.query.aspirantfeedback }, { password: encodedPassword }, (err, citizen) => {
+                    if(err){
+                        return res.json({ status: 'Error' })        
+                    }
+                    return res.json({ status: 'OK' })
+                })
+            } else {
+                return res.json({ status: 'Error' })
+            }
         }
-        return res.json({ status: 'OK' })
     })
 })
 
@@ -1262,14 +1272,20 @@ app.get('/api/aspirants/email/set', (req, res) => {
     res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
     
-    AspirantModel.updateOne({ feedback: req.query.aspirantfeedback },
-    {
-        email: req.query.newemail
-    }, (err, aspirant) => {
-        if(err){
-            return res.json({ status: 'Error' })        
+    let query =  AspirantModel.findOne({ 'feedback': req.query.aspirantfeedback }, function(err, aspirant){
+        if (err || !bcrypt.compareSync(req.query.oldpassword, aspirant.password)){
+            return res.json({ "status": "Error" })
+        } else {
+            AspirantModel.updateOne({ feedback: req.query.aspirantfeedback },
+            {
+                email: req.query.newemail
+            }, (err, aspirant) => {
+                if(err){
+                    return res.json({ status: 'Error' })        
+                }
+                return res.json({ status: 'OK' })
+            })
         }
-        return res.json({ status: 'OK' })
     })
 })
 
@@ -1280,14 +1296,21 @@ app.get('/api/aspirants/phone/set', (req, res) => {
     res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
     
-    AspirantModel.updateOne({ feedback: req.query.aspirantfeedback },
-    {
-        phone: req.query.newphone
-    }, (err, aspirant) => {
-        if(err){
-            return res.json({ status: 'Error' })        
+    console.log(`req.query.oldpassword: ${req.query.oldpassword}`)
+    let query =  AspirantModel.findOne({ 'feedback': req.query.aspirantfeedback }, function(err, aspirant){
+        if (err || !bcrypt.compareSync(req.query.oldpassword, aspirant.password)){
+            return res.json({ "status": "Error" })
+        } else {
+            AspirantModel.updateOne({ feedback: req.query.aspirantfeedback },
+            {
+                phone: req.query.newphone
+            }, (err, aspirant) => {
+                if(err){
+                    return res.json({ status: 'Error' })        
+                }
+                return res.json({ status: 'OK' })
+            })
         }
-        return res.json({ status: 'OK' })
     })
 })
 
@@ -1358,6 +1381,6 @@ app.get('**', (req, res) => {
 })
 
 const port = process.env.PORT || 8080
-// const port = 4000  
+// const port = 4000
 
 app.listen(port)
