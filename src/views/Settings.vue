@@ -214,7 +214,7 @@
                                         <span>
                                             {{
                                                 aspirant.resumes.length >= 1 ?
-                                                    aspirant.name
+                                                    aspirant.phone
                                                 :
                                                     'Не указано'
                                             }}
@@ -224,7 +224,7 @@
                                         <span>
                                             Новый мобильный телефон
                                         </span>
-                                        <input type="password" v-model="newPhone" class="w-25 socialBtn form-control"/>
+                                        <input type="phone" v-model="newPhone" class="w-25 socialBtn form-control"/>
                                     </div>
                                     <div class="dialogRow">
                                         <span>
@@ -1280,7 +1280,7 @@ export default {
                     if(JSON.parse(result).status.includes('OK')){
                         this.$router.push({ name: 'PersonalArea', query: { usertype: this.userType }  })
                     } else if(JSON.parse(result).status.includes('Error')){
-                       alert('Ошибка сохранения статуса')  
+                       alert('Ошибка сохранения телефона')  
                     }
                 })        
             } else if(field.includes('region')){
