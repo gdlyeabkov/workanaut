@@ -44,60 +44,6 @@
                         </span>
                     </div>
                 </div>
-                <!-- <hr /> -->
-                <!-- <div class="resume">
-                    <span class="resumeHeader">
-                        Программист
-                    </span>
-                    <span>
-                        Обновлено 30 августа 2021 в 13:17
-                    </span>
-                    <span>
-                        Видно всему интернету прямая ссылка
-                    </span>
-                    <div class="resumeBenefits">
-                        <div class="resumeBenefit">
-                            <span>
-                                16 показов в поиске за неделю
-                            </span>
-                        </div>
-                        <div class="resumeBenefit">
-                            <span>
-                                нет просмотров за неделю
-                            </span>
-                        </div>
-                        <div class="resumeBenefit">
-                            <span>
-                                нет приглашений за неделю
-                            </span>
-                        </div>
-                    </div>
-                    <span>
-                        Резюме редко попадает в поиск. Поднимите его самостоятельно или подключите «Продвижение резюме», чтобы получить больше просмотров и приглашений
-                    </span>
-                    <div>
-                        <button class="btn btn-primary btnAction">
-                            Поднять в поиске
-                        </button>
-                        <button class="btn btn-primary btnAction">
-                            3998 подходящих вакансий
-                        </button>
-                    </div>
-                    <div class="actions">
-                        <span class="action">
-                            Поднять в поиске
-                        </span>
-                        <span class="action">
-                            Изменить видимость
-                        </span>
-                        <span class="action">
-                            Редактировать
-                        </span>
-                        <span class="action">
-                            Дублировать
-                        </span>
-                    </div>
-                </div> -->
                 <div v-if="resumes.length >= 1">
                     <div v-for="resume in resumes" :key="resume.proffesion" class="resume">
                         <span class="resumeHeader">
