@@ -46,7 +46,8 @@
 </template>
 
 <script>
-import * as jwt from 'jsonwebtoken'
+
+const baseUrl = process.env.VUE_APP_BASE_URL
 
 export default {
     name: 'EmployerRegister',
@@ -63,8 +64,7 @@ export default {
     },
     methods: {
         createEmployer(){
-            fetch(`https://workanaut.herokuapp.com/api/employers/create/?employername=${this.employerName}&employersecondname=${this.employerSecondName}&employeremail=${this.employerEmail}&employerphone=${this.employerPhone}&employercompany=${this.employerCompany}&employerregion=${this.employerRegion}`, {
-            // fetch(`http://localhost:4000/api/employers/create/?employername=${this.employerName}&employersecondname=${this.employerSecondName}&employeremail=${this.employerEmail}&employerphone=${this.employerPhone}&employercompany=${this.employerCompany}&employerregion=${this.employerRegion}`, {
+            fetch(`${baseUrl}/api/employers/create/?employername=${this.employerName}&employersecondname=${this.employerSecondName}&employeremail=${this.employerEmail}&employerphone=${this.employerPhone}&employercompany=${this.employerCompany}&employerregion=${this.employerRegion}`, {
                 mode: 'cors',
                 method: 'GET'
             }).then(response => response.body).then(rb  => {
@@ -92,18 +92,7 @@ export default {
             .then(result => {
                 console.log(`JSON.parse(result): ${JSON.parse(result)}`)
                 if(JSON.parse(result).status.includes('OK')){
-                    // alert('Зарегестрирован')
-                    
-                    // this.$router.push({ name: 'Login', query: { logintype: 'employer' } })
-
                     this.$router.push({ name: 'EmployerSetPassword', query: { email: this.employerEmail } })
-                    
-                    // this.token = jwt.sign({
-                    //     phone: this.employerEmail
-                    // }, 'workanautsecret', { expiresIn: '30m' })
-                    // localStorage.setItem('workanauttoken', this.token)
-                    // this.$router.push({ name: 'AuthPage', query: { usertype: 'employer' } })
-                    // this.$router.push({ name: 'AuthPage', query: { usertype: 'employer' } })
                 } else if(JSON.parse(result).status.includes('Error')){
                     alert('Уже зарегестрирован')
                 }

@@ -273,6 +273,8 @@ import Footer from "@/components/Footer.vue"
 
 import * as jwt from 'jsonwebtoken'
 
+const baseUrl = process.env.VUE_APP_BASE_URL
+
 export default {
     name: 'MyResume',
     data(){
@@ -313,8 +315,7 @@ export default {
                 this.userType = this.$route.query.usertype
                 
                 if(this.userType.includes('aspirant')){
-                    fetch(`https://workanaut.herokuapp.com/api/aspirants/get/?aspirantfeedback=${this.feedback}`, {
-                    // fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${this.feedback}`, {
+                    fetch(`${baseUrl}/api/aspirants/get/?aspirantfeedback=${this.feedback}`, {
                         mode: 'cors',
                         method: 'GET'
                     }).then(response => response.body).then(rb  => {
@@ -362,8 +363,7 @@ export default {
                         }
                     })
                 } else if(this.userType.includes('employer')){
-                    fetch(`https://workanaut.herokuapp.com/api/employers/get/?employeremail=${this.feedback}`, {
-                    // fetch(`http://localhost:4000/api/employers/get/?employeremail=${this.feedback}`, {
+                    fetch(`${baseUrl}/api/employers/get/?employeremail=${this.feedback}`, {
                         mode: 'cors',
                         method: 'GET'
                     }).then(response => response.body).then(rb  => {
@@ -401,8 +401,7 @@ export default {
     },
     methods: {
         createVacancy(){
-            fetch(`https://workanaut.herokuapp.com/api/vacancies/add/?employeremail=${this.feedback}&vacancycity=${this.city}&vacancycompany=${this.company}&vacancysalary=${this.salary}&vacancyprofession=${this.profession}&vacancyexperience=${this.experience}&vacancyshedule=${this.shedule}&vacancyworktype=${this.worktype}&vacancycompanyindustry=${this.companyIndustry}&vacancyborn=${this.born}`, {
-            // fetch(`http://localhost:4000/api/vacancies/add/?employeremail=${this.feedback}&vacancycity=${this.city}&vacancycompany=${this.company}&vacancysalary=${this.salary}&vacancyprofession=${this.profession}&vacancyexperience=${this.experience}&vacancyshedule=${this.shedule}&vacancyworktype=${this.worktype}&vacancycompanyindustry=${this.companyIndustry}&vacancyborn=${this.born}`, {
+            fetch(`${baseUrl}/api/vacancies/add/?employeremail=${this.feedback}&vacancycity=${this.city}&vacancycompany=${this.company}&vacancysalary=${this.salary}&vacancyprofession=${this.profession}&vacancyexperience=${this.experience}&vacancyshedule=${this.shedule}&vacancyworktype=${this.worktype}&vacancycompanyindustry=${this.companyIndustry}&vacancyborn=${this.born}`, {
                 mode: 'cors',
                 method: 'GET'
             }).then(response => response.body).then(rb  => {
@@ -437,8 +436,7 @@ export default {
             })
         },
         createResume(){
-            fetch(`https://workanaut.herokuapp.com/api/resumes/create/?aspirantemail=${this.feedback}&resumename=${this.name}&resumesecondname=${this.secondName}&resumecity=${this.city}&resumeborn=${this.born}&resumegender=${this.gender}&resumecitizenship=${this.citizenship}&resumeexperience=${this.experience}&resumeprofession=${this.profession}&resumesalary=${this.salary}&resumespecializations=${this.specializations}&resumelevel=${this.level}&resumelanuage=${this.lanuage}&resumeskills=${this.skills}&resumeabout=${this.about}&resumeworkplaces=${this.workPlaces}&resumebirthday=${this.birthday}`, {
-            // fetch(`http://localhost:4000/api/resumes/create/?aspirantemail=${this.feedback}&resumename=${this.name}&resumesecondname=${this.secondName}&resumecity=${this.city}&resumeborn=${this.born}&resumegender=${this.gender}&resumecitizenship=${this.citizenship}&resumeexperience=${this.experience}&resumeprofession=${this.profession}&resumesalary=${this.salary}&resumespecializations=${this.specializations}&resumelevel=${this.level}&resumelanuage=${this.lanuage}&resumeskills=${this.skills}&resumeabout=${this.about}&resumeworkplaces=${this.workPlaces}&resumebirthday=${this.birthday}`, {
+            fetch(`${baseUrl}/api/resumes/create/?aspirantemail=${this.feedback}&resumename=${this.name}&resumesecondname=${this.secondName}&resumecity=${this.city}&resumeborn=${this.born}&resumegender=${this.gender}&resumecitizenship=${this.citizenship}&resumeexperience=${this.experience}&resumeprofession=${this.profession}&resumesalary=${this.salary}&resumespecializations=${this.specializations}&resumelevel=${this.level}&resumelanuage=${this.lanuage}&resumeskills=${this.skills}&resumeabout=${this.about}&resumeworkplaces=${this.workPlaces}&resumebirthday=${this.birthday}`, {
                 mode: 'cors',
                 method: 'GET'
             }).then(response => response.body).then(rb  => {

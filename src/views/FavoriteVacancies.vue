@@ -258,6 +258,8 @@ import Footer from '@/components/Footer.vue'
 
 import * as jwt from 'jsonwebtoken'
 
+const baseUrl = process.env.VUE_APP_BASE_URL
+
 export default {
     name: 'FavoriteVacancies',
     data(){
@@ -270,15 +272,13 @@ export default {
         }
     },
     mounted(){
-        // this.userType = this.$route.query.usertype
         jwt.verify(this.token, 'workanautsecret', (err, decoded) => {
             if (err) {
                 this.$router.push({ name: "Login", query: { logintype: 'employee' } })
             } else {
                 this.usertype = this.$route.query.usertype
                 if(this.userType.includes('aspirant')){
-                    fetch(`https://workanaut.herokuapp.com/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
-                    // fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
+                    fetch(`${baseUrl}/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
                         mode: 'cors',
                         method: 'GET'
                     }).then(response => response.body).then(rb  => {
@@ -306,8 +306,7 @@ export default {
                     .then(result => {
                         this.aspirant = JSON.parse(result).aspirant
                         
-                        fetch(`https://workanaut.herokuapp.com/api/aspirants/favorites/?aspirantfeedback=${decoded.phone}`, {
-                        // fetch(`http://localhost:4000/api/aspirants/favorites/?aspirantfeedback=${decoded.phone}`, {
+                        fetch(`${baseUrl}/api/aspirants/favorites/?aspirantfeedback=${decoded.phone}`, {
                             mode: 'cors',
                             method: 'GET'
                         }).then(response => response.body).then(rb  => {
@@ -421,7 +420,6 @@ export default {
 
     .vacancies {
         margin-left: 75px;
-        /* float: left; */
         width: 65%;
     }
 

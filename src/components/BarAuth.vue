@@ -455,6 +455,8 @@
 <script>
 import * as jwt from 'jsonwebtoken'
 
+const baseUrl = process.env.VUE_APP_BASE_URL
+
 export default {
     name: 'Bar',
     data(){
@@ -502,8 +504,7 @@ export default {
                 this.$router.push({ name: "Login", query: { logintype: 'employee' } })
             } else {
                 if(this.userType.includes('aspirant')){
-                    fetch(`https://workanaut.herokuapp.com/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
-                    // fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
+                    fetch(`${baseUrl}/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
                         mode: 'cors',
                         method: 'GET'
                     }).then(response => response.body).then(rb  => {
@@ -534,8 +535,7 @@ export default {
                         this.nickname = this.aspirant.feedback
                     })
                 } else if(this.userType.includes('employer')){
-                    fetch(`https://workanaut.herokuapp.com/api/employers/get/?employeremail=${decoded.phone}`, {
-                    // fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
+                    fetch(`${baseUrl}/api/employers/get/?employeremail=${decoded.phone}`, {
                         mode: 'cors',
                         method: 'GET'
                     }).then(response => response.body).then(rb  => {

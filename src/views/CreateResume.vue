@@ -58,6 +58,8 @@ import Footer from "@/components/Footer.vue"
 
 import * as jwt from 'jsonwebtoken'
 
+const baseUrl = process.env.VUE_APP_BASE_URL
+
 export default {
   name: 'CreateResume',
     data(){
@@ -72,8 +74,7 @@ export default {
   },
   methods: {
     createAspirant() {
-      fetch(`https://workanaut.herokuapp.com/api/aspirants/create/?aspirantfeedback=${this.feedback}`, {
-      // fetch(`http://localhost:4000/api/aspirants/create/?aspirantfeedback=${this.feedback}`, {
+      fetch(`${baseUrl}/api/aspirants/create/?aspirantfeedback=${this.feedback}`, {
         mode: 'cors',
         method: 'GET'
       }).then(response => response.body).then(rb  => {
@@ -106,8 +107,6 @@ export default {
             }, 'workanautsecret', { expiresIn: '30m' })
             localStorage.setItem('workanauttoken', this.token)
             this.$router.push({ name: 'Settings', query: { usertype: 'aspirant' } })
-            // this.$router.push({ name: 'PersonalArea', query: { usertype: "aspirant" } })
-            // this.$router.push({ name: 'Login', query: { logintype: 'employee' } })
           } else if(JSON.parse(result).status.includes('Error')){
             alert('Такой соискатель уже зарегестрирован')
           }

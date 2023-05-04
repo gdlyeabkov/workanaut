@@ -232,6 +232,8 @@ import Footer from '@/components/Footer.vue'
 
 import * as jwt from 'jsonwebtoken'
 
+const baseUrl = process.env.VUE_APP_BASE_URL
+
 export default {
     name: 'AuthPage',
     data(){
@@ -254,8 +256,7 @@ export default {
                 this.$router.push({ name: "Login", query: { logintype: 'employee' } })
             } else {
                 if(this.userType.includes('aspirant')){
-                    fetch(`https://workanaut.herokuapp.com/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
-                    // fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
+                    fetch(`${baseUrl}/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
                         mode: 'cors',
                         method: 'GET'
                     }).then(response => response.body).then(rb  => {
@@ -287,14 +288,9 @@ export default {
                         this.aspirant = JSON.parse(result).aspirant
                         this.totalResponsesAndInvites = this.aspirant.responses.length + this.aspirant.invites.length
                         this.totalFavorites = this.aspirant.favorites.length
-         
-                        // console.log(`vacancy.profession in resumes.flatMap((resume) => resume.profession): ${"Грузчик" in this.resumes.flatMap((resume) => resume.profession)}`)
-                        // console.log(`vacancy.profession in resumes.flatMap((resume) => resume.profession): ${this.vacancies.flatMap((vacancy) => vacancy.profession)}; ${this.resumes.flatMap((resume) => resume.profession)}`)
-
                     })
                 } else if(this.userType.includes('employer')){
-                    fetch(`https://workanaut.herokuapp.com/api/employers/get/?employeremail=${decoded.phone}`, {
-                    // fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
+                    fetch(`${baseUrl}/api/employers/get/?employeremail=${decoded.phone}`, {
                         mode: 'cors',
                         method: 'GET'
                     }).then(response => response.body).then(rb  => {

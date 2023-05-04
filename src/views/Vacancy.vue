@@ -185,6 +185,8 @@ import Footer from '@/components/Footer.vue'
 
 import * as jwt from 'jsonwebtoken'
 
+const baseUrl = process.env.VUE_APP_BASE_URL
+
 export default {
     name: 'Vacancies',
     data(){
@@ -206,8 +208,7 @@ export default {
     methods: {
         click(){
             if(this.userType.includes('aspirant')) {
-                fetch(`https://workanaut.herokuapp.com/api/vacancy/response/?aspirantfeedback=${this.aspirantFeedback}&vacancyid=${this.$route.query.vacancyid}`, {
-                // fetch(`http://localhost:4000/api/vacancy/response/?aspirantfeedback=${this.aspirantFeedback}&vacancyid=${this.$route.query.vacancyid}`, {
+                fetch(`${baseUrl}/api/vacancy/response/?aspirantfeedback=${this.aspirantFeedback}&vacancyid=${this.$route.query.vacancyid}`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {
@@ -241,8 +242,7 @@ export default {
                     }
                 })
             } else if(this.userType.includes('employer')) {
-                fetch(`https://workanaut.herokuapp.com/api/resume/response/?employeremail=${this.aspirantFeedback}&resumeid=${this.$route.query.vacancyid}`, {
-                // fetch(`http://localhost:4000/api/resume/response/?employeremail=${this.aspirantFeedback}&resumeid=${this.$route.query.vacancyid}`, {
+                fetch(`${baseUrl}/api/resume/response/?employeremail=${this.aspirantFeedback}&resumeid=${this.$route.query.vacancyid}`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {
@@ -278,8 +278,7 @@ export default {
             }
         },
         block(){
-            fetch(`https://workanaut.herokuapp.com/api/vacancy/block/?aspirantfeedback=${this.aspirantFeedback}&vacancyid=${this.$route.query.vacancyid}`, {
-            // fetch(`http://localhost:4000/api/vacancy/block/?aspirantfeedback=${this.aspirantFeedback}&vacancyid=${this.$route.query.vacancyid}`, {
+            fetch(`${baseUrl}/api/vacancy/block/?aspirantfeedback=${this.aspirantFeedback}&vacancyid=${this.$route.query.vacancyid}`, {
                 mode: 'cors',
                 method: 'GET'
             }).then(response => response.body).then(rb  => {
@@ -314,8 +313,7 @@ export default {
             })
         },
         favorite(){
-            fetch(`https://workanaut.herokuapp.com/api/vacancy/favorite/?aspirantfeedback=${this.aspirantFeedback}&vacancyid=${this.$route.query.vacancyid}`, {
-            // fetch(`http://localhost:4000/api/vacancy/favorite/?aspirantfeedback=${this.aspirantFeedback}&vacancyid=${this.$route.query.vacancyid}`, {
+            fetch(`${baseUrl}/api/vacancy/favorite/?aspirantfeedback=${this.aspirantFeedback}&vacancyid=${this.$route.query.vacancyid}`, {
                 mode: 'cors',
                 method: 'GET'
             }).then(response => response.body).then(rb  => {
@@ -358,8 +356,7 @@ export default {
                 this.userType = this.$route.query.usertype
                 this.aspirantFeedback = decoded.phone
                 if(this.userType.includes('aspirant')) {
-                    fetch(`https://workanaut.herokuapp.com/api/vacancy/get/?vacancyid=${this.$route.query.vacancyid}`, {
-                    // fetch(`http://localhost:4000/api/vacancy/get/?vacancyid=${this.$route.query.vacancyid}`, {
+                    fetch(`${baseUrl}/api/vacancy/get/?vacancyid=${this.$route.query.vacancyid}`, {
                         mode: 'cors',
                         method: 'GET'
                     }).then(response => response.body).then(rb  => {
@@ -393,8 +390,7 @@ export default {
                         }
                     })
                 } else if(this.userType.includes('employer')) {
-                    fetch(`https://workanaut.herokuapp.com/api/resume/get/?resumeid=${this.$route.query.vacancyid}`, {
-                    // fetch(`http://localhost:4000/api/resume/get/?resumeid=${this.$route.query.vacancyid}`, {
+                    fetch(`${baseUrl}/api/resume/get/?resumeid=${this.$route.query.vacancyid}`, {
                         mode: 'cors',
                         method: 'GET'
                     }).then(response => response.body).then(rb  => {
@@ -424,8 +420,7 @@ export default {
                         if(JSON.parse(result).status.includes('OK')){
                             this.resume = JSON.parse(result).resume
                         
-                            fetch(`https://workanaut.herokuapp.com/api/resume/view/?resumeid=${this.$route.query.vacancyid}&employeremail=${this.aspirantFeedback}`, {
-                            // fetch(`http://localhost:4000/api/resume/view/?resumeid=${this.$route.query.vacancyid}&employeremail=${this.aspirantFeedback}`, {
+                            fetch(`${baseUrl}/api/resume/view/?resumeid=${this.$route.query.vacancyid}&employeremail=${this.aspirantFeedback}`, {
                                 mode: 'cors',
                                 method: 'GET'
                             }).then(response => response.body).then(rb  => {

@@ -1,3 +1,5 @@
+const baseUrl = 'https://workanaut.herokuapp.com'
+
 const multer  = require('multer')
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -475,8 +477,6 @@ app.get('/api/aspirants/create', (req, res)=>{
             })
         }
     })
-
-    // return res.json({ status: 'OK' })
 
 })
 
@@ -1376,11 +1376,9 @@ app.get('**', (req, res) => {
     res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
     
-    // return res.redirect(`http://localhost:4000/?redirectroute=${req.path}`)
-    return res.redirect(`https://workanaut.herokuapp.com/?redirectroute=${req.path}`)
+    return res.redirect(`${baseUrl}/?redirectroute=${req.path}`)
 })
 
 const port = process.env.PORT || 8080
-// const port = 4000
 
 app.listen(port)

@@ -770,178 +770,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="vacancyItem">
-                        <div class="vacancyItemBenefits">
-                            <div class="vacancyItemBenefit vacancyItemBenefitFirst">
-                                Отклик без резюме
-                            </div>
-                            <div class="vacancyItemBenefit vacancyItemBenefitSecond">
-                                Будьте первыми
-                            </div>
-                        </div>
-                        <div class="vacancyItemHeader">
-                            <span class="vacancyItemName">
-                                Грузчик на склад
-                            </span>
-                            <span class="vacancyItemSalary">
-                                до {{ "46 000" }} руб.
-                            </span>
-                        </div>
-                        <div class="vacancyItemAux vacancyItemAuxRow">
-                            <span>
-                                Входные двери Ferroni
-                            </span>
-                            <span class="material-icons">
-                                done
-                            </span>
-                        </div>
-                        <span class="vacancyItemAux">
-                            Калининград
-                        </span>
-                        <div class="vacancyItemDesc">
-                            <span >
-                                Погрузка-разгрузка входных металлических дверей. Перемещение дверей по территории склада.
-                            </span>
-                            <img width="125px" :src="`https://hhcdn.ru/employer-logo/3796715.jpeg`" alt="">
-                        </div>
-                        <div>
-                            <button class="btn btn-primary">
-                                Откликнуться
-                            </button>
-                            <button class="btn btn-light">
-                                Показать контакты
-                            </button>
-                        </div>
-                    </div>
-                    <div class="vacancyItem">
-                        <div class="vacancyItemBenefits">
-                            <div class="vacancyItemBenefit vacancyItemBenefitFirst">
-                                Отклик без резюме
-                            </div>
-                            <div class="vacancyItemBenefit vacancyItemBenefitSecond">
-                                Будьте первыми
-                            </div>
-                        </div>
-                        <div class="vacancyItemHeader">
-                            <span class="vacancyItemName">
-                                Грузчик на склад
-                            </span>
-                            <span class="vacancyItemSalary">
-                                до {{ "46 000" }} руб.
-                            </span>
-                        </div>
-                        <div class="vacancyItemAux vacancyItemAuxRow">
-                            <span>
-                                Входные двери Ferroni
-                            </span>
-                            <span class="material-icons">
-                                done
-                            </span>
-                        </div>
-                        <span class="vacancyItemAux">
-                            Калининград
-                        </span>
-                        <div class="vacancyItemDesc">
-                            <span >
-                                Погрузка-разгрузка входных металлических дверей. Перемещение дверей по территории склада.
-                            </span>
-                            <img width="125px" :src="`https://hhcdn.ru/employer-logo/3796715.jpeg`" alt="">
-                        </div>
-                        <div>
-                            <button class="btn btn-primary">
-                                Откликнуться
-                            </button>
-                            <button class="btn btn-light">
-                                Показать контакты
-                            </button>
-                        </div>
-                    </div>
-                    <div class="vacancyItem">
-                        <div class="vacancyItemBenefits">
-                            <div class="vacancyItemBenefit vacancyItemBenefitFirst">
-                                Отклик без резюме
-                            </div>
-                            <div class="vacancyItemBenefit vacancyItemBenefitSecond">
-                                Будьте первыми
-                            </div>
-                        </div>
-                        <div class="vacancyItemHeader">
-                            <span class="vacancyItemName">
-                                Грузчик на склад
-                            </span>
-                            <span class="vacancyItemSalary">
-                                до {{ "46 000" }} руб.
-                            </span>
-                        </div>
-                        <div class="vacancyItemAux vacancyItemAuxRow">
-                            <span>
-                                Входные двери Ferroni
-                            </span>
-                            <span class="material-icons">
-                                done
-                            </span>
-                        </div>
-                        <span class="vacancyItemAux">
-                            Калининград
-                        </span>
-                        <div class="vacancyItemDesc">
-                            <span >
-                                Погрузка-разгрузка входных металлических дверей. Перемещение дверей по территории склада.
-                            </span>
-                            <img width="125px" :src="`https://hhcdn.ru/employer-logo/3796715.jpeg`" alt="">
-                        </div>
-                        <div>
-                            <button class="btn btn-primary">
-                                Откликнуться
-                            </button>
-                            <button class="btn btn-light">
-                                Показать контакты
-                            </button>
-                        </div>
-                    </div>
-                    <div class="vacancyItem">
-                        <div class="vacancyItemBenefits">
-                            <div class="vacancyItemBenefit vacancyItemBenefitFirst">
-                                Отклик без резюме
-                            </div>
-                            <div class="vacancyItemBenefit vacancyItemBenefitSecond">
-                                Будьте первыми
-                            </div>
-                        </div>
-                        <div class="vacancyItemHeader">
-                            <span class="vacancyItemName">
-                                Грузчик на склад
-                            </span>
-                            <span class="vacancyItemSalary">
-                                до {{ "46 000" }} руб.
-                            </span>
-                        </div>
-                        <div class="vacancyItemAux vacancyItemAuxRow">
-                            <span>
-                                Входные двери Ferroni
-                            </span>
-                            <span class="material-icons">
-                                done
-                            </span>
-                        </div>
-                        <span class="vacancyItemAux">
-                            Калининград
-                        </span>
-                        <div class="vacancyItemDesc">
-                            <span >
-                                Погрузка-разгрузка входных металлических дверей. Перемещение дверей по территории склада.
-                            </span>
-                            <img width="125px" :src="`https://hhcdn.ru/employer-logo/3796715.jpeg`" alt="">
-                        </div>
-                        <div>
-                            <button class="btn btn-primary">
-                                Откликнуться
-                            </button>
-                            <button class="btn btn-light">
-                                Показать контакты
-                            </button>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -955,6 +783,8 @@ import BarAuth from '@/components/BarAuth.vue'
 import Footer from '@/components/Footer.vue'
 
 import * as jwt from 'jsonwebtoken'
+
+const baseUrl = process.env.VUE_APP_BASE_URL
 
 export default {
     name: 'Vacancies',
@@ -994,8 +824,7 @@ export default {
                 this.workType = this.$route.query.worktype
                 
                 if(this.userType.includes('aspirant')){
-                    fetch(`https://workanaut.herokuapp.com/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
-                    // fetch(`http://localhost:4000/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
+                    fetch(`${baseUrl}/api/aspirants/get/?aspirantfeedback=${decoded.phone}`, {
                         mode: 'cors',
                         method: 'GET'
                     }).then(response => response.body).then(rb  => {
@@ -1026,8 +855,7 @@ export default {
                         
                     })
                 } else if(this.userType.includes('employer')){
-                    fetch(`https://workanaut.herokuapp.com/api/employers/get/?employeremail=${decoded.phone}`, {
-                    // fetch(`http://localhost:4000/api/employers/get/?employeremail=${decoded.phone}`, {
+                    fetch(`${baseUrl}/api/employers/get/?employeremail=${decoded.phone}`, {
                         mode: 'cors',
                         method: 'GET'
                     }).then(response => response.body).then(rb  => {
@@ -1067,8 +895,7 @@ export default {
     methods: {
         click(resumeId){
             if(this.userType.includes('aspirant')) {
-                fetch(`https://workanaut.herokuapp.com/api/vacancy/response/?aspirantfeedback=${this.aspirant.feedback}&vacancyid=${resumeId}`, {
-                // fetch(`http://localhost:4000/api/vacancy/response/?aspirantfeedback=${this.aspirant.feedback}&vacancyid=${resumeId}`, {
+                fetch(`${baseUrl}/api/vacancy/response/?aspirantfeedback=${this.aspirant.feedback}&vacancyid=${resumeId}`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {
@@ -1102,8 +929,7 @@ export default {
                     }
                 })
             } else if(this.userType.includes('employer')) {
-                fetch(`https://workanaut.herokuapp.com/api/resume/response/?employeremail=${this.aspirant.email}&resumeid=${resumeId}`, {
-                // fetch(`http://localhost:4000/api/resume/response/?employeremail=${this.aspirant.email}&resumeid=${resumeId}`, {
+                fetch(`${baseUrl}/api/resume/response/?employeremail=${this.aspirant.email}&resumeid=${resumeId}`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {
@@ -1149,7 +975,6 @@ export default {
         },
         computeExperience(min = 0, max = 6){
             if(this.userType.includes('aspirant')) {
-                // return this.tempResumes.filter(resume => resume.experience >= min).length
                 return this.tempResumes.filter(resume => resume.experience >= min && max >= resume.experience).length
             } else {
                 return ''
@@ -1175,8 +1000,7 @@ export default {
         },
         refreshSearch(){
             if(this.userType.includes('aspirant')){
-                fetch(`https://workanaut.herokuapp.com/api/vacancies/get/`, {
-                // fetch(`http://localhost:4000/api/vacancies/get/`, {
+                fetch(`${baseUrl}/api/vacancies/get/`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {
@@ -1217,8 +1041,7 @@ export default {
                     })
                 })
             } else if(this.userType.includes('employer')){
-                fetch(`https://workanaut.herokuapp.com/api/resumes/get/`, {
-                // fetch(`http://localhost:4000/api/resumes/get/`, {
+                fetch(`${baseUrl}/api/resumes/get/`, {
                     mode: 'cors',
                     method: 'GET'
                 }).then(response => response.body).then(rb  => {
@@ -1412,8 +1235,6 @@ export default {
 
     .vacancies {
         margin-left: 75px;
-        /* float: left; */
-        /* height: 1000px; */
         width: 65%;
     }
 
@@ -1423,7 +1244,6 @@ export default {
         padding: 25px;
         display: flex;
         flex-direction: column;
-        /* height: 350px; */
     }
 
     .vacancyItemName {

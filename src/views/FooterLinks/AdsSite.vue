@@ -338,7 +338,6 @@ export default {
         display: flex;
         width: 30%;
         align-items: center;
-        /* justify-content: space-between; */
         margin: 15px 0px;
     }
 

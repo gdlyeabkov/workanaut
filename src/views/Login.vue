@@ -139,6 +139,8 @@ import Footer from "@/components/Footer.vue"
 
 import * as jwt from 'jsonwebtoken'
 
+const baseUrl = process.env.VUE_APP_BASE_URL
+
 export default {
   name: 'Login',
   data(){
@@ -157,8 +159,7 @@ export default {
   methods: {
     login(){
       if(this.loginType.includes('employer')){
-        fetch(`https://workanaut.herokuapp.com/api/employers/check/?employeremail=${this.feedback}&employerpassword=${this.password}`, {
-        // fetch(`http://localhost:4000/api/employers/check/?employeremail=${this.feedback}&employerpassword=${this.password}`, {
+        fetch(`${baseUrl}/api/employers/check/?employeremail=${this.feedback}&employerpassword=${this.password}`, {
           mode: 'cors',
           method: 'GET'
         }).then(response => response.body).then(rb  => {
@@ -191,14 +192,12 @@ export default {
               }, 'workanautsecret', { expiresIn: '30m' })
               localStorage.setItem('workanauttoken', this.token)
               this.$router.push({ name: 'AuthPage', query: { usertype: 'employer' } })
-              // $router.push({ name: 'Check', query: { feedback: feedback } })
             } else if(JSON.parse(result).status.includes('Error')){
               alert('Ошикбка входа')  
             }
         })
       } else if(this.loginType.includes('employee')){
-        fetch(`https://workanaut.herokuapp.com/api/aspirants/check/?aspirantfeedback=${this.feedback}&aspirantpassword=${this.password}`, {
-        // fetch(`http://localhost:4000/api/aspirants/check/?aspirantfeedback=${this.feedback}&aspirantpassword=${this.password}`, {
+        fetch(`${baseUrl}/api/aspirants/check/?aspirantfeedback=${this.feedback}&aspirantpassword=${this.password}`, {
           mode: 'cors',
           method: 'GET'
         }).then(response => response.body).then(rb  => {
@@ -230,9 +229,7 @@ export default {
                 phone: this.feedback
               }, 'workanautsecret', { expiresIn: '30m' })
               localStorage.setItem('workanauttoken', this.token)
-              // this.$router.push({ name: 'Settings', query: { usertype: 'aspirant' } })
               this.$router.push({ name: 'AuthPage', query: { usertype: 'aspirant' } })
-              // $router.push({ name: 'Check', query: { feedback: feedback } })
             } else if(JSON.parse(result).status.includes('Error')){
               this.errors = 'Неправильные данные для входа. Пожалуйста, попробуйте снова.'
             }

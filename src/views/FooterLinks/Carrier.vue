@@ -737,13 +737,11 @@ export default {
 
     .firstWork {
         background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpaE1c-Bd3T86cwQ3V5VcVVUMEVhAKsU9hUb5zpCMZ-IMk1eEdMk98057QmBY7F-Tg9tk&usqp=CAU');
-        /* background-image: url('https://thumbs.dreamstime.com/z/serious-caucasian-employer-working-making-notes-office-concentrated-young-businessman-sit-desk-work-laptop-successful-185952311.jpg'); */
         width: 100%;
         height: 500px;
         background-size: cover;
         background-repeat: no-repeat;
         color: rgb(255, 255, 255);
-        /* -webkit-filter: brightness(0.7); */
     }
 
     .btnsContainer > button {

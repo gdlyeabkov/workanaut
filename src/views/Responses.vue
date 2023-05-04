@@ -568,6 +568,8 @@ import Footer from '@/components/Footer.vue'
 
 import * as jwt from 'jsonwebtoken'
 
+const baseUrl = process.env.VUE_APP_BASE_URL
+
 export default {
     name: 'Responses',
     data(){
@@ -609,8 +611,7 @@ export default {
                 this.$router.push({ name: "Login", query: { logintype: 'employee' } })
             } else {
                 if(this.userType.includes('aspirant')){
-                    fetch(`https://workanaut.herokuapp.com/api/aspirants/responses/?aspirantfeedback=${decoded.phone}`, {
-                    // fetch(`http://localhost:4000/api/aspirants/responses/?aspirantfeedback=${decoded.phone}`, {
+                    fetch(`${baseUrl}/api/aspirants/responses/?aspirantfeedback=${decoded.phone}`, {
                         mode: 'cors',
                         method: 'GET'
                     }).then(response => response.body).then(rb  => {
@@ -640,8 +641,7 @@ export default {
                         this.responses = JSON.parse(result).responses
                     })
                 } else if(this.userType.includes('employer')){
-                    fetch(`https://workanaut.herokuapp.com/api/employers/responses/?employeremail=${decoded.phone}`, {
-                    // fetch(`http://localhost:4000/api/employers/responses/?employeremail=${decoded.phone}`, {
+                    fetch(`${baseUrl}/api/employers/responses/?employeremail=${decoded.phone}`, {
                         mode: 'cors',
                         method: 'GET'
                     }).then(response => response.body).then(rb  => {
